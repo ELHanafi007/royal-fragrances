@@ -55,7 +55,7 @@ const Hero = () => {
           >
             <div className="h-[1px] w-12 bg-gold" />
             <span className="text-xs font-bold tracking-[0.4em] uppercase text-gold">
-              Est. 2024 • Casablanca
+              Est. 2026 • Casablanca
             </span>
           </motion.div>
 

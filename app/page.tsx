@@ -62,7 +62,7 @@ export default function Home() {
             <a href="#" className="hover:text-gold transition-colors">Terms</a>
             <a href={`https://instagram.com/${ROYAL_CONFIG.instagram}`} target="_blank" className="hover:text-gold transition-colors">Instagram</a>
           </div>
-          <p className="text-[10px] text-foreground/20 uppercase tracking-widest">© 2024 {ROYAL_CONFIG.brandName}. All rights reserved.</p>
+          <p className="text-[10px] text-foreground/20 uppercase tracking-widest">© 2026 {ROYAL_CONFIG.brandName}. All rights reserved.</p>
         </div>
       </footer>
     </main>

@@ -17,28 +17,28 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    imageUrl: "https://images.unsplash.com/photo-1550133730-695473e510b6?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/new_/urban-pulse.png",
     caption: "The Urban Pulse",
     location: "Casablanca, MA",
     narrative: "An essential companion for the modern man. A quick spray, a lasting impression."
   },
   {
     id: 2,
-    imageUrl: "https://images.unsplash.com/photo-1523175484748-03816766d713?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/new_/cafe-elegance.png",
     caption: "Café Elegance",
     location: "Paris, FR",
     narrative: "Tucked away in the folds of a leather bag. Luxury that's always within reach."
   },
   {
     id: 3,
-    imageUrl: "https://images.unsplash.com/photo-1484167589605-e8d1ed5b8352?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/new_/global-nomad.png",
     caption: "The Global Nomad",
     location: "Marrakech, MA",
     narrative: "Pack the essence of home. Travel light, smell unforgettable."
   },
   {
     id: 4,
-    imageUrl: "https://images.unsplash.com/photo-1522335089293-ad41ff9c42c1?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/new_/vanity-moment.png",
     caption: "The Vanity Moment",
     location: "London, UK",
     narrative: "Your personal collection, curated into moments of daily indulgence."
