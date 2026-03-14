@@ -19,6 +19,12 @@ const ProductShowcase = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+          console.warn("Supabase URL is missing.");
+          setLoading(false);
+          return;
+        }
+
         const { data, error } = await supabase
           .from("products")
           .select("*")
