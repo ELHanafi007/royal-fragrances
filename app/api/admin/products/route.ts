@@ -23,24 +23,18 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     
-    // Clean data for Supabase - Matching your exact table columns
+    // Clean data for Supabase - Strictly matching the standard image_url
     const productData = {
       name: body.name,
       brand: body.brand,
       description: body.description,
-      image_url: body.imageUrl, // Database expects 'image_url'
+      image_url: body.imageUrl, // We take the frontend's imageUrl and map it to image_url
       category: body.category,
       sizes: body.sizes,
       notes: body.notes
     };
 
-    // Basic validation
-    if (!productData.name || !productData.brand) {
-      return NextResponse.json({ error: 'Name and Brand are required' }, { status: 400 });
-    }
-    if (!productData.image_url) {
-      return NextResponse.json({ error: 'Image URL is required' }, { status: 400 });
-    }
+    console.log("Sending to Supabase:", productData);
 
     const { data, error } = await supabase
       .from('products')
@@ -66,7 +60,7 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { id, ...rest } = body;
 
-    // Clean data for Supabase
+    // Clean data for Supabase - Strictly matching the standard image_url
     const updatedProductData = {
       name: rest.name,
       brand: rest.brand,
@@ -76,6 +70,8 @@ export async function PUT(request: Request) {
       sizes: rest.sizes,
       notes: rest.notes
     };
+
+    console.log("Updating Supabase:", updatedProductData);
 
     const { data, error } = await supabase
       .from('products')
