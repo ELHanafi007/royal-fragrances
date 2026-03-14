@@ -1,44 +1,76 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { products } from "@/data/products";
+import { supabase } from "@/lib/supabase";
+import { Product } from "@/data/products";
 import ProductCard from "./ProductCard";
 import ProductFilters from "./ProductFilters";
+import { ROYAL_CONFIG } from "@/lib/constants";
+import { Loader2 } from "lucide-react";
 
 const ProductShowcase = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
   const [activeBrand, setActiveBrand] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const categories = useMemo(() => {
-    const cats = Array.from(new Set(products.map(p => p.category)));
-    return cats;
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .order("id", { ascending: true });
+
+        if (error) throw error;
+        setProducts(data || []);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
+  const categories = useMemo(() => {
+    const cats = Array.from(new Set(products.map((p) => p.category)));
+    return cats;
+  }, [products]);
+
   const brands = useMemo(() => {
-    const bs = Array.from(new Set(products.map(p => p.brand)));
+    const bs = Array.from(new Set(products.map((p) => p.brand)));
     return bs.sort();
-  }, []);
+  }, [products]);
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
-      const categoryMatch = activeCategory === "all" || product.category === activeCategory;
+      const categoryMatch =
+        activeCategory === "all" || product.category === activeCategory;
       const brandMatch = activeBrand === "all" || product.brand === activeBrand;
       const searchLower = searchQuery.toLowerCase();
-      const searchMatch = searchQuery === "" || 
+      const searchMatch =
+        searchQuery === "" ||
         product.name.toLowerCase().includes(searchLower) ||
         product.brand.toLowerCase().includes(searchLower) ||
-        product.notes.top.some(n => n.toLowerCase().includes(searchLower)) ||
-        product.notes.middle.some(n => n.toLowerCase().includes(searchLower)) ||
-        product.notes.base.some(n => n.toLowerCase().includes(searchLower));
+        product.notes.top.some((n) => n.toLowerCase().includes(searchLower)) ||
+        product.notes.middle.some((n) =>
+          n.toLowerCase().includes(searchLower)
+        ) ||
+        product.notes.base.some((n) => n.toLowerCase().includes(searchLower));
 
       return categoryMatch && brandMatch && searchMatch;
     });
-  }, [activeCategory, activeBrand, searchQuery]);
+  }, [activeCategory, activeBrand, searchQuery, products]);
 
   return (
-    <section className="py-32 px-6 md:px-12 bg-white relative overflow-hidden" id="collection">
+    <section
+      className="py-32 px-6 md:px-12 bg-white relative overflow-hidden"
+      id="collection"
+    >
       {/* Decorative Text Reveal in Background */}
       <div className="absolute top-0 right-0 p-24 text-[15vw] font-serif font-bold italic text-gold/5 pointer-events-none select-none">
         Essence
@@ -70,7 +102,7 @@ const ProductShowcase = () => {
             </h2>
             <div className="w-32 h-1 bg-gold mx-auto lg:mx-0 opacity-30" />
             <p className="text-lg text-foreground/50 max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed">
-              Explore our selection of the world's most evocative scents, 
+              Explore our selection of the world's most evocative scents,
               hand-decanted into travel-sized indulgence.
             </p>
           </motion.div>
@@ -89,32 +121,42 @@ const ProductShowcase = () => {
         />
 
         {/* Product Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-12">
-          <AnimatePresence mode="popLayout">
-            {filteredProducts.map((product, index) => (
-              <motion.div
-                layout
-                key={product.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-              >
-                <ProductCard product={product} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-32 space-y-4">
+            <Loader2 className="w-12 h-12 text-gold animate-spin" />
+            <p className="text-sm font-bold uppercase tracking-[0.3em] text-gold/50">
+              Curating your essence...
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-12">
+            <AnimatePresence mode="popLayout">
+              {filteredProducts.map((product, index) => (
+                <motion.div
+                  layout
+                  key={product.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                >
+                  <ProductCard product={product} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
 
         {/* Empty State */}
-        {filteredProducts.length === 0 && (
+        {!loading && filteredProducts.length === 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="py-32 text-center"
           >
             <p className="text-xl font-serif italic text-foreground/40">
-              Alas, this essence remains beyond our reach. Try adjusting your filters.
+              Alas, this essence remains beyond our reach. Try adjusting your
+              filters.
             </p>
           </motion.div>
         )}
@@ -127,12 +169,16 @@ const ProductShowcase = () => {
           transition={{ delay: 0.5 }}
           className="mt-20 flex justify-center"
         >
-          <button className="group relative px-12 py-5 border border-gold text-gold overflow-hidden transition-all duration-500 rounded-full hover:text-white">
+          <a
+            href={`https://wa.me/${ROYAL_CONFIG.whatsappNumber}`}
+            target="_blank"
+            className="group relative px-12 py-5 border border-gold text-gold overflow-hidden transition-all duration-500 rounded-full hover:text-white"
+          >
             <div className="absolute inset-0 bg-gold translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             <span className="relative z-10 text-xs font-bold uppercase tracking-[0.4em]">
               Request a Bespoke Decant
             </span>
-          </button>
+          </a>
         </motion.div>
       </div>
     </section>

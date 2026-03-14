@@ -24,30 +24,49 @@ export default function AdminPage() {
 
   useEffect(() => {
     const auth = sessionStorage.getItem('admin_auth');
-    if (auth === 'true') {
+    const savedPassword = sessionStorage.getItem('admin_password');
+    if (auth === 'true' && savedPassword) {
+      setPassword(savedPassword);
       setIsAuthenticated(true);
-      fetchData();
+      fetchData(savedPassword);
     }
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'admin123') {
-      setIsAuthenticated(true);
-      sessionStorage.setItem('admin_auth', 'true');
-      fetchData();
-    } else {
-      setError('Incorrect royal credentials.');
-      setPassword('');
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsAuthenticated(true);
+        sessionStorage.setItem('admin_auth', 'true');
+        sessionStorage.setItem('admin_password', password);
+        fetchData(password);
+      } else {
+        setError('Incorrect royal credentials.');
+        setPassword('');
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      setError('Connection failure.');
     }
   };
 
-  const fetchData = async () => {
+  const fetchData = async (currentPassword?: string) => {
+    const authPassword = currentPassword || password;
     setLoading(true);
     try {
       const [prodRes, brandRes] = await Promise.all([
-        fetch('/api/admin/products'),
-        fetch('/api/admin/brands')
+        fetch('/api/admin/products', {
+          headers: { 'x-admin-password': authPassword }
+        }),
+        fetch('/api/admin/brands', {
+          headers: { 'x-admin-password': authPassword }
+        })
       ]);
       const [prodData, brandData] = await Promise.all([
         prodRes.json(),
@@ -68,7 +87,10 @@ export default function AdminPage() {
     try {
       const res = await fetch('/api/admin/products', {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-password': password
+        },
         body: JSON.stringify(formData)
       });
       if (res.ok) {
@@ -86,7 +108,10 @@ export default function AdminPage() {
     try {
       const res = await fetch('/api/admin/products', {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-password': password
+        },
         body: JSON.stringify({ id })
       });
       if (res.ok) fetchData();
@@ -100,7 +125,10 @@ export default function AdminPage() {
     try {
       const res = await fetch('/api/admin/brands', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-password': password
+        },
         body: JSON.stringify({ name })
       });
       if (res.ok) {
@@ -117,7 +145,10 @@ export default function AdminPage() {
     try {
       const res = await fetch('/api/admin/brands', {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-password': password
+        },
         body: JSON.stringify({ name })
       });
       if (res.ok) {
