@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react';
 import AdminHeader from '@/components/admin/AdminHeader';
 import ProductList from '@/components/admin/ProductList';
 import ProductModal from '@/components/admin/ProductModal';
+import PackList from '@/components/admin/PackList';
+import PackModal from '@/components/admin/PackModal';
 import BrandManager from '@/components/admin/BrandManager';
-import { Product } from '@/data/products';
+import { Product, Pack } from '@/data/products';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2, Lock, KeyRound, ChevronRight } from 'lucide-react';
 
@@ -14,13 +16,16 @@ export default function AdminPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
+  const [packs, setPacks] = useState<Pack[]>([]);
   const [brands, setBrands] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   
   // Modal States
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+  const [isPackModalOpen, setIsPackModalOpen] = useState(false);
   const [isBrandManagerOpen, setIsBrandManagerOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [editingPack, setEditingPack] = useState<Pack | null>(null);
 
   useEffect(() => {
     const auth = sessionStorage.getItem('admin_auth');
@@ -60,20 +65,25 @@ export default function AdminPage() {
     const authPassword = currentPassword || password;
     setLoading(true);
     try {
-      const [prodRes, brandRes] = await Promise.all([
+      const [prodRes, brandRes, packRes] = await Promise.all([
         fetch('/api/admin/products', {
           headers: { 'x-admin-password': authPassword }
         }),
         fetch('/api/admin/brands', {
           headers: { 'x-admin-password': authPassword }
+        }),
+        fetch('/api/admin/packs', {
+          headers: { 'x-admin-password': authPassword }
         })
       ]);
-      const [prodData, brandData] = await Promise.all([
+      const [prodData, brandData, packData] = await Promise.all([
         prodRes.json(),
-        brandRes.json()
+        brandRes.json(),
+        packRes.json()
       ]);
       setProducts(prodData);
       setBrands(brandData);
+      setPacks(packData || []);
     } catch (error) {
       console.error("Fetch failed:", error);
     } finally {
@@ -121,6 +131,49 @@ export default function AdminPage() {
       if (res.ok) fetchData();
     } catch (error) {
       console.error("Delete failed:", error);
+    }
+  };
+
+  // Pack Operations
+  const handleSavePack = async (formData: Partial<Pack>) => {
+    const method = editingPack ? 'PUT' : 'POST';
+    try {
+      const res = await fetch('/api/admin/packs', {
+        method,
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-password': password
+        },
+        body: JSON.stringify(formData)
+      });
+      if (res.ok) {
+        setIsPackModalOpen(false);
+        setEditingPack(null);
+        fetchData();
+      } else {
+        const errorData = await res.json();
+        alert(`Royal Error: ${errorData.error || 'Failed to save pack'}`);
+      }
+    } catch (error) {
+      console.error("Save pack failed:", error);
+      alert("Save failed: Connection error");
+    }
+  };
+
+  const handleDeletePack = async (id: number) => {
+    if (!confirm("Are you sure? This exclusive pack will be disbanded.")) return;
+    try {
+      const res = await fetch('/api/admin/packs', {
+        method: 'DELETE',
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-password': password
+        },
+        body: JSON.stringify({ id })
+      });
+      if (res.ok) fetchData();
+    } catch (error) {
+      console.error("Delete pack failed:", error);
     }
   };
 
@@ -227,12 +280,14 @@ export default function AdminPage() {
             key="dashboard"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-xl mx-auto px-6 pt-12 space-y-10"
+            className="max-w-xl mx-auto px-6 pt-12 space-y-12"
           >
             <AdminHeader 
               totalProducts={products.length}
               totalBrands={brands.length}
+              totalPacks={packs.length}
               onAddProduct={() => { setEditingProduct(null); setIsProductModalOpen(true); }}
+              onAddPack={() => { setEditingPack(null); setIsPackModalOpen(true); }}
               onManageBrands={() => setIsBrandManagerOpen(true)}
             />
 
@@ -242,11 +297,21 @@ export default function AdminPage() {
                 <p className="text-foreground/40 font-medium animate-pulse">Synchronizing Inventory...</p>
               </div>
             ) : (
-              <ProductList 
-                products={products}
-                onEdit={(product) => { setEditingProduct(product); setIsProductModalOpen(true); }}
-                onDelete={handleDeleteProduct}
-              />
+              <div className="space-y-12">
+                <PackList 
+                  packs={packs}
+                  onEdit={(pack) => { setEditingPack(pack); setIsPackModalOpen(true); }}
+                  onDelete={handleDeletePack}
+                />
+                
+                <div className="h-px bg-gold/10" />
+
+                <ProductList 
+                  products={products}
+                  onEdit={(product) => { setEditingProduct(product); setIsProductModalOpen(true); }}
+                  onDelete={handleDeleteProduct}
+                />
+              </div>
             )}
           </motion.div>
         )}
@@ -258,6 +323,14 @@ export default function AdminPage() {
         onSave={handleSaveProduct}
         product={editingProduct}
         brands={brands}
+      />
+
+      <PackModal 
+        isOpen={isPackModalOpen}
+        onClose={() => setIsPackModalOpen(false)}
+        onSave={handleSavePack}
+        pack={editingPack}
+        availableProducts={products}
       />
 
       <BrandManager 

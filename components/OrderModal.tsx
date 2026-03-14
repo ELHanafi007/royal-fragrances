@@ -116,7 +116,9 @@ const OrderModal: React.FC<OrderModalProps> = ({ product, selectedSize, isOpen, 
                     <p className="text-[9px] uppercase tracking-widest text-gold font-bold">{product.brand}</p>
                     <h4 className="font-bold text-foreground">{product.name}</h4>
                     <div className="flex justify-between items-center mt-1">
-                      <span className="text-[10px] font-medium text-foreground/40">{selectedSize.ml}ml Essence</span>
+                      <span className="text-[10px] font-medium text-foreground/40">
+                        {selectedSize.ml > 0 ? `${selectedSize.ml}ml Essence` : 'Curated Collection'}
+                      </span>
                       <span className="text-sm font-bold text-gold">{selectedSize.price} DH</span>
                     </div>
                   </div>

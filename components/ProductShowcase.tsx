@@ -3,21 +3,23 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
-import { Product } from "@/data/products";
+import { Product, Pack } from "@/data/products";
 import ProductCard from "./ProductCard";
+import PackCard from "./PackCard";
 import ProductFilters from "./ProductFilters";
 import { ROYAL_CONFIG } from "@/lib/constants";
-import { Loader2 } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 
 const ProductShowcase = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [packs, setPacks] = useState<Pack[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
   const [activeBrand, setActiveBrand] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
         if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
           console.warn("Supabase URL is missing.");
@@ -25,52 +27,67 @@ const ProductShowcase = () => {
           return;
         }
 
-        const { data, error } = await supabase
-          .from("products")
-          .select("*")
-          .order("id", { ascending: true });
+        const [prodRes, packRes] = await Promise.all([
+          supabase.from("products").select("*").order("id", { ascending: true }),
+          supabase.from("packs").select("*").order("id", { ascending: true })
+        ]);
 
-        if (error) throw error;
-        setProducts(data || []);
+        if (prodRes.error) throw prodRes.error;
+        if (packRes.error) throw packRes.error;
+
+        setProducts(prodRes.data || []);
+        setPacks(packRes.data || []);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProducts();
+    fetchData();
   }, []);
 
   const categories = useMemo(() => {
     const cats = Array.from(new Set(products.map((p) => p.category)));
+    if (packs.length > 0) cats.push("packs");
     return cats;
-  }, [products]);
+  }, [products, packs]);
 
   const brands = useMemo(() => {
     const bs = Array.from(new Set(products.map((p) => p.brand)));
     return bs.sort();
   }, [products]);
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
-      const categoryMatch =
-        activeCategory === "all" || product.category === activeCategory;
+  const filteredItems = useMemo(() => {
+    const searchLower = searchQuery.toLowerCase();
+
+    const filteredProds = products.filter((product) => {
+      const categoryMatch = activeCategory === "all" || product.category === activeCategory;
       const brandMatch = activeBrand === "all" || product.brand === activeBrand;
-      const searchLower = searchQuery.toLowerCase();
       const searchMatch =
         searchQuery === "" ||
         product.name.toLowerCase().includes(searchLower) ||
         product.brand.toLowerCase().includes(searchLower) ||
         product.notes.top.some((n) => n.toLowerCase().includes(searchLower)) ||
-        product.notes.middle.some((n) =>
-          n.toLowerCase().includes(searchLower)
-        ) ||
+        product.notes.middle.some((n) => n.toLowerCase().includes(searchLower)) ||
         product.notes.base.some((n) => n.toLowerCase().includes(searchLower));
 
       return categoryMatch && brandMatch && searchMatch;
     });
-  }, [activeCategory, activeBrand, searchQuery, products]);
+
+    const filteredPacks = packs.filter((pack) => {
+      const categoryMatch = activeCategory === "all" || activeCategory === "packs";
+      const brandMatch = activeBrand === "all"; // Packs don't have a specific brand in this model
+      const searchMatch =
+        searchQuery === "" ||
+        pack.name.toLowerCase().includes(searchLower) ||
+        pack.included_products.some(p => p.toLowerCase().includes(searchLower));
+
+      return categoryMatch && brandMatch && searchMatch;
+    });
+
+    return { products: filteredProds, packs: filteredPacks };
+  }, [activeCategory, activeBrand, searchQuery, products, packs]);
 
   return (
     <section
@@ -126,7 +143,7 @@ const ProductShowcase = () => {
           setSearchQuery={setSearchQuery}
         />
 
-        {/* Product Grid */}
+        {/* Combined Grid */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
             <Loader2 className="w-12 h-12 text-gold animate-spin" />
@@ -135,26 +152,65 @@ const ProductShowcase = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-12">
-            <AnimatePresence mode="popLayout">
-              {filteredProducts.map((product, index) => (
-                <motion.div
-                  layout
-                  key={product.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                >
-                  <ProductCard product={product} />
-                </motion.div>
-              ))}
-            </AnimatePresence>
+          <div className="space-y-20">
+            {/* Packs Section - Highlighted if "all" or "packs" */}
+            {(activeCategory === "all" || activeCategory === "packs") && filteredItems.packs.length > 0 && (
+              <div className="space-y-10">
+                <div className="flex items-center gap-4">
+                  <Sparkles className="text-gold w-6 h-6" />
+                  <h3 className="text-2xl font-serif font-bold">Exclusive Discovery Packs</h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <AnimatePresence mode="popLayout">
+                    {filteredItems.packs.map((pack, index) => (
+                      <motion.div
+                        layout
+                        key={`pack-${pack.id}`}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.5, delay: index * 0.05 }}
+                      >
+                        <PackCard pack={pack} />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </div>
+            )}
+
+            {/* Products Section */}
+            {(activeCategory === "all" || activeCategory !== "packs") && filteredItems.products.length > 0 && (
+              <div className="space-y-10">
+                {activeCategory === "all" && filteredItems.packs.length > 0 && (
+                   <div className="flex items-center gap-4">
+                    <div className="w-6 h-px bg-gold/30" />
+                    <h3 className="text-2xl font-serif font-bold">Individual Decants</h3>
+                  </div>
+                )}
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-12">
+                  <AnimatePresence mode="popLayout">
+                    {filteredItems.products.map((product, index) => (
+                      <motion.div
+                        layout
+                        key={`prod-${product.id}`}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.5, delay: index * 0.05 }}
+                      >
+                        <ProductCard product={product} />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
         {/* Empty State */}
-        {!loading && filteredProducts.length === 0 && (
+        {!loading && filteredItems.products.length === 0 && filteredItems.packs.length === 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -167,26 +223,7 @@ const ProductShowcase = () => {
           </motion.div>
         )}
 
-        {/* Explore More Button */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="mt-20 flex justify-center"
-        >
-          <a
-            href={`https://wa.me/${ROYAL_CONFIG.whatsappNumber}`}
-            target="_blank"
-            className="group relative px-12 py-5 border border-gold text-gold overflow-hidden transition-all duration-500 rounded-full hover:text-white"
-          >
-            <div className="absolute inset-0 bg-gold translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-            <span className="relative z-10 text-xs font-bold uppercase tracking-[0.4em]">
-              Request a Bespoke Decant
-            </span>
-          </a>
-        </motion.div>
-      </div>
+        {/* Explore More Button ... existing code ... */}      </div>
     </section>
   );
 };
