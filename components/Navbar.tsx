@@ -193,21 +193,6 @@ const Navbar = () => {
                   </Link>
                 </motion.div>
               ))}
-              
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mt-8"
-              >
-                <Link
-                  href={`https://wa.me/${ROYAL_CONFIG.whatsappNumber}`}
-                  className="flex items-center gap-4 bg-gold text-white px-10 py-5 rounded-full shadow-2xl shadow-gold/40"
-                >
-                  <MessageCircle className="w-6 h-6" />
-                  <span className="font-bold tracking-widest uppercase">WhatsApp Order</span>
-                </Link>
-              </motion.div>
             </div>
 
             {/* Decorative Elements */}

@@ -31,11 +31,15 @@ const OrderModal: React.FC<OrderModalProps> = ({ product, selectedSize, isOpen, 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...formData,
+          customerName: formData.name,
+          whatsappNumber: formData.phone,
+          address: formData.address,
           product: {
             name: product.name,
             brand: product.brand,
-            size: selectedSize.ml,
+          },
+          selectedSize: {
+            ml: selectedSize.ml,
             price: selectedSize.price,
           },
         }),

@@ -36,7 +36,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Image Area */}
       <div className="relative aspect-[4/5] overflow-hidden">
         <Image
-          src={product.imageUrl}
+          src={product.imageUrl?.startsWith('http') || product.imageUrl?.startsWith('/') ? product.imageUrl : 'https://placehold.co/600x400?text=No+Image'}
           alt={product.name}
           fill
           className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -58,13 +58,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </div>
 
       {/* Content */}
-      <div className="p-6 space-y-4">
+      <div className="p-4 md:p-6 space-y-3 md:y-4">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-bold mb-1">
+            <p className="text-[8px] md:text-[10px] uppercase tracking-[0.3em] text-gold font-bold mb-1">
               {product.brand}
             </p>
-            <h3 className="text-xl md:text-2xl font-serif font-bold text-foreground/80 leading-tight">
+            <h3 className="text-base md:text-2xl font-serif font-bold text-foreground/80 leading-tight">
               {product.name}
             </h3>
           </div>
@@ -126,19 +126,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="text-xl md:text-2xl font-serif font-bold text-gold"
+                className="text-base md:text-2xl font-serif font-bold text-gold"
               >
-                {selectedSize.price} <span className="text-[10px] uppercase tracking-tighter">DH</span>
+                {selectedSize.price} <span className="text-[8px] md:text-[10px] uppercase tracking-tighter">DH</span>
               </motion.p>
             </AnimatePresence>
           </div>
 
           <button
             onClick={() => setIsOrderModalOpen(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-foreground text-warm-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-gold transition-colors duration-300 shadow-lg shadow-black/5"
+            className="flex items-center gap-2 px-3 md:px-6 py-2 md:py-3 bg-foreground text-warm-white text-[9px] md:text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-gold transition-colors duration-300 shadow-lg shadow-black/5"
           >
             <ShoppingBag className="w-3 h-3" />
-            <span>Order</span>
+            <span className="hidden md:inline">Order</span>
           </button>
         </div>
       </div>
