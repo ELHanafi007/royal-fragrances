@@ -24,8 +24,11 @@ export async function POST(request: Request) {
     const product = await request.json();
     
     // Basic validation
-    if (!product.imageUrl?.startsWith('http') && !product.imageUrl?.startsWith('/')) {
-      return NextResponse.json({ error: 'Invalid Image URL' }, { status: 400 });
+    if (!product.imageUrl) {
+      return NextResponse.json({ error: 'Image URL is required' }, { status: 400 });
+    }
+    if (!product.imageUrl.startsWith('http') && !product.imageUrl.startsWith('/')) {
+      return NextResponse.json({ error: `Invalid Image URL: ${product.imageUrl}. Must start with http or /` }, { status: 400 });
     }
 
     const { data, error } = await supabase
