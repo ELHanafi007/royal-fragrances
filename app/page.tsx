@@ -2,7 +2,6 @@
 
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import DecantRevelation from "@/components/DecantRevelation";
 import LifestyleSlider from "@/components/LifestyleSlider";
 import ProductShowcase from "@/components/ProductShowcase";
 import WhatsAppFAB from "@/components/WhatsAppFAB";
@@ -13,7 +12,6 @@ export default function Home() {
     <main className="min-h-screen">
       <Navbar />
       <Hero />
-      <DecantRevelation />
       <LifestyleSlider />
       <ProductShowcase />
       

@@ -2,11 +2,10 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, Info, Wind, Layers, Anchor } from "lucide-react";
+import { MessageCircle, Info, Wind, Layers, Anchor, ShoppingBag } from "lucide-react";
 import { Product, Size } from "@/data/products";
-import { ROYAL_CONFIG } from "@/lib/constants";
+import OrderModal from "./OrderModal";
 
 interface ProductCardProps {
   product: Product;
@@ -15,10 +14,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedSize, setSelectedSize] = useState<Size>(product.sizes[0]);
   const [showNotes, setShowNotes] = useState(false);
-
-  const whatsappLink = `https://wa.me/${ROYAL_CONFIG.whatsappNumber}?text=${encodeURIComponent(
-    `Hello Royal Fragrance, I would like to order: ${product.name} by ${product.brand}.\nSize: ${selectedSize.ml}ml\nPrice: ${selectedSize.price} DH.\nCategory: ${product.category}\nNotes: ${product.notes.top.join(", ")}.`
-  )}`;
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
   const categoryColors = {
     men: "bg-blue-500/10 text-blue-600 border-blue-200",
@@ -137,19 +133,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </AnimatePresence>
           </div>
 
-          <Link
-            href={whatsappLink}
-            target="_blank"
+          <button
+            onClick={() => setIsOrderModalOpen(true)}
             className="flex items-center gap-2 px-6 py-3 bg-foreground text-warm-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-gold transition-colors duration-300 shadow-lg shadow-black/5"
           >
-            <MessageCircle className="w-3 h-3" />
+            <ShoppingBag className="w-3 h-3" />
             <span>Order</span>
-          </Link>
+          </button>
         </div>
       </div>
 
       {/* Decorative Shimmer Overlay */}
       <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-10 transition-opacity duration-1000 bg-gradient-to-tr from-transparent via-gold to-transparent -translate-x-full group-hover:translate-x-full" />
+      
+      <OrderModal 
+        product={product}
+        selectedSize={selectedSize}
+        isOpen={isOrderModalOpen}
+        onClose={() => setIsOrderModalOpen(false)}
+      />
     </motion.div>
   );
 };
