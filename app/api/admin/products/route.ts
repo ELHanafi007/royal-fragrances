@@ -24,11 +24,13 @@ export async function POST(request: Request) {
     const body = await request.json();
     
     // Clean data for Supabase
+    // We try to match both camelCase and snake_case to be safe
     const product = {
       name: body.name,
       brand: body.brand,
       description: body.description,
       imageUrl: body.imageUrl,
+      image_url: body.imageUrl, // Map to snake_case just in case
       category: body.category,
       sizes: body.sizes,
       notes: body.notes
@@ -72,6 +74,7 @@ export async function PUT(request: Request) {
       brand: rest.brand,
       description: rest.description,
       imageUrl: rest.imageUrl,
+      image_url: rest.imageUrl, // Map to snake_case just in case
       category: rest.category,
       sizes: rest.sizes,
       notes: rest.notes
