@@ -48,7 +48,7 @@ const ProductShowcase = () => {
   }, []);
 
   const categories = useMemo(() => {
-    const cats = Array.from(new Set(products.map((p) => p.category)));
+    const cats = Array.from(new Set(products.map((p) => p.category))) as string[];
     if (packs.length > 0) cats.push("packs");
     return cats;
   }, [products, packs]);
