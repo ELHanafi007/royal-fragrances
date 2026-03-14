@@ -97,9 +97,13 @@ export default function AdminPage() {
         setIsProductModalOpen(false);
         setEditingProduct(null);
         fetchData();
+      } else {
+        const errorData = await res.json();
+        alert(`Royal Error: ${errorData.error || 'Failed to save fragrance'}`);
       }
     } catch (error) {
       console.error("Save failed:", error);
+      alert("Save failed: Connection error");
     }
   };
 
