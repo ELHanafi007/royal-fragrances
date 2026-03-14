@@ -36,7 +36,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Image Area */}
       <div className="relative aspect-[4/5] overflow-hidden">
         <Image
-          src={product.imageUrl?.startsWith('http') || product.imageUrl?.startsWith('/') ? product.imageUrl : 'https://placehold.co/600x400?text=No+Image'}
+          src={(product.imageUrl || (product as any).image_url)?.startsWith('http') || (product.imageUrl || (product as any).image_url)?.startsWith('/') ? (product.imageUrl || (product as any).image_url) : 'https://placehold.co/600x400?text=No+Image'}
           alt={product.name}
           fill
           className="object-cover transition-transform duration-700 group-hover:scale-110"
