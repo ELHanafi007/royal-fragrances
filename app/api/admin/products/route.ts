@@ -21,14 +21,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
   try {
-    const product = await request.json();
+    const body = await request.json();
     
+    // Clean data for Supabase
+    const product = {
+      name: body.name,
+      brand: body.brand,
+      description: body.description,
+      imageUrl: body.imageUrl,
+      category: body.category,
+      sizes: body.sizes,
+      notes: body.notes
+    };
+
     // Basic validation
+    if (!product.name || !product.brand) {
+      return NextResponse.json({ error: 'Name and Brand are required' }, { status: 400 });
+    }
     if (!product.imageUrl) {
       return NextResponse.json({ error: 'Image URL is required' }, { status: 400 });
-    }
-    if (!product.imageUrl.startsWith('http') && !product.imageUrl.startsWith('/')) {
-      return NextResponse.json({ error: `Invalid Image URL: ${product.imageUrl}. Must start with http or /` }, { status: 400 });
     }
 
     const { data, error } = await supabase
@@ -36,10 +47,14 @@ export async function POST(request: Request) {
       .insert([product])
       .select();
 
-    if (error) throw error;
+    if (error) {
+      console.error("Supabase Error:", error);
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
     return NextResponse.json(data[0]);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -48,12 +63,19 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
   try {
-    const { id, ...updatedProduct } = await request.json();
+    const body = await request.json();
+    const { id, ...rest } = body;
 
-    // Basic validation
-    if (!updatedProduct.imageUrl?.startsWith('http') && !updatedProduct.imageUrl?.startsWith('/')) {
-      return NextResponse.json({ error: 'Invalid Image URL' }, { status: 400 });
-    }
+    // Clean data for Supabase
+    const updatedProduct = {
+      name: rest.name,
+      brand: rest.brand,
+      description: rest.description,
+      imageUrl: rest.imageUrl,
+      category: rest.category,
+      sizes: rest.sizes,
+      notes: rest.notes
+    };
 
     const { data, error } = await supabase
       .from('products')
@@ -61,10 +83,14 @@ export async function PUT(request: Request) {
       .eq('id', id)
       .select();
 
-    if (error) throw error;
+    if (error) {
+      console.error("Supabase Error:", error);
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
     return NextResponse.json(data[0]);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
