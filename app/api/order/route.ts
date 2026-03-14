@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 export async function POST(request: Request) {
   try {
     const orderData = await request.json();
-    const { product, selectedSize, customerName, whatsappNumber, address } = orderData;
+    const { product, selectedSize, customerName, whatsappNumber, address, deliveryFee, totalPrice } = orderData;
 
     // 1. Store order in Supabase
     const { data: order, error: dbError } = await supabase
@@ -15,6 +15,8 @@ export async function POST(request: Request) {
         brand: product.brand,
         size_ml: selectedSize.ml,
         price: selectedSize.price,
+        delivery_fee: deliveryFee,
+        total_price: totalPrice,
         customer_name: customerName,
         whatsapp_number: whatsappNumber,
         address: address,
@@ -40,8 +42,10 @@ export async function POST(request: Request) {
               <h3>Product Details:</h3>
               <p><strong>Fragrance:</strong> ${product.name}</p>
               <p><strong>Brand:</strong> ${product.brand}</p>
-              <p><strong>Size:</strong> ${selectedSize.ml}ml</p>
-              <p><strong>Price:</strong> ${selectedSize.price} DH</p>
+              <p><strong>Size:</strong> ${selectedSize.ml > 0 ? selectedSize.ml + 'ml' : 'Curated Pack'}</p>
+              <p><strong>Subtotal:</strong> ${selectedSize.price} DH</p>
+              <p><strong>Delivery Fee:</strong> ${deliveryFee === 0 ? 'FREE' : deliveryFee + ' DH'}</p>
+              <p style="font-size: 1.2em; color: #b88b4a;"><strong>Total Price:</strong> ${totalPrice} DH</p>
               <h3>Customer Details:</h3>
               <p><strong>Name:</strong> ${customerName}</p>
               <p><strong>WhatsApp:</strong> ${whatsappNumber}</p>

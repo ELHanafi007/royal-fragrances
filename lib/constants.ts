@@ -5,6 +5,10 @@ export const ROYAL_CONFIG = {
   email: "contact@royalfragrance.ma",
   location: "Casablanca, Morocco",
   instagram: "royal.fragrance",
+  delivery: {
+    standardFee: 20,
+    freeThreshold: 250,
+  },
   colors: {
     gold: "#b88b4a",
     warmWhite: "#faf7f2",

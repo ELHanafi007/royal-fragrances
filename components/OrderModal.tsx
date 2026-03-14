@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2, Loader2, MapPin, Phone, User, Package } from "lucide-react";
 import { Product, Size } from "@/data/products";
+import { ROYAL_CONFIG } from "@/lib/constants";
 
 interface OrderModalProps {
   product: Product;
@@ -21,6 +22,9 @@ const OrderModal: React.FC<OrderModalProps> = ({ product, selectedSize, isOpen, 
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const deliveryFee = selectedSize.price >= ROYAL_CONFIG.delivery.freeThreshold ? 0 : ROYAL_CONFIG.delivery.standardFee;
+  const totalPrice = selectedSize.price + deliveryFee;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +46,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ product, selectedSize, isOpen, 
             ml: selectedSize.ml,
             price: selectedSize.price,
           },
+          deliveryFee,
+          totalPrice
         }),
       });
 
@@ -121,6 +127,26 @@ const OrderModal: React.FC<OrderModalProps> = ({ product, selectedSize, isOpen, 
                       </span>
                       <span className="text-sm font-bold text-gold">{selectedSize.price} DH</span>
                     </div>
+                  </div>
+                </div>
+
+                {/* Delivery Summary */}
+                <div className="bg-silk/30 p-4 rounded-2xl space-y-2 border border-gold/5">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-foreground/40 font-bold uppercase tracking-wider">Subtotal</span>
+                    <span className="font-bold">{selectedSize.price} DH</span>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-foreground/40 font-bold uppercase tracking-wider">Delivery Fee</span>
+                    {deliveryFee === 0 ? (
+                      <span className="text-green-600 font-bold uppercase tracking-tighter text-[9px] bg-green-50 px-2 py-0.5 rounded-full border border-green-100">Free Delivery</span>
+                    ) : (
+                      <span className="font-bold">{deliveryFee} DH</span>
+                    )}
+                  </div>
+                  <div className="pt-2 border-t border-gold/10 flex justify-between">
+                    <span className="text-sm font-bold uppercase tracking-widest text-gold">Total Amount</span>
+                    <span className="text-lg font-serif font-bold text-foreground">{totalPrice} DH</span>
                   </div>
                 </div>
 
