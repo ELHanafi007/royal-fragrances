@@ -81,9 +81,9 @@ export default function AdminPage() {
         brandRes.json(),
         packRes.json()
       ]);
-      setProducts(prodData);
-      setBrands(brandData);
-      setPacks(packData || []);
+      setProducts(Array.isArray(prodData) ? prodData : []);
+      setBrands(Array.isArray(brandData) ? brandData : []);
+      setPacks(Array.isArray(packData) ? packData : []);
     } catch (error) {
       console.error("Fetch failed:", error);
     } finally {
