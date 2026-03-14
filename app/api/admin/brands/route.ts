@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   try {
     const { name } = await request.json();
     
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('brands')
       .insert([{ name }])
       .select();
@@ -42,8 +42,9 @@ export async function POST(request: Request) {
       .order('name', { ascending: true });
 
     return NextResponse.json({ success: true, brands: allBrands?.map(b => b.name) });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -68,7 +69,8 @@ export async function DELETE(request: Request) {
       .order('name', { ascending: true });
 
     return NextResponse.json({ success: true, brands: allBrands?.map(b => b.name) });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

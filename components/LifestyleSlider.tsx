@@ -65,9 +65,19 @@ const LifestyleSlider = () => {
 
   useEffect(() => {
     if (!emblaApi) return;
-    onSelect();
+    
+    // Set initial values
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+    setCanScrollPrev(emblaApi.canScrollPrev());
+    setCanScrollNext(emblaApi.canScrollNext());
+
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
+    
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onSelect);
+    };
   }, [emblaApi, onSelect]);
 
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);

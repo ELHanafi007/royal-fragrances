@@ -25,6 +25,8 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
   });
 
   useEffect(() => {
+    if (!isOpen) return;
+    
     if (product) {
       setFormData(product);
     } else {
