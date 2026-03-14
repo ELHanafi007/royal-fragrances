@@ -1,9 +1,9 @@
-'use client';
-
 import { Product, Size, FragranceNotes } from '@/data/products';
-import { X, Plus, Trash2, Save, Image as ImageIcon } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { X, Plus, Trash2, Save, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '@/lib/supabase';
+import Image from 'next/image';
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -24,6 +24,9 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
     notes: { top: [], middle: [], base: [] }
   });
 
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (!isOpen) return;
     
@@ -41,6 +44,36 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
       });
     }
   }, [product, brands, isOpen]);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      setUploading(true);
+      if (!e.target.files || e.target.files.length === 0) return;
+
+      const file = e.target.files[0];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `products/${fileName}`;
+
+      const { error: uploadError, data } = await supabase.storage
+        .from('products')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('products')
+        .getPublicUrl(filePath);
+
+      setFormData({ ...formData, imageUrl: publicUrl });
+    } catch (error: any) {
+      alert('Error uploading image: ' + error.message);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleNoteAdd = (type: keyof FragranceNotes, value: string) => {
     if (!value.trim()) return;
@@ -158,15 +191,36 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Image URL</label>
-                  <div className="relative">
-                    <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/20" size={18} />
+                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Product Photo</label>
+                  <div 
+                    onClick={() => fileInputRef.current?.click()}
+                    className="relative w-full aspect-video rounded-2xl bg-silk border-2 border-dashed border-gold/20 flex flex-col items-center justify-center cursor-pointer hover:bg-gold/5 hover:border-gold/40 transition-all overflow-hidden group"
+                  >
+                    {formData.imageUrl ? (
+                      <>
+                        <Image src={formData.imageUrl} alt="Preview" fill className="object-cover" />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <Upload className="text-white w-8 h-8" />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {uploading ? (
+                          <Loader2 className="w-8 h-8 text-gold animate-spin" />
+                        ) : (
+                          <>
+                            <Upload className="text-gold/40 w-8 h-8 mb-2" />
+                            <p className="text-xs font-bold uppercase tracking-widest text-gold/60">Upload Photo</p>
+                          </>
+                        )}
+                      </>
+                    )}
                     <input 
-                      type="text" 
-                      placeholder="https://..."
-                      value={formData.imageUrl}
-                      onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
-                      className="w-full pl-12 pr-5 py-4 rounded-2xl bg-silk border border-transparent focus:bg-white focus:border-gold outline-none transition-all"
+                      type="file" 
+                      ref={fileInputRef}
+                      onChange={handleFileUpload}
+                      className="hidden" 
+                      accept="image/*"
                     />
                   </div>
                 </div>
@@ -242,10 +296,17 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
             <div className="pt-4 sticky bottom-0 bg-background py-6 border-t border-gold/5">
               <button 
                 onClick={() => onSave(formData)}
-                className="w-full bg-gold text-white py-5 rounded-[1.5rem] font-bold shadow-xl shadow-gold/20 hover:bg-gold-hover transition-all active:scale-95 flex items-center justify-center gap-3 text-lg"
+                disabled={uploading}
+                className="w-full bg-gold text-white py-5 rounded-[1.5rem] font-bold shadow-xl shadow-gold/20 hover:bg-gold-hover transition-all active:scale-95 flex items-center justify-center gap-3 text-lg disabled:opacity-50"
               >
-                <Save size={24} />
-                <span>Save Masterpiece</span>
+                {uploading ? (
+                  <Loader2 className="w-6 h-6 animate-spin" />
+                ) : (
+                  <>
+                    <Save size={24} />
+                    <span>Save Masterpiece</span>
+                  </>
+                )}
               </button>
             </div>
           </div>
