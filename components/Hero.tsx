@@ -42,6 +42,32 @@ const Hero = () => {
 
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full flex flex-col items-center justify-center">
         
+        {/* Logo Integration */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="relative mb-12"
+        >
+          <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full p-[2px] bg-gradient-to-tr from-gold/50 via-gold/10 to-gold/50 animate-spin-slow">
+            <div className="w-full h-full rounded-full bg-warm-white flex items-center justify-center overflow-hidden border border-gold/20 shadow-2xl">
+              <Image 
+                src="/logo.png" 
+                alt="Royal Fragrance Logo" 
+                width={100} 
+                height={100} 
+                className="object-contain p-4"
+              />
+            </div>
+          </div>
+          {/* Decorative Rings */}
+          <motion.div 
+            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.1, 0.2] }}
+            transition={{ duration: 4, repeat: Infinity }}
+            className="absolute -inset-4 border border-gold/20 rounded-full -z-10" 
+          />
+        </motion.div>
+
         {/* Text Content */}
         <motion.div 
           style={{ opacity, scale }}
