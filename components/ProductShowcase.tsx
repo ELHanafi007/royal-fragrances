@@ -160,7 +160,9 @@ const ProductShowcase = () => {
                   <Sparkles className="text-gold w-6 h-6" />
                   <h3 className="text-2xl font-serif font-bold">Exclusive Discovery Packs</h3>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                {/* Horizontal Scroll on Mobile, Grid on Desktop */}
+                <div className="flex overflow-x-auto pb-8 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 scrollbar-hide snap-x snap-mandatory">
                   <AnimatePresence mode="popLayout">
                     {filteredItems.packs.map((pack, index) => (
                       <motion.div
@@ -170,6 +172,7 @@ const ProductShowcase = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ duration: 0.5, delay: index * 0.05 }}
+                        className="min-w-[160px] w-[45vw] md:w-auto snap-center"
                       >
                         <PackCard pack={pack} />
                       </motion.div>

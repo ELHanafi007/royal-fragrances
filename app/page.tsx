@@ -63,29 +63,29 @@ export default function Home() {
       {/* Heritage / Trust Section */}
       <section id="heritage" className="py-32 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <span className="text-xs font-bold tracking-[0.4em] uppercase text-gold mb-4 block">Our Heritage</span>
-          <h2 className="text-5xl font-serif font-bold mb-12 italic">The Art of Olfactory Excellence</h2>
+          <span className="text-xs font-bold tracking-[0.4em] uppercase text-gold mb-4 block">Our Excellence</span>
+          <h2 className="text-5xl font-serif font-bold mb-12 italic">The Royal Standard</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <div className="space-y-4">
               <div className="w-16 h-16 bg-gold/5 rounded-full flex items-center justify-center mx-auto border border-gold/10">
                 <span className="text-gold font-serif text-2xl">01</span>
               </div>
-              <h3 className="text-xl font-bold uppercase tracking-widest">Precision Decanting</h3>
-              <p className="text-sm text-foreground/50 leading-relaxed px-8">Every fragrance is meticulously hand-poured in a sterile environment to preserve its original aromatic profile.</p>
+              <h3 className="text-xl font-bold uppercase tracking-widest">Fast Delivery</h3>
+              <p className="text-sm text-foreground/50 leading-relaxed px-8">Rapid, insured delivery across Morocco within 24-48 hours. Your essence arrives in pristine condition.</p>
             </div>
             <div className="space-y-4">
               <div className="w-16 h-16 bg-gold/5 rounded-full flex items-center justify-center mx-auto border border-gold/10">
                 <span className="text-gold font-serif text-2xl">02</span>
               </div>
-              <h3 className="text-xl font-bold uppercase tracking-widest">Pure Authenticity</h3>
+              <h3 className="text-xl font-bold uppercase tracking-widest">Authentic Perfumes</h3>
               <p className="text-sm text-foreground/50 leading-relaxed px-8">We source exclusively from authorized maison houses. Your decant contains only the genuine, undiluted masterpiece.</p>
             </div>
             <div className="space-y-4">
               <div className="w-16 h-16 bg-gold/5 rounded-full flex items-center justify-center mx-auto border border-gold/10">
                 <span className="text-gold font-serif text-2xl">03</span>
               </div>
-              <h3 className="text-xl font-bold uppercase tracking-widest">Royal Concierge</h3>
-              <p className="text-sm text-foreground/50 leading-relaxed px-8">Your journey is our priority. Rapid, insured delivery across Morocco ensures your essence arrives in pristine condition.</p>
+              <h3 className="text-xl font-bold uppercase tracking-widest">Premium Curation</h3>
+              <p className="text-sm text-foreground/50 leading-relaxed px-8">Expertly selected collections hand-poured in a sterile environment to preserve every aromatic nuance.</p>
             </div>
           </div>
         </div>

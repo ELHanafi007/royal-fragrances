@@ -39,104 +39,119 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ${
         isScrolled
-          ? "bg-warm-white/40 backdrop-blur-2xl py-3 border-b border-gold/10"
-          : "bg-transparent py-8"
+          ? "bg-warm-white/40 backdrop-blur-2xl border-b border-gold/10"
+          : "bg-transparent"
       }`}
     >
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between items-center">
-        {/* Logo Section */}
-        <Link href="/" className="flex items-center gap-4 group">
-          <div className="relative">
-            <RoyalLogo />
-            <motion.div
-              className="absolute -inset-2 bg-gold/5 rounded-full blur-xl -z-10"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 4, repeat: Infinity }}
-            />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-xl md:text-2xl font-serif font-bold tracking-[0.1em] text-foreground leading-none">
-              {ROYAL_CONFIG.brandName.split(" ")[0].toUpperCase()}
-            </span>
-            <span className="text-[10px] md:text-xs tracking-[0.4em] text-gold font-medium uppercase mt-1">
-              {ROYAL_CONFIG.brandName.split(" ")[1]}
-            </span>
-          </div>
-        </Link>
+      <div className={`transition-all duration-700 ${isScrolled ? "py-3" : "py-8"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between items-center">
+          {/* Logo Section */}
+          <Link href="/" className="flex items-center gap-4 group">
+            <div className="relative">
+              <RoyalLogo />
+              <motion.div
+                className="absolute -inset-2 bg-gold/5 rounded-full blur-xl -z-10"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl md:text-2xl font-serif font-bold tracking-[0.1em] text-foreground leading-none">
+                {ROYAL_CONFIG.brandName.split(" ")[0].toUpperCase()}
+              </span>
+              <span className="text-[10px] md:text-xs tracking-[0.4em] text-gold font-medium uppercase mt-1">
+                {ROYAL_CONFIG.brandName.split(" ")[1]}
+              </span>
+            </div>
+          </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-12">
-          {navLinks.map((link, i) => (
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-12">
+            {navLinks.map((link, i) => (
+              <motion.div
+                key={link.name}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * i + 0.5 }}
+              >
+                <Link
+                  href={link.href}
+                  className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/60 hover:text-gold transition-all relative group"
+                >
+                  {link.name}
+                  <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-gold transition-all duration-500 group-hover:w-full" />
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-6">
             <motion.div
-              key={link.name}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * i + 0.5 }}
+              className="hidden md:block"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1 }}
             >
               <Link
-                href={link.href}
-                className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/60 hover:text-gold transition-all relative group"
+                href={`https://wa.me/${ROYAL_CONFIG.whatsappNumber}`}
+                className="relative group flex items-center gap-3 px-8 py-3 overflow-hidden"
               >
-                {link.name}
-                <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-gold transition-all duration-500 group-hover:w-full" />
+                <div className="absolute inset-0 bg-gold translate-y-[101%] group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                <div className="absolute inset-0 border border-gold/30 group-hover:border-gold transition-colors" />
+                <MessageCircle className="w-4 h-4 text-gold group-hover:text-white transition-colors relative z-10" />
+                <span className="text-xs font-bold uppercase tracking-widest text-gold group-hover:text-white transition-colors relative z-10">
+                  Inquire
+                </span>
+                <motion.div
+                  className="absolute inset-0 bg-gold/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
+                  animate={{ scale: [1, 1.5, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
               </Link>
             </motion.div>
-          ))}
-        </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-6">
-          <motion.div
-            className="hidden md:block"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1 }}
-          >
-            <Link
-              href={`https://wa.me/${ROYAL_CONFIG.whatsappNumber}`}
-              className="relative group flex items-center gap-3 px-8 py-3 overflow-hidden"
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 relative group md:hidden"
             >
-              <div className="absolute inset-0 bg-gold translate-y-[101%] group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-              <div className="absolute inset-0 border border-gold/30 group-hover:border-gold transition-colors" />
-              <MessageCircle className="w-4 h-4 text-gold group-hover:text-white transition-colors relative z-10" />
-              <span className="text-xs font-bold uppercase tracking-widest text-gold group-hover:text-white transition-colors relative z-10">
-                Inquire
-              </span>
-              <motion.div
-                className="absolute inset-0 bg-gold/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
-                animate={{ scale: [1, 1.5, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-            </Link>
-          </motion.div>
+              <AnimatePresence mode="wait">
+                {isMobileMenuOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                  >
+                    <X className="w-6 h-6 text-gold" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                  >
+                    <Menu className="w-6 h-6 text-foreground" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </button>
+          </div>
+        </div>
+      </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 relative group md:hidden"
+      {/* Announcement Bar - Under the Navbar content */}
+      <div className="bg-gold/5 border-t border-b border-gold/10 py-2">
+        <div className="max-w-[1400px] mx-auto px-6 flex justify-center items-center">
+          <motion.p 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-[9px] md:text-[10px] font-bold tracking-[0.3em] uppercase text-gold"
           >
-            <AnimatePresence mode="wait">
-              {isMobileMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                >
-                  <X className="w-6 h-6 text-gold" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                >
-                  <Menu className="w-6 h-6 text-foreground" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </button>
+            Free Delivery Over 500DH Across Morocco
+          </motion.p>
         </div>
       </div>
 

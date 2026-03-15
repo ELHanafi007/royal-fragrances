@@ -60,24 +60,24 @@ const PackCard = ({ pack }: PackCardProps) => {
         </div>
 
         {/* Content Section */}
-        <div className="p-8 space-y-4">
+        <div className="p-4 md:p-8 space-y-3 md:space-y-4">
           <div className="space-y-1">
-            <h3 className="text-2xl font-serif font-bold text-foreground group-hover:text-gold transition-colors duration-500">
+            <h3 className="text-lg md:text-2xl font-serif font-bold text-foreground group-hover:text-gold transition-colors duration-500 line-clamp-1">
               {pack.name}
             </h3>
-            <div className="flex items-center gap-3">
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gold">
-                {pack.included_products.length} Fragrances Included
+            <div className="flex items-center gap-2">
+              <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] text-gold">
+                {pack.included_products.length} Fragrances
               </span>
             </div>
           </div>
 
-          <p className="text-sm text-foreground/50 line-clamp-2 leading-relaxed h-10 italic">
+          <p className="text-[10px] md:text-sm text-foreground/50 line-clamp-2 leading-relaxed h-8 md:h-10 italic">
             "{pack.description}"
           </p>
 
           {/* Included List (Mini) */}
-          <div className="flex flex-wrap gap-1.5 pt-2">
+          <div className="hidden md:flex flex-wrap gap-1.5 pt-2">
             {pack.included_products.slice(0, 3).map((name, i) => (
               <span key={i} className="text-[9px] font-bold uppercase tracking-widest bg-gold/5 text-gold/60 px-2 py-1 rounded-md border border-gold/10">
                 {name}
@@ -90,17 +90,17 @@ const PackCard = ({ pack }: PackCardProps) => {
             )}
           </div>
 
-          <div className="pt-6 flex items-center justify-between border-t border-gold/10">
+          <div className="pt-4 md:pt-6 flex items-center justify-between border-t border-gold/10">
             <div className="flex flex-col">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/30">Royal Price</span>
-              <span className="text-2xl font-serif font-bold text-foreground">{pack.price} DH</span>
+              <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-foreground/30">Royal Price</span>
+              <span className="text-sm md:text-2xl font-serif font-bold text-foreground">{pack.price} DH</span>
             </div>
             
             <button
               onClick={() => setIsModalOpen(true)}
-              className="bg-foreground text-white p-4 rounded-2xl shadow-xl shadow-foreground/10 hover:bg-gold hover:shadow-gold/20 transition-all duration-500 active:scale-95 group/btn"
+              className="bg-foreground text-white p-2 md:p-4 rounded-xl md:rounded-2xl shadow-xl shadow-foreground/10 hover:bg-gold hover:shadow-gold/20 transition-all duration-500 active:scale-95 group/btn"
             >
-              <ShoppingBag size={20} className="group-hover/btn:scale-110 transition-transform" />
+              <ShoppingBag size={14} className="md:w-5 md:h-5 group-hover/btn:scale-110 transition-transform" />
             </button>
           </div>
         </div>
