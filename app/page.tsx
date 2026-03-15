@@ -4,10 +4,12 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import LifestyleSlider from "@/components/LifestyleSlider";
 import ProductShowcase from "@/components/ProductShowcase";
+import WhatsAppFAB from "@/components/WhatsAppFAB";
+import { ROYAL_CONFIG } from "@/lib/constants";
+import Script from "next/script";
 import { Truck, ShieldCheck, Sparkles } from "lucide-react";
 
 export default function Home() {
-  // ... rest of component logic stays same ...
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
