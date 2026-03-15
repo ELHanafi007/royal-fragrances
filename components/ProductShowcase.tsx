@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useMemo, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { Product, Pack } from "@/data/products";
 import ProductCard from "./ProductCard";
 import PackCard from "./PackCard";
 import ProductFilters from "./ProductFilters";
 import { ROYAL_CONFIG } from "@/lib/constants";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, Sparkles, MoveRight } from "lucide-react";
 
 const ProductShowcase = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -17,6 +17,18 @@ const ProductShowcase = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [activeBrand, setActiveBrand] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  
+  // Scroll tracking for Packs
+  const packScrollRef = useRef<HTMLDivElement>(null);
+  const { scrollXProgress } = useScroll({
+    container: packScrollRef,
+  });
+
+  const scaleX = useSpring(scrollXProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -155,14 +167,35 @@ const ProductShowcase = () => {
           <div className="space-y-20">
             {/* Packs Section - Highlighted if "all" or "packs" */}
             {(activeCategory === "all" || activeCategory === "packs") && filteredItems.packs.length > 0 && (
-              <div className="space-y-10">
-                <div className="flex items-center gap-4">
-                  <Sparkles className="text-gold w-6 h-6" />
-                  <h3 className="text-2xl font-serif font-bold">Exclusive Discovery Packs</h3>
+              <div className="space-y-10 relative">
+                <div className="flex items-center justify-between pr-4">
+                  <div className="flex items-center gap-4">
+                    <Sparkles className="text-gold w-6 h-6" />
+                    <h3 className="text-2xl font-serif font-bold">Exclusive Discovery Packs</h3>
+                  </div>
+                  
+                  {/* Subtle Swipe Hint for Mobile */}
+                  <motion.div 
+                    style={{ opacity: useSpring(useMemo(() => {
+                      const invert = (v: number) => 1 - v;
+                      // This is a bit complex for a simple mapping, let's just use a simpler check
+                      return 1; 
+                    }, [])) }}
+                    initial={{ opacity: 1 }}
+                    whileInView={{ opacity: [1, 0.4, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="md:hidden flex items-center gap-2 text-gold/40"
+                  >
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Swipe</span>
+                    <MoveRight size={12} />
+                  </motion.div>
                 </div>
                 
                 {/* Horizontal Scroll on Mobile, Grid on Desktop */}
-                <div className="flex overflow-x-auto pb-8 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 scrollbar-hide snap-x snap-mandatory">
+                <div 
+                  ref={packScrollRef}
+                  className="flex overflow-x-auto pb-8 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 scrollbar-hide snap-x snap-mandatory"
+                >
                   <AnimatePresence mode="popLayout">
                     {filteredItems.packs.map((pack, index) => (
                       <motion.div
@@ -178,6 +211,14 @@ const ProductShowcase = () => {
                       </motion.div>
                     ))}
                   </AnimatePresence>
+                </div>
+
+                {/* Custom Royal Scroll Progress Bar (Mobile Only) */}
+                <div className="md:hidden absolute -bottom-2 left-0 w-full h-0.5 bg-gold/5 rounded-full overflow-hidden">
+                  <motion.div 
+                    className="h-full bg-gold origin-left"
+                    style={{ scaleX }}
+                  />
                 </div>
               </div>
             )}
