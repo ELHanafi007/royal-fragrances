@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, MapPin, Quote } from "lucide-react";
 
@@ -46,21 +47,21 @@ const slides: Slide[] = [
 ];
 
 const LifestyleSlider = () => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    loop: true, 
-    align: "center",
-    skipSnaps: false,
-    dragFree: false
-  });
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { 
+      loop: true, 
+      align: "center",
+      skipSnaps: false,
+      dragFree: false,
+      containScroll: false,
+    },
+    [Autoplay({ delay: 5000, stopOnInteraction: false, playOnInit: true })]
+  );
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     setSelectedIndex(emblaApi.selectedScrollSnap());
-    setCanScrollPrev(emblaApi.canScrollPrev());
-    setCanScrollNext(emblaApi.canScrollNext());
   }, [emblaApi]);
 
   useEffect(() => {
@@ -68,8 +69,6 @@ const LifestyleSlider = () => {
     
     // Set initial values
     setSelectedIndex(emblaApi.selectedScrollSnap());
-    setCanScrollPrev(emblaApi.canScrollPrev());
-    setCanScrollNext(emblaApi.canScrollNext());
 
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
@@ -181,17 +180,13 @@ const LifestyleSlider = () => {
         <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 max-w-[1400px] mx-auto px-12 pointer-events-none hidden lg:flex justify-between z-20">
           <button
             onClick={scrollPrev}
-            className={`w-14 h-14 rounded-full border border-gold/30 flex items-center justify-center bg-white/10 backdrop-blur-md text-gold hover:bg-gold hover:text-white hover:border-gold transition-all duration-500 pointer-events-auto shadow-xl group/btn ${
-              !canScrollPrev && "opacity-20 cursor-not-allowed"
-            }`}
+            className="w-14 h-14 rounded-full border border-gold/30 flex items-center justify-center bg-white/10 backdrop-blur-md text-gold hover:bg-gold hover:text-white hover:border-gold transition-all duration-500 pointer-events-auto shadow-xl group/btn"
           >
             <ChevronLeft className="w-6 h-6 group-hover/btn:-translate-x-1 transition-transform" />
           </button>
           <button
             onClick={scrollNext}
-            className={`w-14 h-14 rounded-full border border-gold/30 flex items-center justify-center bg-white/10 backdrop-blur-md text-gold hover:bg-gold hover:text-white hover:border-gold transition-all duration-500 pointer-events-auto shadow-xl group/btn ${
-              !canScrollNext && "opacity-20 cursor-not-allowed"
-            }`}
+            className="w-14 h-14 rounded-full border border-gold/30 flex items-center justify-center bg-white/10 backdrop-blur-md text-gold hover:bg-gold hover:text-white hover:border-gold transition-all duration-500 pointer-events-auto shadow-xl group/btn"
           >
             <ChevronRight className="w-6 h-6 group-hover/btn:translate-x-1 transition-transform" />
           </button>
