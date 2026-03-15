@@ -6,10 +6,55 @@ import LifestyleSlider from "@/components/LifestyleSlider";
 import ProductShowcase from "@/components/ProductShowcase";
 import WhatsAppFAB from "@/components/WhatsAppFAB";
 import { ROYAL_CONFIG } from "@/lib/constants";
+import Script from "next/script";
 
 export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Royal Fragrance",
+    "image": "https://royalfragrance.ma/logo.png",
+    "@id": "https://royalfragrance.ma",
+    "url": "https://royalfragrance.ma",
+    "telephone": "+212695208551",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Casablanca",
+      "addressLocality": "Casablanca",
+      "addressCountry": "MA"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 33.5731,
+      "longitude": -7.5898
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "sameAs": [
+      "https://instagram.com/royal.fragrance"
+    ],
+    "priceRange": "$$"
+  };
+
   return (
     <main className="min-h-screen">
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <Hero />
       <LifestyleSlider />

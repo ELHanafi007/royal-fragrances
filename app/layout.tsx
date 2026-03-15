@@ -14,8 +14,48 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Royal Fragrance | The Art of Olfactory Opulence",
-  description: "Experience the world's most prestigious perfumes in exquisite travel decants. Luxury, redefined.",
+  title: {
+    default: "Royal Fragrance | Luxury Perfume Decants Morocco",
+    template: "%s | Royal Fragrance Morocco",
+  },
+  description: "Experience the world's most prestigious luxury perfumes in exquisite travel decants. The #1 destination for original fragrance samples in Morocco. Fast delivery to Casablanca, Rabat, Marrakech, and beyond.",
+  keywords: ["perfume Morocco", "luxury decants Morocco", "original perfume samples", "parfum Maroc", "fragrance decants Casablanca", "niche perfume samples Morocco"],
+  authors: [{ name: "Royal Fragrance" }],
+  creator: "Royal Fragrance",
+  publisher: "Royal Fragrance",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://royalfragrance.ma"), // Update this with your actual domain
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Royal Fragrance | Luxury Perfume Decants Morocco",
+    description: "Experience the world's most prestigious luxury perfumes in exquisite travel decants. The #1 destination for original fragrance samples in Morocco.",
+    url: "https://royalfragrance.ma",
+    siteName: "Royal Fragrance Morocco",
+    locale: "en_MA",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Royal Fragrance | Luxury Perfume Decants Morocco",
+    description: "The #1 destination for original fragrance samples in Morocco.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({

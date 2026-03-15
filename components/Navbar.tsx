@@ -7,41 +7,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ROYAL_CONFIG } from "@/lib/constants";
 
 const RoyalLogo = () => (
-  <motion.svg
+  <motion.img
+    src="/logo.png"
+    alt="Royal Fragrance Logo"
     width="40"
     height="40"
-    viewBox="0 0 100 100"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="text-gold"
-  >
-    <motion.path
-      d="M20 80L30 40L50 20L70 40L80 80H20Z"
-      stroke="currentColor"
-      strokeWidth="2"
-      initial={{ pathLength: 0, opacity: 0 }}
-      animate={{ pathLength: 1, opacity: 1 }}
-      transition={{ duration: 2, ease: "easeInOut" }}
-    />
-    <motion.circle
-      cx="50"
-      cy="20"
-      r="4"
-      fill="currentColor"
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      transition={{ delay: 1.5, duration: 0.5 }}
-    />
-    <motion.path
-      d="M35 80V60M50 80V55M65 80V60"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      initial={{ pathLength: 0 }}
-      animate={{ pathLength: 1 }}
-      transition={{ delay: 1, duration: 1 }}
-    />
-  </motion.svg>
+    className="object-contain"
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8, ease: "easeOut" }}
+  />
 );
 
 const Navbar = () => {
