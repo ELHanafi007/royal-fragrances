@@ -54,9 +54,9 @@ const Hero = () => {
               <Image 
                 src="/logo.png" 
                 alt="Royal Fragrance Logo" 
-                width={400} 
-                height={400} 
-                className="object-contain p-12 md:p-20"
+                width={600} 
+                height={600} 
+                className="w-full h-full object-cover"
                 priority
               />
             </div>
