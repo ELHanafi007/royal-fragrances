@@ -1,4 +1,5 @@
 import productsData from "./products.json";
+import packsData from "./packs.json";
 
 export interface Size {
   ml: number;
@@ -33,3 +34,4 @@ export interface Pack {
 }
 
 export const products: Product[] = productsData as Product[];
+export const packs: Pack[] = packsData as Pack[];

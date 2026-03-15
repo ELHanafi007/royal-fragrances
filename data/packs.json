@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Signature Royale Pack",
+    "description": "Our most prestigious icons in one exclusive discovery set. Experience the pinnacle of scent.",
+    "imageUrl": "/new_/1million.webp",
+    "price": 240,
+    "included_products": ["1 Million", "Coco Mademoiselle", "Le Male Le Parfum"],
+    "category": "unisex"
+  },
+  {
+    "id": 2,
+    "name": "Urban Discovery Pack",
+    "description": "Energy, pulse, and sophistication. The perfect companion for the city life.",
+    "imageUrl": "/new_/urban-pulse.png",
+    "price": 200,
+    "included_products": ["Urban Pulse", "Global Nomad", "Cafe Elegance"],
+    "category": "unisex"
+  },
+  {
+    "id": 3,
+    "name": "Elite Evening Selection",
+    "description": "Intimate, deep, and seductive. Crafted for those unforgettable royal nights.",
+    "imageUrl": "/new_/His-Confession.webp",
+    "price": 220,
+    "included_products": ["His Confession", "Vanity Moment", "Le Male Le Parfum"],
+    "category": "unisex"
+  },
+  {
+    "id": 4,
+    "name": "Modern Icons Pack",
+    "description": "The manifestos of modern perfumery. Bold, fresh, and unmistakably successful.",
+    "imageUrl": "/new_/1million.webp",
+    "price": 260,
+    "included_products": ["Sauvage", "Aventus", "1 Million"],
+    "category": "men"
+  },
+  {
+    "id": 5,
+    "name": "Royal Essence Pack",
+    "description": "A comprehensive journey through our house-favorite local masterpieces.",
+    "imageUrl": "/new_/cafe-elegance.png",
+    "price": 320,
+    "included_products": ["Cafe Elegance", "Global Nomad", "His Confession", "Urban Pulse", "Vanity Moment"],
+    "category": "unisex"
+  }
+]

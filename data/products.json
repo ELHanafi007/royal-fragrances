@@ -1,1 +1,142 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "1 Million",
+    "brand": "Paco Rabanne",
+    "description": "The scent of success. Going for gold because decadence is thrilling. Not-so-gentle man. An intoxicating, powerful blend.",
+    "imageUrl": "/new_/1million.webp",
+    "category": "men",
+    "sizes": [{"ml": 5, "price": 85}, {"ml": 10, "price": 160}],
+    "notes": {
+      "top": ["Blood Mandarin", "Grapefruit", "Mint"],
+      "middle": ["Cinnamon", "Spicy Notes", "Rose"],
+      "base": ["Amber", "Leather", "Woody Notes", "Indian Patchouli"]
+    }
+  },
+  {
+    "id": 2,
+    "name": "Coco Mademoiselle",
+    "brand": "Chanel",
+    "description": "The essence of a free and bold woman. A feminine oriental with a strong character and a surprising freshness.",
+    "imageUrl": "/new_/cocodechanel.webp",
+    "category": "women",
+    "sizes": [{"ml": 5, "price": 95}, {"ml": 10, "price": 180}],
+    "notes": {
+      "top": ["Orange", "Mandarin Orange", "Bergamot", "Orange Blossom"],
+      "middle": ["Turkish Rose", "Jasmine", "Mimosa", "Ylang-Ylang"],
+      "base": ["Patchouli", "White Musk", "Vanilla", "Vetiver", "Opoponax", "Tonka Bean"]
+    }
+  },
+  {
+    "id": 3,
+    "name": "Le Male Le Parfum",
+    "brand": "Jean Paul Gaultier",
+    "description": "A charismatic and powerful fragrance for men. The captain has arrived, bringing with him a magnetic trail.",
+    "imageUrl": "/new_/lemale_le_parfum.webp",
+    "category": "men",
+    "sizes": [{"ml": 5, "price": 90}, {"ml": 10, "price": 170}],
+    "notes": {
+      "top": ["Cardamom"],
+      "middle": ["Lavender", "Iris"],
+      "base": ["Vanilla", "Oriental Notes", "Woody Notes"]
+    }
+  },
+  {
+    "id": 4,
+    "name": "Cafe Elegance",
+    "brand": "Cafe Elegance",
+    "description": "A sophisticated blend of roasted coffee and smooth vanilla, perfect for urban mornings.",
+    "imageUrl": "/new_/cafe-elegance.png",
+    "category": "unisex",
+    "sizes": [{"ml": 5, "price": 75}, {"ml": 10, "price": 140}],
+    "notes": {
+      "top": ["Coffee", "Cream"],
+      "middle": ["Hazelnut", "Cacao"],
+      "base": ["Vanilla", "Sandalwood"]
+    }
+  },
+  {
+    "id": 5,
+    "name": "Global Nomad",
+    "brand": "Global Nomad",
+    "description": "An adventurous scent for the modern explorer, blending exotic spices with earthy undertones.",
+    "imageUrl": "/new_/global-nomad.png",
+    "category": "unisex",
+    "sizes": [{"ml": 5, "price": 80}, {"ml": 10, "price": 150}],
+    "notes": {
+      "top": ["Saffron", "Cardamom"],
+      "middle": ["Oud", "Incense"],
+      "base": ["Amber", "Leather"]
+    }
+  },
+  {
+    "id": 6,
+    "name": "His Confession",
+    "brand": "His Confession",
+    "description": "A deep and intimate fragrance that reveals hidden layers of strength and vulnerability.",
+    "imageUrl": "/new_/His-Confession.webp",
+    "category": "men",
+    "sizes": [{"ml": 5, "price": 85}, {"ml": 10, "price": 160}],
+    "notes": {
+      "top": ["Black Pepper", "Bergamot"],
+      "middle": ["Sage", "Geranium"],
+      "base": ["Tonka Bean", "Cedarwood"]
+    }
+  },
+  {
+    "id": 7,
+    "name": "Urban Pulse",
+    "brand": "Urban Pulse",
+    "description": "Capture the energy of the city with this vibrant and energetic blend of citrus and musk.",
+    "imageUrl": "/new_/urban-pulse.png",
+    "category": "men",
+    "sizes": [{"ml": 5, "price": 70}, {"ml": 10, "price": 130}],
+    "notes": {
+      "top": ["Lime", "Grapefruit"],
+      "middle": ["Ginger", "Mint"],
+      "base": ["White Musk", "Cedar"]
+    }
+  },
+  {
+    "id": 8,
+    "name": "Vanity Moment",
+    "brand": "Vanity Moment",
+    "description": "A glamorous and seductive scent that celebrates self-confidence and timeless beauty.",
+    "imageUrl": "/new_/vanity-moment.png",
+    "category": "women",
+    "sizes": [{"ml": 5, "price": 90}, {"ml": 10, "price": 170}],
+    "notes": {
+      "top": ["Raspberry", "Peach"],
+      "middle": ["Rose", "Violet"],
+      "base": ["Musk", "Vanilla"]
+    }
+  },
+  {
+    "id": 9,
+    "name": "Sauvage",
+    "brand": "Dior",
+    "description": "A radically fresh composition, dictated by a name that has the ring of a manifesto.",
+    "imageUrl": "/new_/urban-pulse.png",
+    "category": "men",
+    "sizes": [{"ml": 5, "price": 95}, {"ml": 10, "price": 180}],
+    "notes": {
+      "top": ["Calabrian Bergamot", "Pepper"],
+      "middle": ["Sichuan Pepper", "Lavender", "Pink Pepper", "Vetiver", "Patchouli", "Geranium", "Elemi"],
+      "base": ["Ambroxan", "Cedar", "Labdanum"]
+    }
+  },
+  {
+    "id": 10,
+    "name": "Aventus",
+    "brand": "Creed",
+    "description": "The most popular fragrance ever created in the history of the House of Creed.",
+    "imageUrl": "/new_/global-nomad.png",
+    "category": "men",
+    "sizes": [{"ml": 5, "price": 120}, {"ml": 10, "price": 230}],
+    "notes": {
+      "top": ["Pineapple", "Bergamot", "Black Currant", "Apple"],
+      "middle": ["Birch", "Patchouli", "Moroccan Jasmine", "Rose"],
+      "base": ["Musk", "Oak Moss", "Ambergris", "Vanille"]
+    }
+  }
+]
