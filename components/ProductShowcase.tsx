@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { Product, Pack } from "@/data/products";
 import ProductCard from "./ProductCard";
@@ -29,6 +29,9 @@ const ProductShowcase = () => {
     damping: 30,
     restDelta: 0.001
   });
+
+  // Handle position for the slider (track is 80px, handle is 32px, range is 48px)
+  const handleX = useTransform(scrollXProgress, [0, 1], [0, 48]);
 
   // Calculate hint opacity separately to avoid hook violation in JSX
   const hintOpacity = useSpring(useMemo(() => 1, []), {
@@ -194,33 +197,46 @@ const ProductShowcase = () => {
                 </div>
                 
                 {/* Horizontal Scroll on Mobile, Grid on Desktop */}
-                <div 
-                  ref={packScrollRef}
-                  className="flex overflow-x-auto pb-8 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 scrollbar-hide snap-x snap-mandatory"
-                >
-                  <AnimatePresence mode="popLayout">
-                    {filteredItems.packs.map((pack, index) => (
-                      <motion.div
-                        layout
-                        key={`pack-${pack.id}`}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.5, delay: index * 0.05 }}
-                        className="min-w-[160px] w-[45vw] md:w-auto snap-center"
-                      >
-                        <PackCard pack={pack} />
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
+                <div className="relative group/scroll">
+                  <div 
+                    ref={packScrollRef}
+                    className="flex overflow-x-auto pb-8 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 scrollbar-hide snap-x snap-mandatory"
+                  >
+                    <AnimatePresence mode="popLayout">
+                      {filteredItems.packs.map((pack, index) => (
+                        <motion.div
+                          layout
+                          key={`pack-${pack.id}`}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.9 }}
+                          transition={{ duration: 0.5, delay: index * 0.05 }}
+                          className="min-w-[160px] w-[45vw] md:w-auto snap-center"
+                        >
+                          <PackCard pack={pack} />
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                  
+                  {/* Subtle Right Side Edge Glow (Mobile only) */}
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 0.4, 0] }}
+                    transition={{ duration: 2.5, repeat: Infinity }}
+                    className="md:hidden absolute right-0 top-0 bottom-8 w-12 bg-gradient-to-l from-gold/20 to-transparent pointer-events-none z-10"
+                  />
                 </div>
 
-                {/* Custom Royal Scroll Progress Bar (Mobile Only) */}
-                <div className="md:hidden absolute -bottom-2 left-0 w-full h-0.5 bg-gold/5 rounded-full overflow-hidden">
-                  <motion.div 
-                    className="h-full bg-gold origin-left"
-                    style={{ scaleX }}
-                  />
+                {/* Royal Navigation Track (Mobile Only) */}
+                <div className="md:hidden flex flex-col items-center gap-3 mt-4">
+                  <div className="w-20 h-[2px] bg-gold/5 rounded-full relative overflow-hidden">
+                    <motion.div 
+                      className="absolute top-0 left-0 h-full w-8 bg-gold rounded-full"
+                      style={{ x: handleX }}
+                    />
+                  </div>
+                  <span className="text-[7px] font-bold uppercase tracking-[0.4em] text-gold/30">Royal Discovery Scroll</span>
                 </div>
               </div>
             )}
