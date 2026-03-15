@@ -4,11 +4,10 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import LifestyleSlider from "@/components/LifestyleSlider";
 import ProductShowcase from "@/components/ProductShowcase";
-import WhatsAppFAB from "@/components/WhatsAppFAB";
-import { ROYAL_CONFIG } from "@/lib/constants";
-import Script from "next/script";
+import { Truck, ShieldCheck, Sparkles } from "lucide-react";
 
 export default function Home() {
+  // ... rest of component logic stays same ...
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -61,31 +60,47 @@ export default function Home() {
       <ProductShowcase />
       
       {/* Heritage / Trust Section */}
-      <section id="heritage" className="py-32 bg-white relative overflow-hidden">
+      <section id="heritage" className="py-24 md:py-32 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <span className="text-xs font-bold tracking-[0.4em] uppercase text-gold mb-4 block">Our Excellence</span>
-          <h2 className="text-5xl font-serif font-bold mb-12 italic">The Royal Standard</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-            <div className="space-y-4">
-              <div className="w-16 h-16 bg-gold/5 rounded-full flex items-center justify-center mx-auto border border-gold/10">
-                <span className="text-gold font-serif text-2xl">01</span>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-16 italic">The Royal Standard</h2>
+          
+          {/* Mobile Triangle Layout / Desktop 3-Column */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-12 gap-x-6 md:gap-16">
+            {/* Item 01 - Full width on smallest mobile to form triangle apex */}
+            <div className="col-span-2 md:col-span-1 space-y-6 flex flex-col items-center">
+              <div className="w-20 h-20 bg-gold/5 rounded-full flex items-center justify-center border border-gold/10 relative group">
+                <Truck className="text-gold w-8 h-8 group-hover:scale-110 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gold/5 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-              <h3 className="text-xl font-bold uppercase tracking-widest">Fast Delivery</h3>
-              <p className="text-sm text-foreground/50 leading-relaxed px-8">Rapid, insured delivery across Morocco within 24-48 hours. Your essence arrives in pristine condition.</p>
+              <div className="space-y-2">
+                <h3 className="text-lg md:text-xl font-bold uppercase tracking-widest">Fast Delivery</h3>
+                <p className="text-xs md:text-sm text-foreground/50 leading-relaxed px-4 md:px-8">Rapid, insured delivery across Morocco within 24-48 hours. Your essence arrives in pristine condition.</p>
+              </div>
             </div>
-            <div className="space-y-4">
-              <div className="w-16 h-16 bg-gold/5 rounded-full flex items-center justify-center mx-auto border border-gold/10">
-                <span className="text-gold font-serif text-2xl">02</span>
+
+            {/* Item 02 */}
+            <div className="col-span-1 space-y-6 flex flex-col items-center">
+              <div className="w-20 h-20 bg-gold/5 rounded-full flex items-center justify-center border border-gold/10 relative group">
+                <ShieldCheck className="text-gold w-8 h-8 group-hover:scale-110 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gold/5 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-              <h3 className="text-xl font-bold uppercase tracking-widest">Authentic Perfumes</h3>
-              <p className="text-sm text-foreground/50 leading-relaxed px-8">We source exclusively from authorized maison houses. Your decant contains only the genuine, undiluted masterpiece.</p>
+              <div className="space-y-2">
+                <h3 className="text-lg md:text-xl font-bold uppercase tracking-widest">Authentic Perfumes</h3>
+                <p className="text-xs md:text-sm text-foreground/50 leading-relaxed px-2 md:px-8">We source exclusively from authorized maison houses. 100% genuine masterpieces.</p>
+              </div>
             </div>
-            <div className="space-y-4">
-              <div className="w-16 h-16 bg-gold/5 rounded-full flex items-center justify-center mx-auto border border-gold/10">
-                <span className="text-gold font-serif text-2xl">03</span>
+
+            {/* Item 03 */}
+            <div className="col-span-1 space-y-6 flex flex-col items-center">
+              <div className="w-20 h-20 bg-gold/5 rounded-full flex items-center justify-center border border-gold/10 relative group">
+                <Sparkles className="text-gold w-8 h-8 group-hover:scale-110 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gold/5 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-              <h3 className="text-xl font-bold uppercase tracking-widest">Premium Curation</h3>
-              <p className="text-sm text-foreground/50 leading-relaxed px-8">Expertly selected collections hand-poured in a sterile environment to preserve every aromatic nuance.</p>
+              <div className="space-y-2">
+                <h3 className="text-lg md:text-xl font-bold uppercase tracking-widest">Premium Curation</h3>
+                <p className="text-xs md:text-sm text-foreground/50 leading-relaxed px-2 md:px-8">Expertly selected collections hand-poured in sterile environments.</p>
+              </div>
             </div>
           </div>
         </div>

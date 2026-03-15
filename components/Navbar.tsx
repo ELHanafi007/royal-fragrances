@@ -46,7 +46,7 @@ const Navbar = () => {
       <div className={`transition-all duration-700 ${isScrolled ? "py-3" : "py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo Section */}
-          <Link href="/" className="flex items-center gap-4 group">
+          <Link href="/" className="flex items-center gap-4 group mt-1">
             <div className="relative">
               <RoyalLogo />
               <motion.div
