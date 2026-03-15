@@ -228,15 +228,16 @@ const ProductShowcase = () => {
                   />
                 </div>
 
-                {/* Royal Navigation Track (Mobile Only) */}
-                <div className="md:hidden flex flex-col items-center gap-3 mt-4">
-                  <div className="w-20 h-[2px] bg-gold/5 rounded-full relative overflow-hidden">
-                    <motion.div 
-                      className="absolute top-0 left-0 h-full w-8 bg-gold rounded-full"
-                      style={{ x: handleX }}
-                    />
-                  </div>
-                  <span className="text-[7px] font-bold uppercase tracking-[0.4em] text-gold/30">Royal Discovery Scroll</span>
+                {/* Royal Navigation Hint (Mobile Only) */}
+                <div className="md:hidden flex flex-col items-center gap-2 mt-4">
+                  <motion.div 
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    className="flex items-center gap-2 text-gold"
+                  >
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Scroll for More</span>
+                    <MoveRight size={14} />
+                  </motion.div>
                 </div>
               </div>
             )}

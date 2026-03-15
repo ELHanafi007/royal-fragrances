@@ -115,8 +115,17 @@ const OrderModal: React.FC<OrderModalProps> = ({ product, selectedSize, isOpen, 
               <div className="p-8 space-y-8">
                 {/* Product Summary Mini Card */}
                 <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-gold/5 shadow-sm">
-                  <div className="relative w-16 h-16 rounded-xl overflow-hidden">
-                    <Image src={product.imageUrl} alt={product.name} fill className="object-cover" />
+                  <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-silk/50 flex items-center justify-center">
+                    {(product.imageUrl || (product as any).image_url) ? (
+                      <Image 
+                        src={product.imageUrl || (product as any).image_url} 
+                        alt={product.name} 
+                        fill 
+                        className="object-cover" 
+                      />
+                    ) : (
+                      <Package className="w-8 h-8 text-gold/20" />
+                    )}
                   </div>
                   <div className="flex-1">
                     <p className="text-[9px] uppercase tracking-widest text-gold font-bold">{product.brand}</p>

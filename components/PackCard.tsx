@@ -77,15 +77,15 @@ const PackCard = ({ pack }: PackCardProps) => {
           </p>
 
           {/* Included List (Mini) */}
-          <div className="hidden md:flex flex-wrap gap-1.5 pt-2">
+          <div className="flex flex-wrap gap-1 pt-1 md:pt-2">
             {pack.included_products.slice(0, 3).map((name, i) => (
-              <span key={i} className="text-[9px] font-bold uppercase tracking-widest bg-gold/5 text-gold/60 px-2 py-1 rounded-md border border-gold/10">
+              <span key={i} className="text-[7px] md:text-[9px] font-bold uppercase tracking-tight md:tracking-widest bg-gold/5 text-gold/60 px-1.5 md:px-2 py-0.5 md:py-1 rounded-md border border-gold/10 whitespace-nowrap">
                 {name}
               </span>
             ))}
             {pack.included_products.length > 3 && (
-              <span className="text-[9px] font-bold uppercase tracking-widest bg-gold/5 text-gold/60 px-2 py-1 rounded-md border border-gold/10">
-                +{pack.included_products.length - 3} More
+              <span className="text-[7px] md:text-[9px] font-bold uppercase tracking-widest bg-gold/5 text-gold/60 px-1.5 md:px-2 py-0.5 md:py-1 rounded-md border border-gold/10">
+                +{pack.included_products.length - 3}
               </span>
             )}
           </div>
