@@ -4,10 +4,10 @@ export const ROYAL_CONFIG = {
   whatsappNumber: "212695208551", // Updated valid number
   email: "contact@royalfragrance.ma",
   location: "Casablanca, Morocco",
-  instagram: "royal.fragrance",
+  instagram: "royal_fragrancess",
   delivery: {
-    standardFee: 20,
-    freeThreshold: 250,
+    standardFee: 35,
+    freeThreshold: 500,
   },
   colors: {
     gold: "#b88b4a",

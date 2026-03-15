@@ -238,7 +238,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
                   <div key={idx} className="flex items-center gap-4 bg-silk/50 p-4 rounded-2xl border border-gold/5">
                     <div className="w-20 font-serif font-bold text-gold text-lg">{size.ml}ml</div>
                     <div className="flex-grow relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/20 font-bold">$</span>
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/20 font-bold text-[10px]">DH</span>
                       <input 
                         type="number" 
                         value={size.price}

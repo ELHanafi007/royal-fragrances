@@ -29,6 +29,7 @@ export async function POST(request: Request) {
     // 2. Send Email Notification (Optional)
     const resendKey = process.env.RESEND_API_KEY;
     const ownerEmail = process.env.OWNER_EMAIL;
+    console.log("DEBUG: Using OWNER_EMAIL from process.env:", ownerEmail);
 
     if (resendKey && ownerEmail) {
       try {
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
                 <p><strong>Product:</strong> ${product.name}</p>
                 <p><strong>Brand:</strong> ${product.brand}</p>
                 <p><strong>Size:</strong> ${selectedSize.ml > 0 ? selectedSize.ml + 'ml' : 'Curated Collection'}</p>
-                <p><strong>Subtotal:</strong> ${selectedSize.price} DH</p>
+                <p><strong>Subtotal:</strong> {selectedSize.price} DH</p>
                 <p><strong>Delivery Fee:</strong> ${deliveryFee === 0 ? 'FREE' : deliveryFee + ' DH'}</p>
                 <p style="font-size: 1.2em; color: #b88b4a; margin-top: 15px;"><strong>Total Price:</strong> ${totalPrice} DH</p>
               </div>

@@ -93,7 +93,7 @@ const PackCard = ({ pack }: PackCardProps) => {
           <div className="pt-6 flex items-center justify-between border-t border-gold/10">
             <div className="flex flex-col">
               <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/30">Royal Price</span>
-              <span className="text-2xl font-serif font-bold text-foreground">${pack.price}</span>
+              <span className="text-2xl font-serif font-bold text-foreground">{pack.price} DH</span>
             </div>
             
             <button

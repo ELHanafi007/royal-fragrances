@@ -18,31 +18,31 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    imageUrl: "/new_/urban-pulse.png",
-    caption: "The Urban Pulse",
+    imageUrl: "/new_/lemale_le_parfum.webp",
+    caption: "Le Male Le Parfum",
     location: "Casablanca, MA",
-    narrative: "An essential companion for the modern man. A quick spray, a lasting impression."
+    narrative: "An intense journey of cardamom and lavender. The captain of your nocturnal adventures."
   },
   {
     id: 2,
-    imageUrl: "/new_/cafe-elegance.png",
-    caption: "Café Elegance",
+    imageUrl: "/new_/cocodechanel.webp",
+    caption: "Coco Mademoiselle",
     location: "Paris, FR",
-    narrative: "Tucked away in the folds of a leather bag. Luxury that's always within reach."
+    narrative: "The essence of a free and bold woman. A feminine oriental with a strong character."
   },
   {
     id: 3,
-    imageUrl: "/new_/global-nomad.png",
-    caption: "The Global Nomad",
+    imageUrl: "/new_/1million.webp",
+    caption: "1 Million Royal",
     location: "Marrakech, MA",
-    narrative: "Pack the essence of home. Travel light, smell unforgettable."
+    narrative: "Claim your stage. A flamboyant blend of cedarwood and violet, made for the king."
   },
   {
     id: 4,
-    imageUrl: "/new_/vanity-moment.png",
-    caption: "The Vanity Moment",
+    imageUrl: "/new_/His-Confession.webp",
+    caption: "His Confession",
     location: "London, UK",
-    narrative: "Your personal collection, curated into moments of daily indulgence."
+    narrative: "A mysterious whisper in the dark. Elegant, seductive, and undeniably royal."
   }
 ];
 

@@ -155,7 +155,7 @@ export default function PackModal({ isOpen, onClose, onSave, pack, availableProd
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Pack Price ($)</label>
+                    <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Pack Price (DH)</label>
                     <input 
                       type="number" 
                       placeholder="0.00"

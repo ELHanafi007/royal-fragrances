@@ -41,7 +41,7 @@ export default function PackList({ packs, onEdit, onDelete }: PackListProps) {
             <div className="flex-grow min-w-0">
               <h4 className="text-lg font-serif font-bold text-foreground truncate">{pack.name}</h4>
               <p className="text-[10px] font-bold uppercase tracking-widest text-gold mt-1">
-                {pack.included_products?.length} Fragrances • ${pack.price}
+                {pack.included_products?.length} Fragrances • {pack.price} DH
               </p>
               <p className="text-xs text-foreground/40 mt-2 line-clamp-1">{pack.description}</p>
             </div>
