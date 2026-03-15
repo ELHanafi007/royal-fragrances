@@ -30,6 +30,12 @@ const ProductShowcase = () => {
     restDelta: 0.001
   });
 
+  // Calculate hint opacity separately to avoid hook violation in JSX
+  const hintOpacity = useSpring(useMemo(() => 1, []), {
+    stiffness: 100,
+    damping: 30
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -176,11 +182,7 @@ const ProductShowcase = () => {
                   
                   {/* Subtle Swipe Hint for Mobile */}
                   <motion.div 
-                    style={{ opacity: useSpring(useMemo(() => {
-                      const invert = (v: number) => 1 - v;
-                      // This is a bit complex for a simple mapping, let's just use a simpler check
-                      return 1; 
-                    }, [])) }}
+                    style={{ opacity: hintOpacity }}
                     initial={{ opacity: 1 }}
                     whileInView={{ opacity: [1, 0.4, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
