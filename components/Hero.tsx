@@ -42,83 +42,57 @@ const Hero = () => {
 
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full flex flex-col items-center justify-center">
         
-        {/* Logo Integration */}
+        {/* Massive Logo Centerpiece */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
-          className="relative mb-12"
+          className="relative mb-16"
         >
-          <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full p-[2px] bg-gradient-to-tr from-gold/50 via-gold/10 to-gold/50 animate-spin-slow">
-            <div className="w-full h-full rounded-full bg-warm-white flex items-center justify-center overflow-hidden border border-gold/20 shadow-2xl">
+          <div className="relative w-64 h-64 md:w-96 md:h-96 rounded-full p-[3px] bg-gradient-to-tr from-gold/40 via-gold/5 to-gold/40 animate-spin-slow">
+            <div className="w-full h-full rounded-full bg-warm-white/80 backdrop-blur-sm flex items-center justify-center overflow-hidden border border-gold/10 shadow-[0_0_100px_rgba(184,139,74,0.1)]">
               <Image 
                 src="/logo.png" 
                 alt="Royal Fragrance Logo" 
-                width={100} 
-                height={100} 
-                className="object-contain p-4"
+                width={400} 
+                height={400} 
+                className="object-contain p-12 md:p-20"
+                priority
               />
             </div>
           </div>
-          {/* Decorative Rings */}
+          
+          {/* Animated Ambient Rings */}
           <motion.div 
-            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.1, 0.2] }}
-            transition={{ duration: 4, repeat: Infinity }}
-            className="absolute -inset-4 border border-gold/20 rounded-full -z-10" 
+            animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.05, 0.15] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -inset-8 border border-gold/10 rounded-full -z-10" 
+          />
+          <motion.div 
+            animate={{ scale: [1.2, 1, 1.2], opacity: [0.05, 0.1, 0.05] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -inset-16 border border-gold/5 rounded-full -z-10" 
           />
         </motion.div>
 
-        {/* Text Content */}
+        {/* Minimal Text Content */}
         <motion.div 
           style={{ opacity, scale }}
           className="z-10 text-center"
         >
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="inline-flex items-center gap-4 mb-8"
+            transition={{ duration: 1, delay: 0.5 }}
+            className="text-5xl md:text-7xl font-serif font-bold text-foreground leading-tight mb-12 tracking-tight"
           >
-            <div className="h-[1px] w-12 bg-gold" />
-            <span className="text-xs font-bold tracking-[0.4em] uppercase text-gold">
-              Est. 2026 • Casablanca
-            </span>
-            <div className="h-[1px] w-12 bg-gold" />
-          </motion.div>
-
-          <h1 className="text-7xl md:text-9xl lg:text-[10rem] font-serif font-bold text-foreground leading-[0.85] mb-8">
-            <motion.span
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="block"
-            >
-              Essential
-            </motion.span>
-            <motion.span
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="block italic text-gold"
-            >
-              Opulence.
-            </motion.span>
-          </h1>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="text-xl md:text-2xl text-foreground/60 max-w-2xl mx-auto mb-12 font-medium leading-relaxed"
-          >
-            A curated sanctuary of the world's most coveted scents, 
-            bottled in exquisite travel decants for the modern connoisseur.
-          </motion.p>
+            Essential <span className="italic text-gold">Opulence.</span>
+          </motion.h1>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1 }}
+            transition={{ duration: 1, delay: 0.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
             <Link href="#collection" className="group relative px-12 py-6 bg-foreground text-warm-white overflow-hidden transition-all duration-500 rounded-full">
