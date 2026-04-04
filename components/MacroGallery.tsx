@@ -41,8 +41,8 @@ export function MacroGallery() {
                  <Sparkles className="w-5 h-5" />
                  <span className="text-[10px] font-black uppercase tracking-[0.4em]">Le Détail Macro</span>
               </div>
-              <h2 className="text-6xl md:text-8xl lg:text-9xl font-serif font-black tracking-tighter italic leading-none text-foreground">
-                 Réalisme <br /> <span className="text-luxury-gold not-italic uppercase text-3xl md:text-6xl tracking-[0.2em] font-sans block mt-4">Inégalé.</span>
+              <h2 className="text-5xl md:text-8xl lg:text-9xl font-serif font-black tracking-tighter italic leading-none text-foreground">
+                 Réalisme <br /> <span className="text-luxury-gold not-italic uppercase text-2xl md:text-6xl tracking-[0.2em] font-sans block mt-4 md:mt-6">Inégalé.</span>
               </h2>
            </div>
            <p className="text-foreground/40 font-medium text-lg leading-relaxed border-l border-botanical-green/20 pl-6 max-w-xs">

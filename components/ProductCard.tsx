@@ -117,31 +117,31 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             ))}
           </div>
 
-          <div className="mt-auto pt-4 flex flex-col gap-4 md:gap-5">
-            <div className="flex items-center justify-between">
+          <div className="mt-auto pt-2 md:pt-4 flex flex-col gap-3 md:gap-5">
+            <div className="flex items-center justify-between gap-2">
               <p
-                className="text-lg md:text-3xl font-serif font-black text-foreground tracking-tighter"
+                className="text-base md:text-3xl font-serif font-black text-foreground tracking-tighter"
               >
-                {selectedVariant.price} <span className="text-[8px] md:text-[10px] uppercase font-sans tracking-widest opacity-60">MAD</span>
+                {selectedVariant.price} <span className="text-[7px] md:text-[10px] uppercase font-sans tracking-widest opacity-60">MAD</span>
               </p>
 
               {/* Quantity Selector */}
               <div 
-                className="flex items-center gap-2 md:gap-4 bg-foreground/10 rounded-full px-3 md:px-4 py-1.5 md:py-2 border border-foreground/5"
+                className="flex items-center gap-1.5 md:gap-4 bg-foreground/10 rounded-full px-2 md:px-4 py-1.5 md:py-2 border border-foreground/5"
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
               >
                 <button 
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="p-1 text-foreground/60 hover:text-botanical-green transition-colors"
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuantity(Math.max(1, quantity - 1)); }}
+                  className="p-0.5 text-foreground/60"
                 >
-                  <Minus size={12} />
+                  <Minus size={10} />
                 </button>
-                <span className="text-[10px] md:text-xs font-black min-w-[12px] md:min-w-[16px] text-center">{quantity}</span>
+                <span className="text-[9px] md:text-xs font-black min-w-[10px] text-center">{quantity}</span>
                 <button 
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="p-1 text-foreground/60 hover:text-botanical-green transition-colors"
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuantity(quantity + 1); }}
+                  className="p-0.5 text-foreground/60"
                 >
-                  <Plus size={12} />
+                  <Plus size={10} />
                 </button>
               </div>
             </div>
@@ -149,7 +149,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <button
               ref={buttonRef}
               onClick={handleAddToCart}
-              className={`w-full flex items-center justify-center gap-2 md:gap-3 py-4 md:py-5 rounded-xl md:rounded-2xl font-black uppercase tracking-[0.25em] md:tracking-[0.25em] text-[8px] md:text-[10px] transition-all duration-500 shadow-xl ${
+              className={`w-full flex items-center justify-center gap-2 md:gap-3 py-3.5 md:py-5 rounded-xl md:rounded-2xl font-black uppercase tracking-[0.2em] md:tracking-[0.25em] text-[8px] md:text-[10px] transition-all duration-500 shadow-xl ${
                 isAdded 
                 ? "bg-leaf-green text-white" 
                 : "bg-botanical-green text-muted-beige hover:opacity-95 active:scale-95"
@@ -157,12 +157,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             >
               {isAdded ? (
                 <>
-                  <ShoppingBag className="w-3.5 h-3.5 md:w-4 h-4" /> 
+                  <ShoppingBag className="w-3 md:w-4 h-3 md:h-4" /> 
                   <span>Added</span>
                 </>
               ) : (
                 <>
-                  <ShoppingCart className="w-3.5 h-3.5 md:w-4 h-4" />
+                  <ShoppingCart className="w-3 md:w-4 h-3 md:h-4" />
                   <span>Add to Cart</span>
                 </>
               )}

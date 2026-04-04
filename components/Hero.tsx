@@ -55,23 +55,23 @@ const Hero = () => {
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-botanical-green">Permanent Nature</span>
           </div>
           
-          <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-serif font-black text-foreground leading-[0.85] tracking-tighter mb-8 italic">
+          <h1 className="text-[2.75rem] md:text-8xl lg:text-[10rem] font-serif font-black text-foreground leading-[0.85] tracking-tighter mb-8 italic">
             La Beauté Naturelle, <br /> 
-            <span className="text-luxury-gold not-italic uppercase text-3xl md:text-6xl tracking-[0.2em] block mt-8 font-sans">Façonnée pour votre Espace.</span>
+            <span className="text-luxury-gold not-italic uppercase text-2xl md:text-6xl tracking-[0.2em] block mt-6 md:mt-8 font-sans">Façonnée pour votre Espace.</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-foreground/60 max-w-2xl mx-auto mb-16 font-medium leading-relaxed">
+          <p className="text-base md:text-xl text-foreground/60 max-w-2xl mx-auto mb-12 md:mb-16 font-medium leading-relaxed px-4 md:px-0">
             Découvrez le summum du réalisme botanique. Nos plantes d'exception apportent une vie éternelle et une touche de luxe à vos intérieurs.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link href="#collection" className="button-nature group">
-              <span className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 md:gap-6 px-4 sm:px-0">
+            <Link href="#collection" className="button-nature group w-full sm:w-auto">
+              <span className="flex items-center justify-center gap-3">
                 Explorer la Galerie <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
             </Link>
 
-            <Link href="#heritage" className="button-outline">
+            <Link href="#heritage" className="button-outline w-full sm:w-auto">
               Notre Savoir-faire
             </Link>
           </div>

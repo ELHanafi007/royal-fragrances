@@ -79,27 +79,27 @@ const LifestyleSlider = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-5xl md:text-[8rem] font-serif font-black mb-8 text-foreground tracking-tighter italic leading-[0.85]"
+          className="text-[2.75rem] md:text-[8rem] font-serif font-black mb-8 text-foreground tracking-tighter italic leading-[0.85]"
         >
-          Espaces en <br className="md:hidden" /> <span className="not-italic uppercase text-3xl md:text-6xl tracking-[0.2em] text-luxury-gold font-sans block mt-4">Fleurs.</span>
+          Espaces en <br className="md:hidden" /> <span className="not-italic uppercase text-2xl md:text-6xl tracking-[0.2em] text-luxury-gold font-sans block mt-4">Fleurs.</span>
         </motion.h2>
         
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-lg text-foreground/50 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium"
+          className="text-base md:text-lg text-foreground/50 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium px-4 md:px-0"
         >
           Le luxe est permanent. Nos collections botaniques sont conçues pour s'intégrer harmonieusement aux environnements de prestige, offrant l'essence apaisante de la nature sans contrainte.
         </motion.p>
       </div>
 
-      <div className="embla overflow-hidden cursor-grab active:cursor-grabbing px-6 md:px-12" ref={emblaRef}>
-        <div className="embla__container flex gap-6 md:gap-12">
+      <div className="embla overflow-hidden cursor-grab active:cursor-grabbing px-4 md:px-12" ref={emblaRef}>
+        <div className="embla__container flex gap-4 md:gap-12">
           {slides.map((slide, index) => (
             <div 
               key={slide.id} 
-              className="embla__slide relative flex-[0_0_90%] md:flex-[0_0_70%] lg:flex-[0_0_55%] aspect-[16/9] md:aspect-[21/9] rounded-[2rem] md:rounded-[3rem] overflow-hidden group shadow-2xl"
+              className="embla__slide relative flex-[0_0_85%] md:flex-[0_0_70%] lg:flex-[0_0_55%] aspect-[3/4] md:aspect-[21/9] rounded-[2.5rem] md:rounded-[3rem] overflow-hidden group shadow-2xl"
             >
               <Image 
                 src={slide.imageUrl} 

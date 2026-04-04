@@ -45,9 +45,9 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
         </div>
 
         {/* Category Selection */}
-        <div className="flex items-center gap-3 overflow-x-auto pb-4 lg:pb-0 no-scrollbar -mx-6 px-6 lg:mx-0 lg:px-0">
+        <div className="flex items-center gap-3 overflow-x-auto pb-4 lg:pb-0 no-scrollbar -mx-6 px-6 lg:mx-0 lg:px-0 scroll-smooth">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-botanical-green/5 rounded-xl hidden lg:block border border-botanical-green/10">
+            <div className="p-3.5 bg-botanical-green/5 rounded-xl hidden lg:block border border-botanical-green/10">
               <SlidersHorizontal className="w-4 h-4 text-botanical-green" />
             </div>
             <div className="flex gap-2.5">
@@ -55,10 +55,10 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-7 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 whitespace-nowrap border ${
+                  className={`px-6 md:px-7 py-3.5 md:py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 whitespace-nowrap border-2 ${
                     activeCategory === cat
                       ? "bg-botanical-green text-muted-beige border-botanical-green shadow-xl -translate-y-0.5"
-                      : "bg-background text-botanical-green/60 border-foreground/10 hover:border-botanical-green/30 hover:bg-muted-beige"
+                      : "bg-background text-botanical-green/60 border-foreground/5 hover:border-botanical-green/30"
                   }`}
                 >
                   {cat.replace("-", " ")}

@@ -15,7 +15,7 @@ const WhatsAppFAB = () => {
       animate={{ scale: 1, opacity: 1 }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      className="fixed bottom-8 right-8 z-[90] w-16 h-16 bg-botanical-green text-muted-beige rounded-full flex items-center justify-center shadow-2xl border border-white/10 group"
+      className="fixed bottom-6 md:bottom-8 right-6 md:right-8 z-[90] w-14 md:w-16 h-14 md:h-16 bg-botanical-green text-muted-beige rounded-full flex items-center justify-center shadow-2xl border border-white/10 group"
     >
       <div className="absolute inset-0 rounded-full bg-botanical-green animate-ping opacity-20 group-hover:opacity-0" />
       <Leaf className="w-7 h-7 relative z-10 transition-transform group-hover:rotate-12" />
