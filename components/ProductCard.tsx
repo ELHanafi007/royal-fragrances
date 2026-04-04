@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingBag, Info, Leaf, Trees, Sprout, Plus, Minus, ShoppingCart } from "lucide-react";
 import { Product, Variant } from "@/data/products";
@@ -32,7 +33,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const [selectedVariant, setSelectedVariant] = useState<Variant>(mappedData.variants[0]);
   const [quantity, setQuantity] = useState(1);
-  const [showDetails, setShowDetails] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
 
   const categoryColors: Record<string, string> = {
@@ -42,7 +42,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     "new-arrivals": "bg-botanical-green/10 text-botanical-green border-botanical-green/20 dark:bg-botanical-green/20 dark:text-white dark:border-botanical-green/30",
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       const fullProduct = { ...product, ...mappedData };
@@ -57,149 +59,117 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       whileHover={{ y: -8 }}
       className="bg-background border border-foreground/5 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 group relative flex flex-col h-full"
     >
-      {/* Category Badge - Synced with filters */}
-      <div className={`absolute top-4 left-4 z-20 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border backdrop-blur-md transition-colors ${categoryColors[mappedData.displayCategory] || categoryColors["luxury"]}`}>
-        {mappedData.displayCategory.replace("-", " ")}
-      </div>
-
-      {/* Image Area */}
-      <div className="relative aspect-[4/5] overflow-hidden bg-muted-beige flex-shrink-0">
-        <Image
-          src={mappedData.imageUrl}
-          alt={product.name}
-          fill
-          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-        
-        {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-botanical-green/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center p-4 md:p-8 text-center">
-          <p className="text-white/95 text-[10px] md:text-sm font-bold leading-relaxed mb-4 italic font-serif">
-            {product.description}
-          </p>
-          <button 
-            onClick={(e) => { e.preventDefault(); setShowDetails(!showDetails); }}
-            className="text-white text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2"
-          >
-            <Info className="w-3 h-3" />
-            {showDetails ? "Hide Details" : "View Details"}
-          </button>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-4 md:p-8 space-y-3 md:space-y-5 flex flex-col flex-grow">
-        <div>
-          <p className="text-[8px] md:text-[10px] uppercase tracking-[0.3em] text-luxury-gold font-black mb-1">
-            {product.brand}
-          </p>
-          <h3 className="text-base md:text-2xl font-serif font-black text-foreground leading-tight tracking-tight">
-            {product.name}
-          </h3>
+      <Link href={`/product/${product.id}`} className="flex flex-col h-full">
+        {/* Category Badge - Synced with filters */}
+        <div className={`absolute top-4 left-4 z-20 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border backdrop-blur-md transition-colors ${categoryColors[mappedData.displayCategory] || categoryColors["luxury"]}`}>
+          {mappedData.displayCategory.replace("-", " ")}
         </div>
 
-        {/* Plant Characteristics - High Contrast for Dark Mode */}
-        <AnimatePresence>
-          {showDetails && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden space-y-3 pt-2 border-t border-foreground/10"
+        {/* Image Area */}
+        <div className="relative aspect-[4/5] overflow-hidden bg-muted-beige flex-shrink-0">
+          <Image
+            src={mappedData.imageUrl}
+            alt={product.name}
+            fill
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+          
+          {/* Hover Overlay */}
+          <div className="absolute inset-0 bg-botanical-green/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center p-4 md:p-8 text-center">
+            <p className="text-white/95 text-[10px] md:text-sm font-bold leading-relaxed mb-4 italic font-serif">
+              {product.description}
+            </p>
+            <div 
+              className="text-white text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2"
             >
-              <div className="grid grid-cols-1 gap-2">
-                <div className="flex items-center gap-3">
-                  <Leaf className="w-3 h-3 text-leaf-green" />
-                  <span className="text-[9px] uppercase font-black text-foreground/60 w-16">Foliage</span>
-                  <span className="text-[10px] font-bold text-foreground/90 truncate">{mappedData.characteristics.foliage.join(", ")}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Trees className="w-3 h-3 text-leaf-green" />
-                  <span className="text-[9px] uppercase font-black text-foreground/60 w-16">Texture</span>
-                  <span className="text-[10px] font-bold text-foreground/90 truncate">{mappedData.characteristics.texture.join(", ")}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Sprout className="w-3 h-3 text-leaf-green" />
-                  <span className="text-[9px] uppercase font-black text-foreground/60 w-16">Vessel</span>
-                  <span className="text-[10px] font-bold text-foreground/90 truncate">{mappedData.characteristics.pot.join(", ")}</span>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Size Selector */}
-        <div className="flex gap-1.5 flex-wrap">
-          {mappedData.variants.map((variant) => (
-            <button
-              key={variant.size}
-              onClick={() => setSelectedVariant(variant)}
-              className={`flex-1 min-w-[50px] md:min-w-[70px] py-2 md:py-2.5 text-[8px] md:text-[9px] font-black uppercase tracking-widest rounded-lg md:rounded-xl border transition-all duration-300 ${
-                selectedVariant.size === variant.size
-                  ? "bg-botanical-green text-muted-beige border-botanical-green shadow-lg"
-                  : "bg-transparent text-foreground/60 border-foreground/20 hover:border-foreground/40"
-              }`}
-            >
-              {variant.size}
-            </button>
-          ))}
+              <Info className="w-3 h-3" />
+              <span>Explore Collection</span>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-auto pt-4 flex flex-col gap-4 md:gap-5">
-          <div className="flex items-center justify-between">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.p
-                key={selectedVariant.price}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
+        {/* Content */}
+        <div className="p-4 md:p-8 space-y-3 md:space-y-5 flex flex-col flex-grow">
+          <div>
+            <p className="text-[8px] md:text-[10px] uppercase tracking-[0.3em] text-luxury-gold font-black mb-1">
+              {product.brand}
+            </p>
+            <h3 className="text-base md:text-2xl font-serif font-black text-foreground leading-tight tracking-tight">
+              {product.name}
+            </h3>
+          </div>
+
+          {/* Size Selector */}
+          <div className="flex gap-1.5 flex-wrap" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+            {mappedData.variants.map((variant) => (
+              <button
+                key={variant.size}
+                onClick={() => setSelectedVariant(variant)}
+                className={`flex-1 min-w-[50px] md:min-w-[70px] py-2 md:py-2.5 text-[8px] md:text-[9px] font-black uppercase tracking-widest rounded-lg md:rounded-xl border transition-all duration-300 ${
+                  selectedVariant.size === variant.size
+                    ? "bg-botanical-green text-muted-beige border-botanical-green shadow-lg"
+                    : "bg-transparent text-foreground/60 border-foreground/20 hover:border-foreground/40"
+                }`}
+              >
+                {variant.size}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-auto pt-4 flex flex-col gap-4 md:gap-5">
+            <div className="flex items-center justify-between">
+              <p
                 className="text-lg md:text-3xl font-serif font-black text-foreground tracking-tighter"
               >
                 {selectedVariant.price} <span className="text-[8px] md:text-[10px] uppercase font-sans tracking-widest opacity-60">MAD</span>
-              </motion.p>
-            </AnimatePresence>
+              </p>
 
-            {/* Quantity Selector */}
-            <div className="flex items-center gap-2 md:gap-4 bg-foreground/10 rounded-full px-3 md:px-4 py-1.5 md:py-2 border border-foreground/5">
-              <button 
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="p-1 text-foreground/60 hover:text-botanical-green transition-colors"
+              {/* Quantity Selector */}
+              <div 
+                className="flex items-center gap-2 md:gap-4 bg-foreground/10 rounded-full px-3 md:px-4 py-1.5 md:py-2 border border-foreground/5"
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
               >
-                <Minus size={12} />
-              </button>
-              <span className="text-[10px] md:text-xs font-black min-w-[12px] md:min-w-[16px] text-center">{quantity}</span>
-              <button 
-                onClick={() => setQuantity(quantity + 1)}
-                className="p-1 text-foreground/60 hover:text-botanical-green transition-colors"
-              >
-                <Plus size={12} />
-              </button>
+                <button 
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="p-1 text-foreground/60 hover:text-botanical-green transition-colors"
+                >
+                  <Minus size={12} />
+                </button>
+                <span className="text-[10px] md:text-xs font-black min-w-[12px] md:min-w-[16px] text-center">{quantity}</span>
+                <button 
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="p-1 text-foreground/60 hover:text-botanical-green transition-colors"
+                >
+                  <Plus size={12} />
+                </button>
+              </div>
             </div>
-          </div>
 
-          <button
-            ref={buttonRef}
-            onClick={handleAddToCart}
-            className={`w-full flex items-center justify-center gap-2 md:gap-3 py-4 md:py-5 rounded-xl md:rounded-2xl font-black uppercase tracking-[0.2em] md:tracking-[0.25em] text-[8px] md:text-[10px] transition-all duration-500 shadow-xl ${
-              isAdded 
-              ? "bg-leaf-green text-white" 
-              : "bg-botanical-green text-muted-beige hover:opacity-95 active:scale-95"
-            }`}
-          >
-            {isAdded ? (
-              <>
-                <ShoppingBag className="w-3.5 h-3.5 md:w-4 h-4" /> 
-                <span>Added</span>
-              </>
-            ) : (
-              <>
-                <ShoppingCart className="w-3.5 h-3.5 md:w-4 h-4" />
-                <span>Add to Cart</span>
-              </>
-            )}
-          </button>
+            <button
+              ref={buttonRef}
+              onClick={handleAddToCart}
+              className={`w-full flex items-center justify-center gap-2 md:gap-3 py-4 md:py-5 rounded-xl md:rounded-2xl font-black uppercase tracking-[0.25em] md:tracking-[0.25em] text-[8px] md:text-[10px] transition-all duration-500 shadow-xl ${
+                isAdded 
+                ? "bg-leaf-green text-white" 
+                : "bg-botanical-green text-muted-beige hover:opacity-95 active:scale-95"
+              }`}
+            >
+              {isAdded ? (
+                <>
+                  <ShoppingBag className="w-3.5 h-3.5 md:w-4 h-4" /> 
+                  <span>Added</span>
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-3.5 h-3.5 md:w-4 h-4" />
+                  <span>Add to Cart</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
-      </div>
+      </Link>
     </motion.div>
   );
 };
