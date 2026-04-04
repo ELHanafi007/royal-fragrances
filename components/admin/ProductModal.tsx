@@ -1,5 +1,5 @@
-import { Product, Size, FragranceNotes } from '@/data/products';
-import { X, Plus, Trash2, Save, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
+import { Product, Variant, PlantCharacteristics } from '@/data/products';
+import { X, Plus, Trash2, Save, Image as ImageIcon, Upload, Loader2, Leaf, Trees, Sprout } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
@@ -10,18 +10,17 @@ interface ProductModalProps {
   onClose: () => void;
   onSave: (product: Partial<Product>) => void;
   product?: Product | null;
-  brands: string[];
 }
 
-export default function ProductModal({ isOpen, onClose, onSave, product, brands }: ProductModalProps) {
+export default function ProductModal({ isOpen, onClose, onSave, product }: ProductModalProps) {
   const [formData, setFormData] = useState<Partial<Product>>({
     name: '',
-    brand: brands[0] || '',
+    brand: 'Standard',
     description: '',
     imageUrl: '',
-    category: 'men',
-    sizes: [{ ml: 5, price: 0 }, { ml: 10, price: 0 }, { ml: 30, price: 0 }],
-    notes: { top: [], middle: [], base: [] }
+    category: 'home-decor',
+    variants: [{ size: '60cm', price: 0 }, { size: '120cm', price: 0 }, { size: '180cm', price: 0 }],
+    characteristics: { foliage: [], texture: [], pot: [] }
   });
 
   const [uploading, setUploading] = useState(false);
@@ -35,15 +34,15 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
     } else {
       setFormData({
         name: '',
-        brand: brands[0] || '',
+        brand: 'Standard',
         description: '',
         imageUrl: '',
-        category: 'men',
-        sizes: [{ ml: 5, price: 0 }, { ml: 10, price: 0 }, { ml: 30, price: 0 }],
-        notes: { top: [], middle: [], base: [] }
+        category: 'home-decor',
+        variants: [{ size: '60cm', price: 0 }, { size: '120cm', price: 0 }, { size: '180cm', price: 0 }],
+        characteristics: { foliage: [], texture: [], pot: [] }
       });
     }
-  }, [product, brands, isOpen]);
+  }, [product, isOpen]);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -75,33 +74,33 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
     }
   };
 
-  const handleNoteAdd = (type: keyof FragranceNotes, value: string) => {
+  const handleCharAdd = (type: keyof PlantCharacteristics, value: string) => {
     if (!value.trim()) return;
-    const currentNotes = formData.notes || { top: [], middle: [], base: [] };
+    const currentChars = formData.characteristics || { foliage: [], texture: [], pot: [] };
     setFormData({
       ...formData,
-      notes: {
-        ...currentNotes,
-        [type]: [...currentNotes[type], value.trim()]
+      characteristics: {
+        ...currentChars,
+        [type]: [...currentChars[type], value.trim()]
       }
     });
   };
 
-  const handleNoteRemove = (type: keyof FragranceNotes, index: number) => {
-    const currentNotes = formData.notes || { top: [], middle: [], base: [] };
+  const handleCharRemove = (type: keyof PlantCharacteristics, index: number) => {
+    const currentChars = formData.characteristics || { foliage: [], texture: [], pot: [] };
     setFormData({
       ...formData,
-      notes: {
-        ...currentNotes,
-        [type]: currentNotes[type].filter((_, i) => i !== index)
+      characteristics: {
+        ...currentChars,
+        [type]: currentChars[type].filter((_, i) => i !== index)
       }
     });
   };
 
-  const handleSizeChange = (index: number, field: keyof Size, value: number) => {
-    const newSizes = [...(formData.sizes || [])];
-    newSizes[index] = { ...newSizes[index], [field]: value };
-    setFormData({ ...formData, sizes: newSizes });
+  const handleVariantChange = (index: number, field: keyof Variant, value: string | number) => {
+    const newVariants = [...(formData.variants || [])];
+    newVariants[index] = { ...newVariants[index], [field]: value } as any;
+    setFormData({ ...formData, variants: newVariants });
   };
 
   if (!isOpen) return null;
@@ -121,60 +120,54 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
           initial={{ y: "100%" }}
           animate={{ y: 0 }}
           exit={{ y: "100%" }}
-          className="relative bg-background w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-t-[2.5rem] sm:rounded-[2.5rem] shadow-2xl border-t border-gold/20"
+          className="relative bg-background w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-t-[2.5rem] sm:rounded-[2.5rem] shadow-2xl border-t border-botanical-green/20"
         >
           {/* Header */}
-          <div className="sticky top-0 bg-background/80 backdrop-blur-md z-10 px-8 py-6 border-b border-gold/5 flex items-center justify-between">
+          <div className="sticky top-0 bg-background/80 backdrop-blur-md z-10 px-8 py-6 border-b border-foreground/5 flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-serif font-bold">{product ? 'Edit Fragrance' : 'New Creation'}</h2>
-              <p className="text-gold text-[10px] uppercase tracking-[0.2em] font-bold mt-1">Product Specifications</p>
+              <h2 className="text-2xl font-serif font-bold italic">{product ? 'Edit Botanical' : 'New Creation'}</h2>
+              <p className="text-leaf-green text-[10px] uppercase tracking-[0.2em] font-bold mt-1 tracking-[0.3em]">Masterpiece Specifications</p>
             </div>
-            <button onClick={onClose} className="p-2 rounded-full bg-silk text-foreground/40 hover:text-gold transition-colors">
+            <button onClick={onClose} className="p-2 rounded-full bg-foreground/5 text-foreground/40 hover:text-botanical-green transition-colors">
               <X size={20} />
             </button>
           </div>
 
           <div className="p-8 space-y-8">
-            {/* Essential Info Section */}
+            {/* Identity */}
             <div className="space-y-4">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-foreground/30 flex items-center gap-2">
-                <span className="w-4 h-px bg-gold/30" /> Identity
-              </h3>
-              
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Fragrance Name</label>
+                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Plant Name</label>
                   <input 
                     type="text" 
-                    placeholder="e.g., Baccarat Rouge 540"
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-5 py-4 rounded-2xl bg-silk border border-transparent focus:bg-white focus:border-gold outline-none transition-all font-serif text-lg"
+                    className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white focus:border-botanical-green outline-none transition-all font-serif text-lg"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Brand House</label>
-                    <select 
+                    <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Collection</label>
+                    <input 
+                      type="text" 
                       value={formData.brand}
                       onChange={(e) => setFormData({...formData, brand: e.target.value})}
-                      className="w-full px-5 py-4 rounded-2xl bg-silk border border-transparent focus:bg-white focus:border-gold outline-none transition-all appearance-none"
-                    >
-                      {brands.map(b => <option key={b} value={b}>{b}</option>)}
-                    </select>
+                      className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white focus:border-botanical-green outline-none transition-all"
+                    />
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Category</label>
                     <select 
                       value={formData.category}
                       onChange={(e) => setFormData({...formData, category: e.target.value as any})}
-                      className="w-full px-5 py-4 rounded-2xl bg-silk border border-transparent focus:bg-white focus:border-gold outline-none transition-all appearance-none"
+                      className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white focus:border-botanical-green outline-none transition-all appearance-none"
                     >
-                      <option value="men">Men</option>
-                      <option value="women">Women</option>
-                      <option value="unisex">Unisex</option>
-                      <option value="middle eastern">Middle Eastern</option>
+                      <option value="home-decor">Home Decor</option>
+                      <option value="office">Office</option>
+                      <option value="luxury">Luxury</option>
+                      <option value="new-arrivals">New Arrivals</option>
                     </select>
                   </div>
                 </div>
@@ -182,19 +175,18 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Description</label>
                   <textarea 
-                    placeholder="Describe the olfactory journey..."
                     value={formData.description}
                     onChange={(e) => setFormData({...formData, description: e.target.value})}
                     rows={3}
-                    className="w-full px-5 py-4 rounded-2xl bg-silk border border-transparent focus:bg-white focus:border-gold outline-none transition-all resize-none"
+                    className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white focus:border-botanical-green outline-none transition-all resize-none"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Product Photo</label>
+                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Botanical Photo</label>
                   <div 
                     onClick={() => fileInputRef.current?.click()}
-                    className="relative w-full aspect-video rounded-2xl bg-silk border-2 border-dashed border-gold/20 flex flex-col items-center justify-center cursor-pointer hover:bg-gold/5 hover:border-gold/40 transition-all overflow-hidden group"
+                    className="relative w-full aspect-video rounded-2xl bg-foreground/5 border-2 border-dashed border-foreground/10 flex flex-col items-center justify-center cursor-pointer hover:bg-botanical-green/5 hover:border-botanical-green/40 transition-all overflow-hidden"
                   >
                     {formData.imageUrl ? (
                       <>
@@ -206,22 +198,16 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
                     ) : (
                       <>
                         {uploading ? (
-                          <Loader2 className="w-8 h-8 text-gold animate-spin" />
+                          <Loader2 className="w-8 h-8 text-botanical-green animate-spin" />
                         ) : (
                           <>
-                            <Upload className="text-gold/40 w-8 h-8 mb-2" />
-                            <p className="text-xs font-bold uppercase tracking-widest text-gold/60">Upload Photo</p>
+                            <Upload className="text-botanical-green/40 w-8 h-8 mb-2" />
+                            <p className="text-[10px] font-black uppercase tracking-widest text-botanical-green/60">Upload Image</p>
                           </>
                         )}
                       </>
                     )}
-                    <input 
-                      type="file" 
-                      ref={fileInputRef}
-                      onChange={handleFileUpload}
-                      className="hidden" 
-                      accept="image/*"
-                    />
+                    <input type="file" ref={fileInputRef} onChange={handleFileUpload} className="hidden" accept="image/*" />
                   </div>
                 </div>
               </div>
@@ -229,22 +215,26 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
 
             {/* Sizes & Pricing Section */}
             <div className="space-y-4">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-foreground/30 flex items-center gap-2">
-                <span className="w-4 h-px bg-gold/30" /> Decant Sizes & Pricing
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-foreground/30 flex items-center gap-2">
+                <span className="w-4 h-px bg-botanical-green/30" /> Sizes & Pricing
               </h3>
               
               <div className="grid grid-cols-1 gap-3">
-                {formData.sizes?.map((size, idx) => (
-                  <div key={idx} className="flex items-center gap-4 bg-silk/50 p-4 rounded-2xl border border-gold/5">
-                    <div className="w-20 font-serif font-bold text-gold text-lg">{size.ml}ml</div>
+                {formData.variants?.map((v, idx) => (
+                  <div key={idx} className="flex items-center gap-4 bg-foreground/5 p-4 rounded-2xl border border-foreground/5">
+                    <input 
+                      type="text" 
+                      value={v.size}
+                      onChange={(e) => handleVariantChange(idx, 'size', e.target.value)}
+                      className="w-24 bg-white px-3 py-2 rounded-lg border border-transparent focus:border-botanical-green outline-none text-[10px] font-black uppercase tracking-widest"
+                    />
                     <div className="flex-grow relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/20 font-bold text-[10px]">DH</span>
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/20 font-bold text-[10px]">MAD</span>
                       <input 
                         type="number" 
-                        value={size.price}
-                        onChange={(e) => handleSizeChange(idx, 'price', Number(e.target.value))}
-                        placeholder="0.00"
-                        className="w-full pl-8 pr-4 py-3 rounded-xl bg-white border border-transparent focus:border-gold outline-none transition-all font-bold"
+                        value={v.price}
+                        onChange={(e) => handleVariantChange(idx, 'price', Number(e.target.value))}
+                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-white border border-transparent focus:border-botanical-green outline-none transition-all font-bold"
                       />
                     </div>
                   </div>
@@ -252,40 +242,34 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
               </div>
             </div>
 
-            {/* Olfactory Pyramid (Notes) Section */}
+            {/* Characteristics */}
             <div className="space-y-4">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-foreground/30 flex items-center gap-2">
-                <span className="w-4 h-px bg-gold/30" /> Olfactory Pyramid
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-foreground/30 flex items-center gap-2">
+                <span className="w-4 h-px bg-botanical-green/30" /> Botanical Traits
               </h3>
               
-              {(['top', 'middle', 'base'] as const).map((type) => (
+              {(['foliage', 'texture', 'pot'] as const).map((type) => (
                 <div key={type} className="space-y-2">
-                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">{type} Notes</label>
-                  <div className="flex flex-wrap gap-2 p-3 rounded-2xl bg-silk/30 border border-gold/5 min-h-[50px]">
+                  <label className="text-[10px] font-black text-foreground/40 uppercase ml-1">{type}</label>
+                  <div className="flex flex-wrap gap-2 p-3 rounded-2xl bg-foreground/5 border border-foreground/5 min-h-[50px]">
                     <AnimatePresence>
-                      {formData.notes?.[type].map((note, i) => (
-                        <motion.span 
-                          key={i}
-                          initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                          className="bg-white px-3 py-1.5 rounded-full border border-gold/10 text-xs font-medium flex items-center gap-2 shadow-sm"
-                        >
-                          {note}
-                          <button onClick={() => handleNoteRemove(type, i)} className="hover:text-red-500 transition-colors">
-                            <X size={12} />
-                          </button>
+                      {formData.characteristics?.[type].map((val, i) => (
+                        <motion.span key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="bg-white px-3 py-1.5 rounded-full border border-foreground/5 text-[10px] font-bold flex items-center gap-2 shadow-sm">
+                          {val}
+                          <button onClick={() => handleCharRemove(type, i)} className="hover:text-red-500 transition-colors"><X size={12} /></button>
                         </motion.span>
                       ))}
                     </AnimatePresence>
                     <input 
                       type="text" 
-                      placeholder="+ Add note"
+                      placeholder="+ Add trait"
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                          handleNoteAdd(type, e.currentTarget.value);
+                          handleCharAdd(type, e.currentTarget.value);
                           e.currentTarget.value = '';
                         }
                       }}
-                      className="bg-transparent border-none outline-none text-xs font-medium placeholder:text-foreground/20 px-2 flex-grow min-w-[100px]"
+                      className="bg-transparent border-none outline-none text-[10px] font-bold placeholder:text-foreground/20 px-2 flex-grow min-w-[100px]"
                     />
                   </div>
                 </div>
@@ -293,18 +277,18 @@ export default function ProductModal({ isOpen, onClose, onSave, product, brands 
             </div>
 
             {/* Action Button */}
-            <div className="pt-4 sticky bottom-0 bg-background py-6 border-t border-gold/5">
+            <div className="pt-4 sticky bottom-0 bg-background py-6 border-t border-foreground/5">
               <button 
                 onClick={() => onSave(formData)}
                 disabled={uploading}
-                className="w-full bg-gold text-white py-5 rounded-[1.5rem] font-bold shadow-xl shadow-gold/20 hover:bg-gold-hover transition-all active:scale-95 flex items-center justify-center gap-3 text-lg disabled:opacity-50"
+                className="w-full bg-botanical-green text-muted-beige py-5 rounded-[1.5rem] font-black uppercase tracking-[0.25em] text-[10px] shadow-2xl hover:opacity-95 transition-all active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-50"
               >
                 {uploading ? (
-                  <Loader2 className="w-6 h-6 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
                   <>
-                    <Save size={24} />
-                    <span>Save Masterpiece</span>
+                    <Save size={18} />
+                    <span>Archive Piece</span>
                   </>
                 )}
               </button>

@@ -1,37 +1,25 @@
 import productsData from "./products.json";
-import packsData from "./packs.json";
 
-export interface Size {
-  ml: number;
+export interface Variant {
+  size: string; // e.g., "60cm", "120cm", "180cm"
   price: number;
 }
 
-export interface FragranceNotes {
-  top: string[];
-  middle: string[];
-  base: string[];
+export interface PlantCharacteristics {
+  foliage: string[];
+  texture: string[];
+  pot: string[];
 }
 
 export interface Product {
   id: number;
   name: string;
-  brand: string;
+  brand: string; // Use this for "Collection" or "Designer"
   description: string;
   imageUrl: string;
-  sizes: Size[];
-  category: "men" | "women" | "unisex" | "middle eastern";
-  notes: FragranceNotes;
+  variants: Variant[];
+  category: "home-decor" | "office" | "luxury" | "new-arrivals";
+  characteristics: PlantCharacteristics;
 }
 
-export interface Pack {
-  id: number;
-  name: string;
-  description: string;
-  imageUrl: string;
-  price: number;
-  included_products: string[]; // List of fragrance names or IDs
-  category: "men" | "women" | "unisex" | "middle eastern";
-}
-
-export const products: Product[] = productsData as Product[];
-export const packs: Pack[] = packsData as Pack[];
+export const products: Product[] = productsData as any[];

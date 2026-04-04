@@ -3,18 +3,17 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, Loader2, MapPin, Phone, User, Package } from "lucide-react";
-import { Product, Size } from "@/data/products";
-import { ROYAL_CONFIG } from "@/lib/constants";
+import { X, CheckCircle2, Loader2, MapPin, Phone, User, Package, Leaf, ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
+import { useCart } from "@/lib/CartContext";
+import { PLANTES_CONFIG } from "@/lib/constants";
 
 interface OrderModalProps {
-  product: Product;
-  selectedSize: Size;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const OrderModal: React.FC<OrderModalProps> = ({ product, selectedSize, isOpen, onClose }) => {
+const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
+  const { cart, totalPrice, clearCart, updateQuantity, removeFromCart, changeVariant } = useCart();
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -23,42 +22,58 @@ const OrderModal: React.FC<OrderModalProps> = ({ product, selectedSize, isOpen, 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const deliveryFee = selectedSize.price >= ROYAL_CONFIG.delivery.freeThreshold ? 0 : ROYAL_CONFIG.delivery.standardFee;
-  const totalPrice = selectedSize.price + deliveryFee;
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (cart.length === 0) return;
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/order", {
+      const itemsList = cart.map(item => 
+        `- ${item.product.name} (${item.variant.size}) x${item.quantity}: ${item.variant.price * item.quantity} MAD`
+      ).join("\n");
+
+      const message = `Bonjour! Je souhaite passer une commande:
+
+${itemsList}
+
+Total: ${totalPrice} MAD (Livraison Gratuite)
+
+Mes informations:
+Nom: ${formData.name}
+Adresse: ${formData.address}
+Téléphone: ${formData.phone}`;
+
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/${PLANTES_CONFIG.whatsappNumber}?text=${encodedMessage}`;
+
+      // Call API
+      await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customerName: formData.name,
           whatsappNumber: formData.phone,
           address: formData.address,
-          product: {
-            name: product.name,
-            brand: product.brand,
-          },
-          selectedSize: {
-            ml: selectedSize.ml,
-            price: selectedSize.price,
-          },
-          deliveryFee,
+          cart: cart.map(item => ({
+            name: item.product.name,
+            size: item.variant.size,
+            quantity: item.quantity,
+            price: item.variant.price
+          })),
           totalPrice
         }),
       });
 
-      if (response.ok) {
-        setIsSuccess(true);
-        setTimeout(() => {
-          onClose();
-          setIsSuccess(false);
-          setFormData({ name: "", address: "", phone: "" });
-        }, 3000);
-      }
+      setIsSuccess(true);
+      
+      setTimeout(() => {
+        window.open(whatsappUrl, "_blank");
+        clearCart();
+        onClose();
+        setIsSuccess(false);
+        setFormData({ name: "", address: "", phone: "" });
+      }, 2000);
+
     } catch (error) {
       console.error("Order failed:", error);
     } finally {
@@ -83,7 +98,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ product, selectedSize, isOpen, 
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative w-full max-w-lg bg-warm-white rounded-3xl overflow-hidden shadow-2xl border border-gold/20"
+          className="relative w-full max-w-xl bg-background rounded-[2.5rem] overflow-hidden shadow-2xl border border-foreground/5"
         >
           {isSuccess ? (
             <div className="p-12 text-center space-y-6">
@@ -91,127 +106,161 @@ const OrderModal: React.FC<OrderModalProps> = ({ product, selectedSize, isOpen, 
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", damping: 12 }}
-                className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto"
+                className="w-20 h-20 bg-leaf-green/10 rounded-full flex items-center justify-center mx-auto"
               >
-                <CheckCircle2 className="w-10 h-10 text-green-600" />
+                <CheckCircle2 className="w-10 h-10 text-leaf-green" />
               </motion.div>
               <div className="space-y-2">
-                <h3 className="text-3xl font-serif font-bold text-foreground">Thank You</h3>
-                <p className="text-foreground/60 text-sm">Your order for {product.name} has been received. Our team will contact you shortly.</p>
+                <h3 className="text-3xl font-serif font-bold text-foreground italic tracking-tight">Félicitations</h3>
+                <p className="text-foreground/60 text-sm">Votre commande est en cours de traitement. Redirection vers WhatsApp...</p>
               </div>
             </div>
           ) : (
             <>
-              <div className="p-8 border-b border-gold/10 flex justify-between items-center bg-gold/5">
+              <div className="p-8 border-b border-foreground/5 flex justify-between items-center bg-botanical-green/5">
                 <div>
-                  <h3 className="text-2xl font-serif font-bold text-foreground">Complete Order</h3>
-                  <p className="text-[10px] uppercase tracking-widest text-gold font-bold">The Pinnacle of Scent</p>
+                  <h3 className="text-2xl font-serif font-bold text-foreground italic tracking-tight uppercase leading-none text-luxury-gold text-2xl">Finalisation</h3>
+                  <p className="text-[10px] uppercase tracking-widest text-leaf-green font-black mt-2 tracking-[0.3em]">Botanical Sanctuary Checkout</p>
                 </div>
-                <button onClick={onClose} className="p-2 hover:bg-gold/10 rounded-full transition-colors">
-                  <X className="w-6 h-6 text-foreground/40" />
+                <button onClick={onClose} className="p-2 hover:bg-foreground/5 rounded-full transition-colors text-foreground/40 hover:text-foreground">
+                  <X className="w-6 h-6" />
                 </button>
               </div>
 
-              <div className="p-8 space-y-8">
-                {/* Product Summary Mini Card */}
-                <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-gold/5 shadow-sm">
-                  <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-silk/50 flex items-center justify-center">
-                    {(product.imageUrl || (product as any).image_url) ? (
-                      <Image 
-                        src={product.imageUrl || (product as any).image_url} 
-                        alt={product.name} 
-                        fill 
-                        className="object-cover" 
-                      />
-                    ) : (
-                      <Package className="w-8 h-8 text-gold/20" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[9px] uppercase tracking-widest text-gold font-bold">{product.brand}</p>
-                    <h4 className="font-bold text-foreground">{product.name}</h4>
-                    <div className="flex justify-between items-center mt-1">
-                      <span className="text-[10px] font-medium text-foreground/40">
-                        {selectedSize.ml > 0 ? `${selectedSize.ml}ml Essence` : 'Curated Collection'}
-                      </span>
-                      <span className="text-sm font-bold text-gold">{selectedSize.price} DH</span>
-                    </div>
+              <form onSubmit={handleSubmit} className="p-8 space-y-6 overflow-y-auto max-h-[70vh] no-scrollbar">
+                {/* Cart Summary List */}
+                <div className="space-y-3">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-foreground/40 px-1">Votre Sélection</p>
+                  <div className="space-y-2">
+                    {cart.map((item) => (
+                      <div key={item.id} className="flex items-center gap-4 p-3 rounded-2xl bg-foreground/5 border border-foreground/5">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                          <Image src={item.product.imageUrl} alt={item.product.name} fill className="object-cover" />
+                        </div>
+                        <div className="flex-grow">
+                          <h4 className="text-[10px] font-bold text-foreground">{item.product.name}</h4>
+                          
+                          {/* Height/Variant Switcher */}
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {item.product.variants.map((v) => (
+                              <button
+                                key={v.size}
+                                type="button"
+                                onClick={() => changeVariant(`${item.id}`, v)}
+                                className={`px-2 py-0.5 rounded-full text-[7px] font-black uppercase transition-all border ${
+                                  item.variant.size === v.size
+                                    ? "bg-botanical-green text-white border-botanical-green"
+                                    : "bg-foreground/5 text-foreground/40 border-foreground/5 hover:border-foreground/10"
+                                }`}
+                              >
+                                {v.size}
+                              </button>
+                            ))}
+                          </div>
+
+                          <div className="flex items-center gap-2 mt-2">
+                            {/* Quantity Controls */}
+                            <div className="flex items-center gap-2 bg-foreground/10 rounded-full px-2 py-0.5 border border-foreground/5">
+                              <button 
+                                type="button"
+                                onClick={() => updateQuantity(`${item.id}`, item.quantity - 1)}
+                                className="text-foreground/40 hover:text-leaf-green transition-colors"
+                              >
+                                <Minus size={10} />
+                              </button>
+                              <span className="text-[10px] font-black min-w-[10px] text-center">{item.quantity}</span>
+                              <button 
+                                type="button"
+                                onClick={() => updateQuantity(`${item.id}`, item.quantity + 1)}
+                                className="text-foreground/40 hover:text-leaf-green transition-colors"
+                              >
+                                <Plus size={10} />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end gap-1">
+                          <p className="text-xs font-black text-leaf-green whitespace-nowrap">{item.variant.price * item.quantity} MAD</p>
+                          <button 
+                            type="button"
+                            onClick={() => removeFromCart(`${item.id}`)}
+                            className="text-red-500/40 hover:text-red-500 transition-colors"
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                {/* Delivery Summary */}
-                <div className="bg-silk/30 p-4 rounded-2xl space-y-2 border border-gold/5">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-foreground/40 font-bold uppercase tracking-wider">Subtotal</span>
-                    <span className="font-bold">{selectedSize.price} DH</span>
+                <div className="space-y-4">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-foreground/40 px-1">Informations de Livraison</p>
+                  <div className="relative">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/30" />
+                    <input
+                      required
+                      type="text"
+                      placeholder="Nom complet"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full pl-12 pr-4 py-4 bg-foreground/5 border border-foreground/10 rounded-2xl text-sm focus:outline-none focus:border-botanical-green transition-all"
+                    />
                   </div>
-                  <div className="flex justify-between text-xs">
-                    <span className="text-foreground/40 font-bold uppercase tracking-wider">Delivery Fee</span>
-                    {deliveryFee === 0 ? (
-                      <span className="text-green-600 font-bold uppercase tracking-tighter text-[9px] bg-green-50 px-2 py-0.5 rounded-full border border-green-100">Free Delivery</span>
-                    ) : (
-                      <span className="font-bold">{deliveryFee} DH</span>
-                    )}
+                  <div className="relative">
+                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/30" />
+                    <input
+                      required
+                      type="tel"
+                      placeholder="WhatsApp (ex: 06...)"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full pl-12 pr-4 py-4 bg-foreground/5 border border-foreground/10 rounded-2xl text-sm focus:outline-none focus:border-botanical-green transition-all"
+                    />
                   </div>
-                  <div className="pt-2 border-t border-gold/10 flex justify-between">
-                    <span className="text-sm font-bold uppercase tracking-widest text-gold">Total Amount</span>
-                    <span className="text-lg font-serif font-bold text-foreground">{totalPrice} DH</span>
+                  <div className="relative">
+                    <MapPin className="absolute left-4 top-4 w-4 h-4 text-foreground/30" />
+                    <textarea
+                      required
+                      placeholder="Adresse de livraison complète"
+                      value={formData.address}
+                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                      rows={3}
+                      className="w-full pl-12 pr-4 py-4 bg-foreground/5 border border-foreground/10 rounded-2xl text-sm focus:outline-none focus:border-botanical-green transition-all resize-none"
+                    />
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="space-y-4">
-                    <div className="relative">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gold/50" />
-                      <input
-                        required
-                        type="text"
-                        placeholder="Full Name"
-                        className="w-full bg-white border border-gold/10 rounded-xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-gold/20 transition-all"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      />
-                    </div>
-                    <div className="relative">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gold/50" />
-                      <input
-                        required
-                        type="tel"
-                        placeholder="Phone Number"
-                        className="w-full bg-white border border-gold/10 rounded-xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-gold/20 transition-all"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      />
-                    </div>
-                    <div className="relative">
-                      <MapPin className="absolute left-4 top-4 w-4 h-4 text-gold/50" />
-                      <textarea
-                        required
-                        placeholder="Shipping Address"
-                        rows={3}
-                        className="w-full bg-white border border-gold/10 rounded-xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-gold/20 transition-all resize-none"
-                        value={formData.address}
-                        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                      />
-                    </div>
+                {/* Price Breakdown */}
+                <div className="space-y-2 pt-2 border-t border-foreground/5">
+                  <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-foreground/40">
+                    <span>Sous-total</span>
+                    <span>{totalPrice} MAD</span>
                   </div>
+                  <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-leaf-green">
+                    <span>Livraison</span>
+                    <span>OFFERT</span>
+                  </div>
+                  <div className="flex justify-between text-xl font-serif font-black text-foreground pt-2 border-t border-foreground/5 italic tracking-tighter">
+                    <span>Total</span>
+                    <span>{totalPrice} MAD</span>
+                  </div>
+                </div>
 
-                  <button
-                    disabled={isSubmitting}
-                    type="submit"
-                    className="w-full bg-foreground text-white py-5 rounded-xl font-bold uppercase tracking-[0.2em] text-xs hover:bg-gold transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-3 disabled:opacity-50"
-                  >
-                    {isSubmitting ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    ) : (
-                      <>
-                        <Package className="w-4 h-4" />
-                        Confirm Order
-                      </>
-                    )}
-                  </button>
-                </form>
-              </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting || cart.length === 0}
+                  className="w-full bg-botanical-green text-muted-beige py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs hover:opacity-90 transition-all flex items-center justify-center gap-3 disabled:opacity-50 shadow-xl"
+                >
+                  {isSubmitting ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      <Leaf className="w-4 h-4" /> Finaliser l'Acquisition
+                    </>
+                  )}
+                </button>
+              </form>
             </>
           )}
         </motion.div>

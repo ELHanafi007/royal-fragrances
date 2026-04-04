@@ -4,8 +4,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, MapPin, Quote } from "lucide-react";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, Leaf, MapPin } from "lucide-react";
 
 interface Slide {
   id: number;
@@ -18,44 +18,31 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    imageUrl: "/new_/lemale_le_parfum.webp",
-    caption: "Le Male Le Parfum",
-    location: "Casablanca, MA",
-    narrative: "An intense journey of cardamom and lavender. The captain of your nocturnal adventures."
+    imageUrl: "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&q=80&w=1200",
+    caption: "The Nordic Minimalist",
+    location: "Stockholm, SE",
+    narrative: "Clean lines and permanent greenery. Our Fiddle Leaf Fig brings structural elegance to minimalist interiors."
   },
   {
     id: 2,
-    imageUrl: "/new_/cocodechanel.webp",
-    caption: "Coco Mademoiselle",
-    location: "Paris, FR",
-    narrative: "The essence of a free and bold woman. A feminine oriental with a strong character."
+    imageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
+    caption: "The Executive Office",
+    location: "London, UK",
+    narrative: "Command attention with hyper-realistic Monstera. Zero maintenance, maximum professional impact."
   },
   {
     id: 3,
-    imageUrl: "/new_/1million.webp",
-    caption: "1 Million Royal",
-    location: "Marrakech, MA",
-    narrative: "Claim your stage. A flamboyant blend of cedarwood and violet, made for the king."
-  },
-  {
-    id: 4,
-    imageUrl: "/new_/His-Confession.webp",
-    caption: "His Confession",
-    location: "London, UK",
-    narrative: "A mysterious whisper in the dark. Elegant, seductive, and undeniably royal."
+    imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=1200",
+    caption: "The Sun-Drenched Lounge",
+    location: "Madrid, ES",
+    narrative: "Our UV-resistant palms thrive in direct light where living plants would struggle. Eternal summer."
   }
 ];
 
 const LifestyleSlider = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    { 
-      loop: true, 
-      align: "center",
-      skipSnaps: false,
-      dragFree: false,
-      containScroll: false,
-    },
-    [Autoplay({ delay: 5000, stopOnInteraction: false, playOnInit: true })]
+    { loop: true, align: "center" },
+    [Autoplay({ delay: 5000 })]
   );
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -66,35 +53,25 @@ const LifestyleSlider = () => {
 
   useEffect(() => {
     if (!emblaApi) return;
-    
-    // Set initial values
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-
     emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
-    
-    return () => {
-      emblaApi.off("select", onSelect);
-      emblaApi.off("reInit", onSelect);
-    };
+    return () => { emblaApi.off("select", onSelect); };
   }, [emblaApi, onSelect]);
 
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
-  const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi]);
 
   return (
-    <section className="py-32 bg-warm-white relative overflow-hidden" id="moments">
-      <div className="max-w-[1400px] mx-auto px-6 mb-16 text-center lg:text-left">
+    <section className="py-24 md:py-32 bg-background relative overflow-hidden" id="moments">
+      <div className="max-w-[1400px] mx-auto px-6 mb-16 text-center lg:text-left relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="flex items-center justify-center lg:justify-start gap-4 mb-6"
         >
-          <div className="w-12 h-[1px] bg-gold" />
-          <span className="text-xs font-bold tracking-[0.4em] uppercase text-gold">
-            The Living Scent
+          <div className="w-12 h-[1px] bg-botanical-green" />
+          <span className="text-[10px] font-black tracking-[0.4em] uppercase text-botanical-green">
+            L'Espace de Vie
           </span>
         </motion.div>
         
@@ -102,118 +79,83 @@ const LifestyleSlider = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="text-5xl md:text-7xl font-serif font-bold mb-6"
+          className="text-5xl md:text-[8rem] font-serif font-black mb-8 text-foreground tracking-tighter italic leading-[0.85]"
         >
-          Moments in <span className="italic text-gold">Motion.</span>
+          Espaces en <br className="md:hidden" /> <span className="not-italic uppercase text-3xl md:text-6xl tracking-[0.2em] text-luxury-gold font-sans block mt-4">Fleurs.</span>
         </motion.h2>
         
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="text-lg text-foreground/50 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+          className="text-lg text-foreground/50 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium"
         >
-          Luxury is no longer anchored to a vanity. Our decants are designed to live where you live, 
-          bringing the world's most evocative scents to every spontaneous chapter of your life.
+          Le luxe est permanent. Nos collections botaniques sont conçues pour s'intégrer harmonieusement aux environnements de prestige, offrant l'essence apaisante de la nature sans contrainte.
         </motion.p>
       </div>
 
-      <div className="relative group">
-        <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex">
-            {slides.map((slide, index) => (
-              <div 
-                key={slide.id} 
-                className={`relative flex-[0_0_85%] md:flex-[0_0_65%] lg:flex-[0_0_55%] min-w-0 pl-6 md:pl-10 transition-all duration-700 ease-out ${
-                  selectedIndex === index ? "opacity-100 scale-100" : "opacity-40 scale-[0.9] blur-[2px]"
-                }`}
-              >
-                <div className="relative aspect-[4/5] md:aspect-[16/10] rounded-[2rem] overflow-hidden shadow-2xl border border-gold/10">
-                  <Image
-                    src={slide.imageUrl}
-                    alt={slide.caption}
-                    fill
-                    className={`object-cover transition-transform duration-[4s] ease-out ${
-                      selectedIndex === index ? "scale-105" : "scale-100"
-                    }`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  
-                  {/* Text Overlay */}
-                  <div className="absolute inset-0 p-8 md:p-16 flex flex-col justify-end">
-                    <AnimatePresence mode="wait">
-                      {selectedIndex === index && (
-                        <motion.div
-                          key={`caption-${slide.id}`}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.8, delay: 0.3 }}
-                          className="space-y-4"
-                        >
-                          <div className="flex items-center gap-3 text-gold">
-                            <MapPin className="w-4 h-4" />
-                            <span className="text-[10px] uppercase font-bold tracking-[0.3em]">{slide.location}</span>
-                          </div>
-                          
-                          <h3 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">
-                            {slide.caption}
-                          </h3>
-                          
-                          <p className="text-sm md:text-lg text-white/70 max-w-lg font-light leading-relaxed italic">
-                            <Quote className="inline-block w-4 h-4 mr-2 opacity-30 -translate-y-1" />
-                            {slide.narrative}
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+      <div className="embla overflow-hidden cursor-grab active:cursor-grabbing px-6 md:px-12" ref={emblaRef}>
+        <div className="embla__container flex gap-6 md:gap-12">
+          {slides.map((slide, index) => (
+            <div 
+              key={slide.id} 
+              className="embla__slide relative flex-[0_0_90%] md:flex-[0_0_70%] lg:flex-[0_0_55%] aspect-[16/9] md:aspect-[21/9] rounded-[2rem] md:rounded-[3rem] overflow-hidden group shadow-2xl"
+            >
+              <Image 
+                src={slide.imageUrl} 
+                alt={slide.caption} 
+                fill 
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 55vw"
+                className="object-cover transition-transform duration-[2000ms] group-hover:scale-110" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-botanical-green/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+              
+              <div className="absolute bottom-0 left-0 w-full p-8 md:p-12 flex flex-col md:flex-row md:items-end justify-between gap-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+                <div className="max-w-xl">
+                  <div className="flex items-center gap-3 text-white/60 text-[10px] font-black uppercase tracking-widest mb-3">
+                    <MapPin size={12} /> {slide.location}
                   </div>
+                  <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4 italic leading-none">{slide.caption}</h3>
+                  <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity delay-300">
+                    {slide.narrative}
+                  </p>
+                </div>
+                <div className="hidden md:block">
+                   <div className="w-16 h-16 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/20">
+                      <Leaf className="text-white w-6 h-6" />
+                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Navigation Arrows */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 max-w-[1400px] mx-auto px-12 pointer-events-none hidden lg:flex justify-between z-20">
-          <button
-            onClick={scrollPrev}
-            className="w-14 h-14 rounded-full border border-gold/30 flex items-center justify-center bg-white/10 backdrop-blur-md text-gold hover:bg-gold hover:text-white hover:border-gold transition-all duration-500 pointer-events-auto shadow-xl group/btn"
-          >
-            <ChevronLeft className="w-6 h-6 group-hover/btn:-translate-x-1 transition-transform" />
-          </button>
-          <button
-            onClick={scrollNext}
-            className="w-14 h-14 rounded-full border border-gold/30 flex items-center justify-center bg-white/10 backdrop-blur-md text-gold hover:bg-gold hover:text-white hover:border-gold transition-all duration-500 pointer-events-auto shadow-xl group/btn"
-          >
-            <ChevronRight className="w-6 h-6 group-hover/btn:translate-x-1 transition-transform" />
-          </button>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Pagination & Progress */}
-      <div className="mt-12 flex flex-col items-center gap-6">
-        <div className="flex gap-3">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollTo(index)}
-              className={`transition-all duration-700 rounded-full h-[2px] ${
-                selectedIndex === index ? "w-12 bg-gold" : "w-4 bg-gold/20"
-              }`}
+      {/* Custom Controls */}
+      <div className="max-w-[1400px] mx-auto px-6 mt-12 flex justify-between items-center relative z-10">
+        <div className="flex gap-2">
+          {slides.map((_, i) => (
+            <div 
+              key={i} 
+              className={`h-1 transition-all duration-500 rounded-full ${selectedIndex === i ? 'w-12 bg-botanical-green' : 'w-4 bg-botanical-green/20'}`} 
             />
           ))}
         </div>
-        <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/60">
-          {selectedIndex + 1} <span className="opacity-20">/</span> {slides.length}
+        <div className="flex gap-4">
+          <button 
+            onClick={scrollPrev}
+            className="w-12 h-12 rounded-full border border-botanical-green/20 flex items-center justify-center text-botanical-green hover:bg-botanical-green hover:text-white transition-all"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button 
+            onClick={scrollNext}
+            className="w-12 h-12 rounded-full border border-botanical-green/20 flex items-center justify-center text-botanical-green hover:bg-botanical-green hover:text-white transition-all"
+          >
+            <ChevronRight size={20} />
+          </button>
         </div>
       </div>
-
-      {/* Decorative Gold Elements */}
-      <div className="absolute top-0 right-0 w-1/4 h-full bg-gradient-to-l from-warm-white via-transparent to-transparent z-10 pointer-events-none" />
-      <div className="absolute top-0 left-0 w-1/4 h-full bg-gradient-to-r from-warm-white via-transparent to-transparent z-10 pointer-events-none" />
     </section>
   );
 };

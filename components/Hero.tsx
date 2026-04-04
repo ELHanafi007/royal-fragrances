@@ -4,116 +4,86 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Leaf } from "lucide-react";
 
 const Hero = () => {
   const containerRef = useRef(null);
   const { scrollY } = useScroll();
   
-  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
-  const y2 = useTransform(scrollY, [0, 500], [0, -150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const scale = useTransform(scrollY, [0, 300], [1, 0.95]);
+  const y = useTransform(scrollY, [0, 500], [0, 200]);
+  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const scale = useTransform(scrollY, [0, 400], [1, 1.1]);
 
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden bg-background"
     >
-      {/* Dynamic Background Mesh */}
-      <div className="absolute inset-0 -z-10">
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.1, 1],
-            rotate: [0, 5, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] bg-gold/5 rounded-full blur-[120px]" 
+      {/* Cinematic Nature Background */}
+      <motion.div 
+        style={{ y, scale }}
+        className="absolute inset-0 z-0"
+      >
+        <Image 
+          src="https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&q=80&w=2000" 
+          alt="Lush Botanical Environment" 
+          fill 
+          className="object-cover opacity-60 dark:opacity-40"
+          priority
         />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background" />
+      </motion.div>
+
+      {/* Animated Light Rays / Flickering Effect */}
+      <div className="absolute inset-0 pointer-events-none z-10">
         <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, -8, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-gold/10 rounded-full blur-[100px]" 
+          animate={{ opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(212,175,55,0.1),transparent)]"
         />
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full flex flex-col items-center justify-center">
-        
-        {/* Massive Logo Centerpiece */}
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full relative z-20 flex flex-col items-center text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="relative mb-16"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-12"
         >
-          <div className="relative w-64 h-64 md:w-96 md:h-96 rounded-full p-[3px] bg-gradient-to-tr from-gold/40 via-gold/5 to-gold/40 animate-spin-slow">
-            <div className="w-full h-full rounded-full bg-warm-white/80 backdrop-blur-sm flex items-center justify-center overflow-hidden border border-gold/10 shadow-[0_0_100px_rgba(184,139,74,0.1)]">
-              <Image 
-                src="/logo.png" 
-                alt="Royal Fragrance Logo" 
-                width={600} 
-                height={600} 
-                className="w-full h-full object-cover"
-                priority
-              />
-            </div>
+          <div className="inline-flex items-center gap-3 px-6 py-2 bg-botanical-green/5 border border-botanical-green/10 rounded-full mb-8">
+            <Leaf className="w-4 h-4 text-botanical-green animate-pulse" />
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-botanical-green">Permanent Nature</span>
           </div>
           
-          {/* Animated Ambient Rings */}
-          <motion.div 
-            animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.05, 0.15] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -inset-8 border border-gold/10 rounded-full -z-10" 
-          />
-          <motion.div 
-            animate={{ scale: [1.2, 1, 1.2], opacity: [0.05, 0.1, 0.05] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -inset-16 border border-gold/5 rounded-full -z-10" 
-          />
-        </motion.div>
+          <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-serif font-black text-foreground leading-[0.85] tracking-tighter mb-8 italic">
+            La Beauté Naturelle, <br /> 
+            <span className="text-luxury-gold not-italic uppercase text-3xl md:text-6xl tracking-[0.2em] block mt-8 font-sans">Façonnée pour votre Espace.</span>
+          </h1>
 
-        {/* Minimal Text Content */}
-        <motion.div 
-          style={{ opacity, scale }}
-          className="z-10 text-center"
-        >
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="text-5xl md:text-7xl font-serif font-bold text-foreground leading-tight mb-12 tracking-tight"
-          >
-            Essential <span className="italic text-gold">Opulence.</span>
-          </motion.h1>
+          <p className="text-lg md:text-xl text-foreground/60 max-w-2xl mx-auto mb-16 font-medium leading-relaxed">
+            Découvrez le summum du réalisme botanique. Nos plantes d'exception apportent une vie éternelle et une touche de luxe à vos intérieurs.
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6"
-          >
-            <Link href="#collection" className="group relative px-12 py-6 bg-foreground text-warm-white overflow-hidden transition-all duration-500 rounded-full">
-              <div className="absolute inset-0 bg-gold translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-              <span className="relative z-10 text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-3">
-                Discover Collection <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <Link href="#collection" className="button-nature group">
+              <span className="flex items-center gap-3">
+                Explorer la Galerie <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
             </Link>
-            
-            <Link href="#heritage" className="group px-12 py-6 border border-gold/30 text-gold hover:border-gold transition-all duration-500 text-center rounded-full">
-              <span className="text-xs font-bold uppercase tracking-[0.2em]">The Experience</span>
+
+            <Link href="#heritage" className="button-outline">
+              Notre Savoir-faire
             </Link>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
 
-      {/* Background Text Reveal */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden whitespace-nowrap opacity-[0.02] pointer-events-none -mb-12">
-        <span className="text-[20vw] font-serif font-bold uppercase tracking-tighter">
-          Royal Fragrance Royal Fragrance
-        </span>
+      {/* Floating Botanical Elements (Subtle) */}
+      <div className="absolute bottom-12 left-12 z-20 hidden lg:block opacity-20">
+         <Leaf className="w-12 h-12 text-botanical-green rotate-[-45deg]" />
+      </div>
+      <div className="absolute top-32 right-12 z-20 hidden lg:block opacity-20">
+         <Leaf className="w-8 h-8 text-botanical-green rotate-[120deg]" />
       </div>
     </section>
   );

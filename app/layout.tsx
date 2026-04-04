@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, Cormorant_Garamond } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { CartProvider } from "@/lib/CartContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -7,54 +9,44 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "700", "900"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Royal Fragrance | Luxury Perfume Decants Morocco",
-    template: "%s | Royal Fragrance Morocco",
+    default: "Plantes Artificielles | Le Luxe Botanique Permanent",
+    template: "%s | Plantes Artificielles",
   },
-  description: "Experience the world's most prestigious luxury perfumes in exquisite travel decants. The #1 destination for original fragrance samples in Morocco. Fast delivery to Casablanca, Rabat, Marrakech, and beyond.",
-  keywords: ["perfume Morocco", "luxury decants Morocco", "original perfume samples", "parfum Maroc", "fragrance decants Casablanca", "niche perfume samples Morocco"],
-  authors: [{ name: "Royal Fragrance" }],
-  creator: "Royal Fragrance",
-  publisher: "Royal Fragrance",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL("https://royalfragrance.ma"), // Update this with your actual domain
+  description: "Sublimez votre espace avec nos plantes artificielles haut de gamme. Design botanique d'exception pour maisons, bureaux et espaces de luxe.",
+  keywords: ["plantes artificielles", "luxe botanique", "décoration d'intérieur", "verdure de bureau", "nature permanente"],
+  authors: [{ name: "Plantes Artificielles" }],
+  creator: "Plantes Artificielles",
+  publisher: "Plantes Artificielles",
+  metadataBase: new URL("https://plantesartificielles.fr"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Royal Fragrance | Luxury Perfume Decants Morocco",
-    description: "Experience the world's most prestigious luxury perfumes in exquisite travel decants. The #1 destination for original fragrance samples in Morocco.",
-    url: "https://royalfragrance.ma",
-    siteName: "Royal Fragrance Morocco",
-    locale: "en_MA",
+    title: "Plantes Artificielles | Luxe Botanique",
+    description: "Plantes artificielles hyper-réalistes pour espaces de prestige.",
+    url: "https://plantesartificielles.fr",
+    siteName: "Plantes Artificielles",
+    locale: "fr_FR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Royal Fragrance | Luxury Perfume Decants Morocco",
-    description: "The #1 destination for original fragrance samples in Morocco.",
+    title: "Plantes Artificielles | Nature Permanente",
+    description: "La destination n°1 pour la botanique de luxe.",
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
 };
 
@@ -64,13 +56,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${cormorant.variable} antialiased font-sans selection:bg-gold/30 selection:text-gold`}
+        className={`${inter.variable} ${playfair.variable} antialiased font-sans selection:bg-leaf-green/30 selection:text-leaf-green bg-background text-foreground transition-colors duration-500`}
       >
-        {/* Global Silk Texture Overlay */}
-        <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat" />
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <CartProvider>
+            {children}
+          </CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

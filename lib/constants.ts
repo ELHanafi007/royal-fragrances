@@ -1,16 +1,16 @@
-export const ROYAL_CONFIG = {
-  brandName: "Royal Fragrance",
-  tagline: "The Art of Olfactory Opulence",
-  whatsappNumber: "212695208551", // Updated valid number
-  email: "contact@royalfragrance.ma",
+export const PLANTES_CONFIG = {
+  brandName: "Plantes Artificielles",
+  tagline: "Permanent Botanical Luxury",
+  whatsappNumber: "212600000000", 
+  email: "contact@plantesartificielles.ma",
   location: "Casablanca, Morocco",
-  instagram: "royal_fragrancess",
+  instagram: "plantes.artificielles.ma",
   delivery: {
-    standardFee: 35,
-    freeThreshold: 500,
+    standardFee: 0,
+    freeThreshold: 0,
   },
   colors: {
-    gold: "#b88b4a",
-    warmWhite: "#faf7f2",
+    green: "#1a2e1a",
+    gold: "#d4af37",
   }
 };
