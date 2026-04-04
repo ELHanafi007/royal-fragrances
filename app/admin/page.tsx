@@ -5,6 +5,7 @@ import AdminHeader from '@/components/admin/AdminHeader';
 import ProductList from '@/components/admin/ProductList';
 import ProductModal from '@/components/admin/ProductModal';
 import OrderList from '@/components/admin/OrderList';
+import CategoryManager from '@/components/admin/CategoryManager';
 import { Product } from '@/data/products';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2, Lock, KeyRound, ChevronRight, Package, Leaf } from 'lucide-react';
@@ -251,11 +252,14 @@ export default function AdminPage() {
             ) : (
               <div className="space-y-12">
                 {activeTab === 'products' ? (
-                  <ProductList 
-                    products={products}
-                    onEdit={(product) => { setEditingProduct(product); setIsProductModalOpen(true); }}
-                    onDelete={handleDeleteProduct}
-                  />
+                  <>
+                    <CategoryManager />
+                    <ProductList 
+                      products={products}
+                      onEdit={(product) => { setEditingProduct(product); setIsProductModalOpen(true); }}
+                      onDelete={handleDeleteProduct}
+                    />
+                  </>
                 ) : (
                   <OrderList 
                     orders={orders}

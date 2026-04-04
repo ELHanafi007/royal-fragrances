@@ -34,11 +34,25 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
     characteristics: { foliage: [], texture: [], pot: [] }
   });
 
+  const [categories, setCategories] = useState<{name: string, slug: string}[]>([]);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch('/api/admin/categories');
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setCategories(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch categories:', error);
+    }
+  };
+
   useEffect(() => {
     if (!isOpen) return;
+    fetchCategories();
     
     if (product) {
       setFormData(product);
@@ -188,10 +202,15 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                       onChange={(e) => setFormData({...formData, category: e.target.value as any})}
                       className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white focus:border-botanical-green outline-none transition-all appearance-none"
                     >
-                      <option value="home-decor">Home Decor</option>
-                      <option value="office">Office</option>
-                      <option value="luxury">Luxury</option>
-                      <option value="new-arrivals">New Arrivals</option>
+                      {[
+                        { name: 'Home Decor', slug: 'home-decor' },
+                        { name: 'Office', slug: 'office' },
+                        { name: 'Luxury', slug: 'luxury' },
+                        { name: 'New Arrivals', slug: 'new-arrivals' },
+                        ...categories.filter(c => !['home-decor', 'office', 'luxury', 'new-arrivals'].includes(c.slug))
+                      ].map(cat => (
+                        <option key={cat.slug} value={cat.slug}>{cat.name}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
