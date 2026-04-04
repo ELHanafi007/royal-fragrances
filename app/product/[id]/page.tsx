@@ -15,7 +15,8 @@ import {
   Plus,
   Box,
   Maximize2,
-  Move
+  Move,
+  Loader2
 } from "lucide-react";
 import { products, Product, Variant } from "@/data/products";
 import { useCart } from "@/lib/CartContext";
@@ -27,21 +28,44 @@ export default function ProductPage() {
   const router = useRouter();
   const { addToCart } = useCart();
   
-  const product = useMemo(() => {
-    return products.find(p => p.id === Number(params.id));
-  }, [params.id]);
-
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
 
   useEffect(() => {
-    if (product) {
-      setSelectedVariant(product.variants[0]);
-      setSelectedImage(product.imageUrl);
-    }
-  }, [product]);
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch('/api/admin/products');
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          const found = data.find(p => p.id === Number(params.id));
+          if (found) {
+            setProduct(found);
+            setSelectedVariant(found.variants[0]);
+            setSelectedImage(found.image_url || found.imageUrl);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch product:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [params.id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4 bg-background">
+        <Loader2 className="w-10 h-10 text-botanical-green animate-spin" />
+        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-botanical-green/40">Revealing Creation...</p>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -67,7 +91,7 @@ export default function ProductPage() {
     setTimeout(() => setIsAdded(false), 2000);
   };
 
-  const images = product.images || [product.imageUrl];
+  const images = (product as any).images || [ (product as any).image_url || product.imageUrl ];
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -120,7 +144,7 @@ export default function ProductPage() {
 
             {/* Gallery Thumbnails */}
             <div className="flex gap-3 md:gap-5 overflow-x-auto pb-4 no-scrollbar">
-              {images.map((img, idx) => (
+              {images.map((img: string, idx: number) => (
                 <button
                   key={idx}
                   onClick={() => setSelectedImage(img)}
@@ -153,7 +177,7 @@ export default function ProductPage() {
               </h1>
               
               <p className="text-base md:text-xl text-foreground/50 font-medium leading-relaxed max-w-xl border-l-2 border-botanical-green/10 pl-6 md:pl-8">
-                {product.miniDescription}
+                {(product as any).mini_description || product.miniDescription}
               </p>
             </div>
 

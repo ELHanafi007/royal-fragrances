@@ -8,24 +8,48 @@ import ProductFilters from "./ProductFilters";
 import { Loader2, Leaf } from "lucide-react";
 
 const ProductShowcase = () => {
-  const [products, setProducts] = useState<Product[]>(localProducts);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [dbCategories, setDbCategories] = useState<{name: string, slug: string}[]>([]);
+
+  const fetchCollection = async () => {
+    try {
+      setLoading(true);
+      const [prodRes, catRes] = await Promise.all([
+        fetch('/api/admin/products'),
+        fetch('/api/admin/categories')
+      ]);
+      
+      const prods = await prodRes.json();
+      const cats = await catRes.json();
+      
+      if (Array.isArray(prods)) setProducts(prods);
+      if (Array.isArray(cats)) setDbCategories(cats);
+    } catch (error) {
+      console.error('Failed to fetch collection:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // For this rebrand, we use the high-quality local JSON data provided in products.json
-    // to move fast and ensure 100% botanical accuracy.
-    const timer = setTimeout(() => {
-      setProducts(localProducts);
-      setLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
+    fetchCollection();
   }, []);
 
   const categories = useMemo(() => {
-    return ["home-decor", "office", "luxury", "new-arrivals"];
-  }, []);
+    const staticCats = [
+      { name: 'Home Decor', slug: 'home-decor' },
+      { name: 'Office', slug: 'office' },
+      { name: 'Luxury', slug: 'luxury' },
+      { name: 'New Arrivals', slug: 'new-arrivals' }
+    ];
+    
+    // Combine static and dynamic categories, avoiding duplicates
+    const dynamicCats = dbCategories.filter(c => !staticCats.some(s => s.slug === c.slug));
+    return ['all', ...staticCats.map(c => c.slug), ...dynamicCats.map(c => c.slug)];
+  }, [dbCategories]);
 
   const filteredItems = useMemo(() => {
     const searchLower = searchQuery.toLowerCase();

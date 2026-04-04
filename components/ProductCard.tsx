@@ -25,10 +25,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       pot: ["Horticole"]
     };
 
-    const imageUrl = product.imageUrl || "/newplants/placeholder.jpg";
+    // Handle both snake_case (Supabase) and camelCase (Local JSON)
+    const imageUrl = (product as any).image_url || product.imageUrl || "/newplants/placeholder.jpg";
+    const description = (product as any).mini_description || product.miniDescription || product.description;
     const displayCategory = product.category || "luxury";
 
-    return { variants, characteristics, imageUrl, displayCategory };
+    return { variants, characteristics, imageUrl, displayCategory, description };
   }, [product]);
 
   const [selectedVariant, setSelectedVariant] = useState<Variant>(mappedData.variants[0]);
@@ -78,7 +80,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Hover Overlay */}
           <div className="absolute inset-0 bg-botanical-green/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center p-4 md:p-8 text-center">
             <p className="text-white/95 text-[10px] md:text-sm font-bold leading-relaxed mb-4 italic font-serif">
-              {product.description}
+              {mappedData.description}
             </p>
             <div 
               className="text-white text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2"
