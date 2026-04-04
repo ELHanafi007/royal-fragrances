@@ -4,16 +4,19 @@ import { useState, useEffect } from 'react';
 import AdminHeader from '@/components/admin/AdminHeader';
 import ProductList from '@/components/admin/ProductList';
 import ProductModal from '@/components/admin/ProductModal';
+import OrderList from '@/components/admin/OrderList';
 import { Product } from '@/data/products';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, Lock, KeyRound, ChevronRight } from 'lucide-react';
+import { Loader2, Lock, KeyRound, ChevronRight, Package, Leaf } from 'lucide-react';
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
+  const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'products' | 'orders'>('products');
   
   // Modal States
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
@@ -57,11 +60,16 @@ export default function AdminPage() {
     const authPassword = currentPassword || password;
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/products', {
-        headers: { 'x-admin-password': authPassword }
-      });
-      const data = await res.json();
-      setProducts(Array.isArray(data) ? data : []);
+      const [productsRes, ordersRes] = await Promise.all([
+        fetch('/api/admin/products', { headers: { 'x-admin-password': authPassword } }),
+        fetch('/api/admin/orders', { headers: { 'x-admin-password': authPassword } })
+      ]);
+      
+      const productsData = await productsRes.json();
+      const ordersData = await ordersRes.json();
+      
+      setProducts(Array.isArray(productsData) ? productsData : []);
+      setOrders(Array.isArray(ordersData) ? ordersData : []);
     } catch (error) {
       console.error("Fetch failed:", error);
     } finally {
@@ -109,6 +117,36 @@ export default function AdminPage() {
       if (res.ok) fetchData();
     } catch (error) {
       console.error("Delete failed:", error);
+    }
+  };
+
+  // Order Operations
+  const handleUpdateOrderStatus = async (id: number, status: string) => {
+    try {
+      const res = await fetch('/api/admin/orders', {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-password': password
+        },
+        body: JSON.stringify({ id, status })
+      });
+      if (res.ok) fetchData();
+    } catch (error) {
+      console.error("Order update failed:", error);
+    }
+  };
+
+  const handleDeleteOrder = async (id: number) => {
+    if (!confirm("Are you sure you want to archive this order?")) return;
+    try {
+      const res = await fetch(`/api/admin/orders?id=${id}`, {
+        method: 'DELETE',
+        headers: { 'x-admin-password': password }
+      });
+      if (res.ok) fetchData();
+    } catch (error) {
+      console.error("Order delete failed:", error);
     }
   };
 
@@ -169,12 +207,41 @@ export default function AdminPage() {
             key="dashboard"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-xl mx-auto px-6 pt-12 space-y-12"
+            className="max-w-xl mx-auto px-6 pt-12 space-y-8"
           >
             <AdminHeader 
               totalProducts={products.length}
               onAddProduct={() => { setEditingProduct(null); setIsProductModalOpen(true); }}
             />
+
+            {/* Tab Navigation */}
+            <div className="flex p-1.5 bg-foreground/5 rounded-[2rem] border border-foreground/5 backdrop-blur-sm">
+              <button
+                onClick={() => setActiveTab('products')}
+                className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[0.2em] transition-all ${
+                  activeTab === 'products' 
+                  ? 'bg-botanical-green text-white shadow-xl' 
+                  : 'text-foreground/40 hover:text-foreground'
+                }`}
+              >
+                <Leaf size={14} />
+                Inventory
+              </button>
+              <button
+                onClick={() => setActiveTab('orders')}
+                className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[0.2em] transition-all ${
+                  activeTab === 'orders' 
+                  ? 'bg-botanical-green text-white shadow-xl' 
+                  : 'text-foreground/40 hover:text-foreground'
+                }`}
+              >
+                <Package size={14} />
+                Acquisitions
+                {orders.filter(o => o.status === 'pending').length > 0 && (
+                  <span className="flex h-2 w-2 rounded-full bg-luxury-gold animate-pulse" />
+                )}
+              </button>
+            </div>
 
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20 gap-4">
@@ -183,11 +250,19 @@ export default function AdminPage() {
               </div>
             ) : (
               <div className="space-y-12">
-                <ProductList 
-                  products={products}
-                  onEdit={(product) => { setEditingProduct(product); setIsProductModalOpen(true); }}
-                  onDelete={handleDeleteProduct}
-                />
+                {activeTab === 'products' ? (
+                  <ProductList 
+                    products={products}
+                    onEdit={(product) => { setEditingProduct(product); setIsProductModalOpen(true); }}
+                    onDelete={handleDeleteProduct}
+                  />
+                ) : (
+                  <OrderList 
+                    orders={orders}
+                    onUpdateStatus={handleUpdateOrderStatus}
+                    onDelete={handleDeleteOrder}
+                  />
+                )}
               </div>
             )}
           </motion.div>
