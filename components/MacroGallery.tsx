@@ -50,7 +50,7 @@ export function MacroGallery() {
            </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:auto-rows-[300px]">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:auto-rows-[300px]">
           {items.map((item, index) => (
             <motion.div
               key={index}
