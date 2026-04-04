@@ -1,10 +1,13 @@
 import productsData from "./products.json";
 
 export interface Variant {
-  size: string; // e.g., "60cm", "120cm", "180cm"
+  size: string; // Display name e.g. "Grand Luxe"
   price: number;
-  plantHeight?: string; // e.g., "90cm"
-  vaseHeight?: string; // e.g., "30cm"
+  totalHeight: string; // Height of plant + vase
+  plantHeight: string; // Height of plant alone
+  vaseHeight: string;  // Height of vase alone
+  vaseWidth: string;   // Width of vase (Laard)
+  vaseDepth: string;   // Depth/Thickness of vase (Soumk)
 }
 
 export interface PlantCharacteristics {

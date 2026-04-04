@@ -5,18 +5,17 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  ChevronLeft, 
   ShoppingBag, 
   Leaf, 
-  Trees, 
-  Sprout, 
-  Plus, 
-  Minus, 
   ArrowLeft, 
   Ruler, 
   ShieldCheck, 
   Sparkles,
-  Info
+  Minus, 
+  Plus,
+  Box,
+  Maximize2,
+  Move
 } from "lucide-react";
 import { products, Product, Variant } from "@/data/products";
 import { useCart } from "@/lib/CartContext";
@@ -62,10 +61,8 @@ export default function ProductPage() {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     if (!selectedVariant) return;
-    
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     addToCart(product, selectedVariant, quantity, { x: rect.left, y: rect.top });
-    
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };
@@ -73,61 +70,64 @@ export default function ProductPage() {
   const images = product.images || [product.imageUrl];
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background text-foreground">
       <Navbar />
       
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-32 pb-24">
-        {/* Back Button */}
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 pt-32 pb-24">
+        {/* Breadcrumb / Back */}
         <button 
           onClick={() => router.back()}
-          className="group flex items-center gap-3 text-botanical-green mb-12"
+          className="group flex items-center gap-4 text-botanical-green mb-16"
         >
-          <div className="w-10 h-10 rounded-full border border-botanical-green/10 flex items-center justify-center group-hover:bg-botanical-green group-hover:text-white transition-all">
-            <ArrowLeft size={18} />
+          <div className="w-12 h-12 rounded-full border border-botanical-green/10 flex items-center justify-center group-hover:bg-botanical-green group-hover:text-white transition-all duration-500">
+            <ArrowLeft size={20} />
           </div>
-          <span className="text-[10px] font-black uppercase tracking-[0.3em]">Back to Gallery</span>
+          <span className="text-xs font-black uppercase tracking-[0.4em]">Retour à la Collection</span>
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 xl:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 xl:gap-32">
           
-          {/* Left: Image Gallery */}
-          <div className="space-y-6">
-            <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden bg-muted-beige border border-foreground/5 shadow-2xl">
+          {/* Left Side: Visual Experience */}
+          <div className="space-y-8">
+            <div className="relative aspect-[4/5] rounded-[3.5rem] overflow-hidden bg-muted-beige border border-foreground/5 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] group">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={selectedImage}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                   className="w-full h-full"
                 >
                   <Image
                     src={selectedImage}
                     alt={product.name}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-[2000ms] group-hover:scale-110"
                     priority
                   />
                 </motion.div>
               </AnimatePresence>
               
-              {/* Badge */}
-              <div className="absolute top-8 left-8 bg-white/20 backdrop-blur-md border border-white/30 px-4 py-2 rounded-full">
-                <span className="text-[10px] font-black uppercase tracking-widest text-white">
-                  {product.category.replace("-", " ")}
-                </span>
+              <div className="absolute top-10 left-10 flex flex-col gap-3">
+                 <div className="bg-white/10 backdrop-blur-2xl border border-white/20 px-5 py-2.5 rounded-2xl">
+                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white">
+                      {product.category.replace("-", " ")}
+                    </span>
+                 </div>
               </div>
             </div>
 
-            {/* Thumbnails */}
-            <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+            {/* Gallery Thumbnails */}
+            <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar">
               {images.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setSelectedImage(img)}
-                  className={`relative w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 border-2 transition-all ${
-                    selectedImage === img ? "border-botanical-green scale-95 shadow-lg" : "border-transparent opacity-60 hover:opacity-100"
+                  className={`relative w-28 h-28 rounded-3xl overflow-hidden flex-shrink-0 border-2 transition-all duration-500 ${
+                    selectedImage === img 
+                    ? "border-luxury-gold scale-95 shadow-xl" 
+                    : "border-transparent opacity-40 hover:opacity-100"
                   }`}
                 >
                   <Image src={img} alt={`${product.name} ${idx}`} fill className="object-cover" />
@@ -136,45 +136,53 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* Right: Product Details */}
+          {/* Right Side: High-End Specifications */}
           <div className="flex flex-col">
-            <div className="mb-8">
-              <div className="flex items-center gap-3 mb-4 text-luxury-gold">
-                <Sparkles className="w-4 h-4" />
-                <span className="text-xs font-black uppercase tracking-[0.4em]">{product.brand} Collection</span>
-              </div>
-              <h1 className="text-5xl md:text-7xl font-serif font-black tracking-tighter text-foreground italic leading-[0.9] mb-6">
+            <div className="mb-12">
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center gap-4 mb-6 text-luxury-gold"
+              >
+                <div className="h-[1px] w-12 bg-luxury-gold" />
+                <span className="text-[10px] font-black uppercase tracking-[0.5em]">{product.brand} Signature</span>
+              </motion.div>
+              
+              <h1 className="text-6xl md:text-8xl font-serif font-black tracking-tighter text-foreground italic leading-[0.85] mb-8">
                 {product.name}
               </h1>
-              <p className="text-lg text-foreground/40 font-medium leading-relaxed max-w-xl">
-                {product.miniDescription || product.description}
+              
+              <p className="text-xl text-foreground/50 font-medium leading-relaxed max-w-xl border-l-2 border-botanical-green/10 pl-8">
+                {product.miniDescription}
               </p>
             </div>
 
-            {/* Pricing and Size Selector */}
-            <div className="bg-botanical-green/5 rounded-[2.5rem] p-8 md:p-10 mb-8 border border-botanical-green/5">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+            {/* THE BLUEPRINT: Interactive Technical Specs */}
+            <div className="bg-botanical-green text-muted-beige rounded-[3rem] p-10 md:p-14 mb-12 relative overflow-hidden shadow-2xl">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.15),transparent)] pointer-events-none" />
+              
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-12 relative z-10">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-botanical-green/40 mb-2 block">Investment</span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-5xl font-serif font-black text-foreground tracking-tighter">
+                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-beige/40 mb-4 block">Investissement Premium</span>
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-6xl font-serif font-black tracking-tighter text-white">
                       {selectedVariant?.price}
                     </span>
-                    <span className="text-sm font-black text-botanical-green uppercase tracking-widest">MAD</span>
+                    <span className="text-sm font-black text-luxury-gold uppercase tracking-widest">MAD</span>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-botanical-green/40 block">Select Dimension</span>
-                  <div className="flex gap-2 flex-wrap">
+                <div className="space-y-5">
+                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-beige/40 block">Dimensions Curatées</span>
+                  <div className="flex gap-3 flex-wrap">
                     {product.variants.map((v) => (
                       <button
                         key={v.size}
                         onClick={() => setSelectedVariant(v)}
-                        className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border ${
+                        className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all duration-500 border-2 ${
                           selectedVariant?.size === v.size
-                            ? "bg-botanical-green text-muted-beige border-botanical-green shadow-xl"
-                            : "bg-white text-foreground/60 border-foreground/5 hover:border-botanical-green/30"
+                            ? "bg-white text-botanical-green border-white shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                            : "bg-transparent text-white/40 border-white/10 hover:border-white/30"
                         }`}
                       >
                         {v.size}
@@ -184,103 +192,100 @@ export default function ProductPage() {
                 </div>
               </div>
 
-              {/* Technical Specifications */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-botanical-green/10">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2 text-botanical-green">
-                    <Ruler className="w-3.5 h-3.5" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Plant Alone</span>
-                  </div>
-                  <span className="text-lg font-serif italic font-bold text-foreground">
-                    {selectedVariant?.plantHeight || "N/A"}
-                  </span>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2 text-botanical-green">
-                    <div className="w-3.5 h-3.5 rounded-sm border border-botanical-green" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Vase Alone</span>
-                  </div>
-                  <span className="text-lg font-serif italic font-bold text-foreground">
-                    {selectedVariant?.vaseHeight || "N/A"}
-                  </span>
-                </div>
-                <div className="flex flex-col gap-1">
+              {/* TECHNICAL GRID (The 5 Measurements) */}
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-8 pt-12 border-t border-white/10 relative z-10">
+                {/* Total Height */}
+                <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-luxury-gold">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Total Harmony</span>
+                    <Maximize2 size={14} />
+                    <span className="text-[8px] font-black uppercase tracking-widest">Total</span>
                   </div>
-                  <span className="text-lg font-serif italic font-bold text-foreground">
-                    {selectedVariant?.size}
-                  </span>
+                  <span className="text-xl font-serif italic font-black text-white">{selectedVariant?.totalHeight}</span>
+                </div>
+
+                {/* Plant Height */}
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2 text-white/40">
+                    <Leaf size={14} />
+                    <span className="text-[8px] font-black uppercase tracking-widest">Plante</span>
+                  </div>
+                  <span className="text-xl font-serif italic font-black text-white">{selectedVariant?.plantHeight}</span>
+                </div>
+
+                {/* Vase Height */}
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2 text-white/40">
+                    <Box size={14} />
+                    <span className="text-[8px] font-black uppercase tracking-widest">Pot (H)</span>
+                  </div>
+                  <span className="text-xl font-serif italic font-black text-white">{selectedVariant?.vaseHeight}</span>
+                </div>
+
+                {/* Vase Width */}
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2 text-white/40">
+                    <Move size={14} />
+                    <span className="text-[8px] font-black uppercase tracking-widest">Pot (L)</span>
+                  </div>
+                  <span className="text-xl font-serif italic font-black text-white">{selectedVariant?.vaseWidth}</span>
+                </div>
+
+                {/* Vase Depth */}
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2 text-white/40">
+                    <Move size={14} className="rotate-90" />
+                    <span className="text-[8px] font-black uppercase tracking-widest">Pot (S)</span>
+                  </div>
+                  <span className="text-xl font-serif italic font-black text-white">{selectedVariant?.vaseDepth}</span>
                 </div>
               </div>
             </div>
 
-            {/* Narrative Description */}
-            <div className="mb-10">
-              <h3 className="text-xs font-black uppercase tracking-[0.3em] text-botanical-green mb-4">Botanical Narrative</h3>
-              <p className="text-foreground/60 leading-relaxed font-medium">
+            {/* Narrative Context */}
+            <div className="mb-12">
+              <h3 className="text-xs font-black uppercase tracking-[0.5em] text-luxury-gold mb-6 flex items-center gap-4">
+                 Philosophie Botanique <div className="h-[1px] flex-grow bg-foreground/10" />
+              </h3>
+              <p className="text-lg text-foreground/60 leading-relaxed font-medium">
                 {product.description}
               </p>
             </div>
 
-            {/* Features Row */}
-            <div className="grid grid-cols-2 gap-4 mb-10">
-              <div className="p-5 rounded-2xl bg-white border border-foreground/5 flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-leaf-green/10 flex items-center justify-center">
-                  <Leaf className="w-5 h-5 text-leaf-green" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-foreground">Premium Foliage</p>
-                  <p className="text-[9px] text-foreground/40 font-bold uppercase tracking-widest">{product.characteristics.foliage[0]}</p>
-                </div>
-              </div>
-              <div className="p-5 rounded-2xl bg-white border border-foreground/5 flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-botanical-green/10 flex items-center justify-center">
-                  <ShieldCheck className="w-5 h-5 text-botanical-green" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-foreground">UV Protected</p>
-                  <p className="text-[9px] text-foreground/40 font-bold uppercase tracking-widest">Permanent Vitality</p>
-                </div>
-              </div>
-            </div>
-
             {/* Action Bar */}
-            <div className="mt-auto flex items-center gap-6">
-              <div className="flex items-center gap-6 bg-foreground/5 rounded-2xl px-6 py-4 border border-foreground/5">
+            <div className="mt-auto flex items-stretch gap-6 h-20">
+              <div className="flex items-center gap-10 bg-foreground/5 rounded-3xl px-10 border border-foreground/5">
                 <button 
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="text-foreground/40 hover:text-botanical-green transition-colors"
+                  className="text-foreground/40 hover:text-botanical-green transition-all"
                 >
-                  <Minus size={20} />
+                  <Minus size={24} />
                 </button>
-                <span className="text-xl font-black min-w-[30px] text-center">{quantity}</span>
+                <span className="text-2xl font-black min-w-[30px] text-center">{quantity}</span>
                 <button 
                   onClick={() => setQuantity(quantity + 1)}
-                  className="text-foreground/40 hover:text-botanical-green transition-colors"
+                  className="text-foreground/40 hover:text-botanical-green transition-all"
                 >
-                  <Plus size={20} />
+                  <Plus size={24} />
                 </button>
               </div>
 
               <button
                 onClick={handleAddToCart}
-                className={`flex-grow flex items-center justify-center gap-4 py-6 rounded-2xl font-black uppercase tracking-[0.3em] text-xs transition-all duration-500 shadow-2xl ${
+                className={`flex-grow flex items-center justify-center gap-5 rounded-3xl font-black uppercase tracking-[0.4em] text-[10px] transition-all duration-700 shadow-[0_20px_50px_rgba(0,0,0,0.1)] ${
                   isAdded 
                   ? "bg-leaf-green text-white" 
-                  : "bg-botanical-green text-muted-beige hover:scale-[1.02] active:scale-95"
+                  : "bg-botanical-green text-muted-beige hover:bg-black hover:scale-[1.02] active:scale-95"
                 }`}
               >
                 {isAdded ? (
                   <>
                     <ShoppingBag className="w-5 h-5" /> 
-                    <span>Added to Sanctuary</span>
+                    <span>Ajouté au Panier</span>
                   </>
                 ) : (
                   <>
                     <ShoppingBag className="w-5 h-5" />
-                    <span>Incorporate to Space</span>
+                    <span>Inspirer mon Espace</span>
                   </>
                 )}
               </button>
@@ -289,33 +294,30 @@ export default function ProductPage() {
         </div>
       </div>
 
-      {/* Extra Detail Section */}
-      <section className="bg-botanical-green py-24 px-6 overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1),transparent)]" />
-        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-5xl md:text-7xl font-serif font-black text-muted-beige italic leading-none mb-8 tracking-tighter">
-              L'Art du <br /> <span className="text-luxury-gold not-italic uppercase text-3xl md:text-5xl tracking-[0.2em] font-sans block mt-4">Faux-Semblant.</span>
+      {/* Craftsmanship Section */}
+      <section className="bg-muted-beige py-32 px-6 relative overflow-hidden">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <div className="relative z-10">
+            <h2 className="text-6xl md:text-9xl font-serif font-black text-botanical-green italic leading-[0.8] mb-12 tracking-tighter">
+              L'Art de <br /> <span className="text-luxury-gold not-italic uppercase text-3xl md:text-6xl tracking-[0.3em] font-sans block mt-6">la Précision.</span>
             </h2>
-            <p className="text-muted-beige/60 text-lg leading-relaxed mb-12 max-w-lg">
-              Nos artisans botanistes utilisent des techniques de pointe pour reproduire les imperfections naturelles qui rendent chaque plante vivante unique. Des nervures des feuilles à la texture du tronc, rien n'est laissé au hasard.
-            </p>
-            <div className="space-y-6">
-              {product.characteristics.foliage.map((item, i) => (
-                <div key={i} className="flex items-center gap-4 text-muted-beige/80">
-                  <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
-                  <span className="text-sm font-black uppercase tracking-widest">{item}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              {product.characteristics.foliage.map((feat, i) => (
+                <div key={i} className="flex flex-col gap-4 p-8 bg-white rounded-3xl border border-black/5 shadow-sm">
+                   <Sparkles className="text-luxury-gold w-5 h-5" />
+                   <p className="text-[10px] font-black uppercase tracking-widest text-botanical-green">{feat}</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="relative aspect-square md:aspect-video rounded-[3rem] overflow-hidden border border-white/10 shadow-3xl">
+          <div className="relative aspect-square rounded-[4rem] overflow-hidden shadow-3xl">
             <Image 
               src={images[1] || images[0]} 
-              alt="Macro detail" 
+              alt="Artisan detail" 
               fill 
               className="object-cover"
             />
+            <div className="absolute inset-0 bg-botanical-green/10" />
           </div>
         </div>
       </section>

@@ -9,8 +9,24 @@
     "images": ["/newplants/bonsai.jpg", "/newplants/bonsai-pin-artificiel-en-pot---plante-synthetique-interieur-exterieur---h95cm-arbre-artificiel-artificielflower-artificielflower-33340453.jpg", "/newplants/bonsai-pin-artificiel-en-pot---plante-synthetique-interieur-exterieur---h95cm-arbre-artificiel-artificielflower-artificielflower-33340454.jpg"],
     "category": "luxury",
     "variants": [
-      {"size": "60cm", "price": 450, "plantHeight": "45cm", "vaseHeight": "15cm"},
-      {"size": "95cm", "price": 850, "plantHeight": "75cm", "vaseHeight": "20cm"}
+      {
+        "size": "Luxe Compact", 
+        "price": 450, 
+        "totalHeight": "60cm", 
+        "plantHeight": "45cm", 
+        "vaseHeight": "15cm",
+        "vaseWidth": "18cm",
+        "vaseDepth": "18cm"
+      },
+      {
+        "size": "Grand Heritage", 
+        "price": 850, 
+        "totalHeight": "95cm", 
+        "plantHeight": "75cm", 
+        "vaseHeight": "20cm",
+        "vaseWidth": "25cm",
+        "vaseDepth": "25cm"
+      }
     ],
     "characteristics": {
       "foliage": ["Aiguilles haute densité", "Vert profond", "Résistant UV"],
@@ -28,8 +44,24 @@
     "images": ["/newplants/fougere.jpg", "/newplants/chute-artificielle-fougere-en-piquet---plante-dinterieur---h70cm-vert-feuillage-artificiel-artificielflower-artificielflower-33340755.jpg", "/newplants/chute-artificielle-fougere-en-piquet---plante-dinterieur---h70cm-vert-feuillage-artificiel-artificielflower-artificielflower-33340756.jpg"],
     "category": "home-decor",
     "variants": [
-      {"size": "70cm", "price": 290, "plantHeight": "70cm", "vaseHeight": "0cm"},
-      {"size": "100cm", "price": 420, "plantHeight": "100cm", "vaseHeight": "0cm"}
+      {
+        "size": "Standard Drop", 
+        "price": 290, 
+        "totalHeight": "70cm", 
+        "plantHeight": "70cm", 
+        "vaseHeight": "0cm",
+        "vaseWidth": "0cm",
+        "vaseDepth": "0cm"
+      },
+      {
+        "size": "Cascading Luxe", 
+        "price": 420, 
+        "totalHeight": "100cm", 
+        "plantHeight": "100cm", 
+        "vaseHeight": "0cm",
+        "vaseWidth": "0cm",
+        "vaseDepth": "0cm"
+      }
     ],
     "characteristics": {
       "foliage": ["Frondes délicates", "Multi-tons de vert", "Densité premium"],
@@ -47,9 +79,33 @@
     "images": ["/newplants/palmier.jpg", "/newplants/palmier-artificiel-areca-plast---plante-interieur-exterieur---h100cm-vert-plante-artificielle-artificielflower-artificielflower-33342659.jpg", "/newplants/palmier-artificiel-areca-plast---plante-interieur-exterieur---h120cm-vert-plante-artificielle-artificielflower-artificielflower-33342662.jpg"],
     "category": "office",
     "variants": [
-      {"size": "120cm", "price": 750, "plantHeight": "100cm", "vaseHeight": "20cm"},
-      {"size": "160cm", "price": 1200, "plantHeight": "135cm", "vaseHeight": "25cm"},
-      {"size": "200cm", "price": 1850, "plantHeight": "170cm", "vaseHeight": "30cm"}
+      {
+        "size": "Classic Tropical", 
+        "price": 750, 
+        "totalHeight": "120cm", 
+        "plantHeight": "100cm", 
+        "vaseHeight": "20cm",
+        "vaseWidth": "22cm",
+        "vaseDepth": "22cm"
+      },
+      {
+        "size": "Executive Suite", 
+        "price": 1200, 
+        "totalHeight": "160cm", 
+        "plantHeight": "135cm", 
+        "vaseHeight": "25cm",
+        "vaseWidth": "28cm",
+        "vaseDepth": "28cm"
+      },
+      {
+        "size": "Majestic Oasis", 
+        "price": 1850, 
+        "totalHeight": "200cm", 
+        "plantHeight": "170cm", 
+        "vaseHeight": "30cm",
+        "vaseWidth": "35cm",
+        "vaseDepth": "35cm"
+      }
     ],
     "characteristics": {
       "foliage": ["Palmes larges", "Résistant UV", "Anti-statique"],
@@ -67,8 +123,24 @@
     "images": ["/newplants/dieffen.jpg", "/newplants/feuillage-artificiel-dieffen-en-piquet---plante-dinterieur---h70cm-panache-plante-artificielle-artificielflower-artificielflower-33341132.jpg", "/newplants/feuillage-artificiel-dieffen-en-piquet---plante-dinterieur---h70cm-panache-plante-artificielle-artificielflower-artificielflower-33341133.jpg"],
     "category": "home-decor",
     "variants": [
-      {"size": "70cm", "price": 380, "plantHeight": "55cm", "vaseHeight": "15cm"},
-      {"size": "110cm", "price": 590, "plantHeight": "90cm", "vaseHeight": "20cm"}
+      {
+        "size": "Studio Style", 
+        "price": 380, 
+        "totalHeight": "70cm", 
+        "plantHeight": "55cm", 
+        "vaseHeight": "15cm",
+        "vaseWidth": "16cm",
+        "vaseDepth": "16cm"
+      },
+      {
+        "size": "Gallery Edition", 
+        "price": 590, 
+        "totalHeight": "110cm", 
+        "plantHeight": "90cm", 
+        "vaseHeight": "20cm",
+        "vaseWidth": "22cm",
+        "vaseDepth": "22cm"
+      }
     ],
     "characteristics": {
       "foliage": ["Feuillage panaché", "Grandes feuilles", "Impression HD"],
@@ -86,8 +158,24 @@
     "images": ["/newplants/ceropegia.jpg", "/newplants/feuillage-artificiel-chute-de-ceropegia---chaine-des-coeurs-pour-interieur---h60cm-feuillage-artificiel-artificielflower-artificielflower-33340961.jpg", "/newplants/feuillage-artificiel-chute-de-ceropegia---chaine-des-coeurs-pour-interieur---h60cm-feuillage-artificiel-artificielflower-artificielflower-33340962.jpg"],
     "category": "home-decor",
     "variants": [
-      {"size": "60cm", "price": 240, "plantHeight": "60cm", "vaseHeight": "0cm"},
-      {"size": "90cm", "price": 350, "plantHeight": "90cm", "vaseHeight": "0cm"}
+      {
+        "size": "Delicate Hearts", 
+        "price": 240, 
+        "totalHeight": "60cm", 
+        "plantHeight": "60cm", 
+        "vaseHeight": "0cm",
+        "vaseWidth": "0cm",
+        "vaseDepth": "0cm"
+      },
+      {
+        "size": "Extended Love", 
+        "price": 350, 
+        "totalHeight": "90cm", 
+        "plantHeight": "90cm", 
+        "vaseHeight": "0cm",
+        "vaseWidth": "0cm",
+        "vaseDepth": "0cm"
+      }
     ],
     "characteristics": {
       "foliage": ["Petites feuilles en cœur", "Gris-vert", "Aspect succulent"],
@@ -105,8 +193,24 @@
     "images": ["/newplants/philo.jpg", "/newplants/feuillage-artificiel-chute-de-philo---plante-pour-interieur---h80cm-vert-plante-artificielle-artificielflower-artificielflower-33341042.jpg", "/newplants/feuillage-artificiel-chute-de-philo---plante-pour-interieur---h80cm-vert-plante-artificielle-artificielflower-artificielflower-33341043.jpg"],
     "category": "office",
     "variants": [
-      {"size": "80cm", "price": 320, "plantHeight": "80cm", "vaseHeight": "0cm"},
-      {"size": "120cm", "price": 480, "plantHeight": "120cm", "vaseHeight": "0cm"}
+      {
+        "size": "Urban Pulse", 
+        "price": 320, 
+        "totalHeight": "80cm", 
+        "plantHeight": "80cm", 
+        "vaseHeight": "0cm",
+        "vaseWidth": "0cm",
+        "vaseDepth": "0cm"
+      },
+      {
+        "size": "Green Sanctuary", 
+        "price": 480, 
+        "totalHeight": "120cm", 
+        "plantHeight": "120cm", 
+        "vaseHeight": "0cm",
+        "vaseWidth": "0cm",
+        "vaseDepth": "0cm"
+      }
     ],
     "characteristics": {
       "foliage": ["Vert vibrant", "Feuilles cordiformes", "Aspect brillant"],
