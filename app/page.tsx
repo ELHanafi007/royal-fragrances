@@ -9,6 +9,7 @@ import WhatsAppFAB from "@/components/WhatsAppFAB";
 import { PLANTES_CONFIG } from "@/lib/constants";
 import Script from "next/script";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { ShieldCheck, Sprout, Sparkles, Wind } from "lucide-react";
 
 export default function Home() {
@@ -16,15 +17,15 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Plantes Artificielles",
-    "image": "https://plantesartificielles.fr/logo.png",
+    "image": "https://plantesartificielles.fr/logo.jpg",
     "@id": "https://plantesartificielles.fr",
     "url": "https://plantesartificielles.fr",
-    "telephone": "+33600000000",
+    "telephone": "+212699500624",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Paris",
-      "addressLocality": "Paris",
-      "addressCountry": "FR"
+      "streetAddress": "Casablanca",
+      "addressLocality": "Casablanca",
+      "addressCountry": "MA"
     },
     "geo": {
       "@type": "GeoCoordinates",
@@ -56,6 +57,27 @@ export default function Home() {
       <ProductShowcase />
       <MacroGallery />
       
+      {/* Promo Section - "Taman Zwin wa Khedma N9iya" */}
+      <section className="py-20 md:py-32 bg-background overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-6">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="relative aspect-[16/9] md:aspect-[21/9] rounded-[3rem] md:rounded-[4rem] overflow-hidden shadow-3xl border border-foreground/5 group"
+          >
+            <Image 
+              src="/promo.jpg" 
+              alt="Promotion Plantes Artificielles" 
+              fill 
+              className="object-cover transition-transform duration-[3000ms] group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-botanical-green/10" />
+          </motion.div>
+        </div>
+      </section>
+
       {/* Excellence / Trust Section */}
       <section id="excellence" className="py-32 md:py-48 bg-background relative overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6">

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, ShoppingCart, Leaf, Instagram, Phone, MapPin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/lib/CartContext";
@@ -55,10 +56,15 @@ const Navbar = () => {
             {/* Logo Section */}
             <Link href="/" className="flex items-center gap-2 md:gap-3 group">
               <div className={cn(
-                "relative w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-500 group-hover:rotate-12",
-                isScrolled ? "bg-white text-botanical-green" : "bg-botanical-green text-muted-beige"
+                "relative w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-500 group-hover:rotate-12 overflow-hidden border border-black/5 dark:border-white/10",
+                isScrolled ? "bg-white" : "bg-botanical-green"
               )}>
-                <Leaf size={16} className="md:w-5 md:h-5" />
+                <Image 
+                  src="/logo.jpg" 
+                  alt="Logo" 
+                  fill 
+                  className="object-cover"
+                />
               </div>
               <div className="flex flex-col">
                 <span className={cn(
@@ -175,7 +181,7 @@ const Navbar = () => {
                   <div className="grid grid-cols-2 gap-8">
                     <div className="space-y-3">
                       <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Contact</p>
-                      <a href="tel:+212000000000" className="text-white font-bold flex items-center gap-2 text-sm">
+                      <a href={`tel:+${PLANTES_CONFIG.whatsappNumber}`} className="text-white font-bold flex items-center gap-2 text-sm">
                         <Phone size={14} className="text-luxury-gold" />
                         Appelez-nous
                       </a>
