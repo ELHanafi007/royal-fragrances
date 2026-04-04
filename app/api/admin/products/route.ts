@@ -23,14 +23,17 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     
-    // Clean data for Supabase - Strictly matching the standard image_url
+    // Clean data for Supabase
     const productData = {
       name: body.name,
       brand: body.brand,
       description: body.description,
-      image_url: body.imageUrl, // We take the frontend's imageUrl and map it to image_url
+      mini_description: body.miniDescription,
+      image_url: body.imageUrl,
+      images: body.images || [body.imageUrl],
       category: body.category,
-      sizes: body.sizes,
+      variants: body.variants,
+      characteristics: body.characteristics,
       notes: body.notes
     };
 
@@ -60,14 +63,17 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { id, ...rest } = body;
 
-    // Clean data for Supabase - Strictly matching the standard image_url
+    // Clean data for Supabase
     const updatedProductData = {
       name: rest.name,
       brand: rest.brand,
       description: rest.description,
-      image_url: rest.imageUrl, // Map the frontend's imageUrl to the database's image_url
+      mini_description: rest.miniDescription,
+      image_url: rest.imageUrl,
+      images: rest.images || [rest.imageUrl],
       category: rest.category,
-      sizes: rest.sizes,
+      variants: rest.variants,
+      characteristics: rest.characteristics,
       notes: rest.notes
     };
 

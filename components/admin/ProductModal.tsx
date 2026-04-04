@@ -1,5 +1,5 @@
 import { Product, Variant, PlantCharacteristics } from '@/data/products';
-import { X, Plus, Trash2, Save, Image as ImageIcon, Upload, Loader2, Leaf, Trees, Sprout } from 'lucide-react';
+import { X, Plus, Trash2, Save, Image as ImageIcon, Upload, Loader2, Leaf, Trees, Sprout, Ruler, Box, Maximize2, Move } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
@@ -12,14 +12,25 @@ interface ProductModalProps {
   product?: Product | null;
 }
 
+const defaultVariant: Variant = { 
+  size: 'Standard', 
+  price: 0, 
+  totalHeight: '120cm', 
+  plantHeight: '100cm', 
+  vaseHeight: '20cm', 
+  vaseWidth: '22cm', 
+  vaseDepth: '22cm' 
+};
+
 export default function ProductModal({ isOpen, onClose, onSave, product }: ProductModalProps) {
   const [formData, setFormData] = useState<Partial<Product>>({
     name: '',
     brand: 'Standard',
     description: '',
+    miniDescription: '',
     imageUrl: '',
     category: 'home-decor',
-    variants: [{ size: '60cm', price: 0 }, { size: '120cm', price: 0 }, { size: '180cm', price: 0 }],
+    variants: [{ ...defaultVariant }],
     characteristics: { foliage: [], texture: [], pot: [] }
   });
 
@@ -36,9 +47,10 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
         name: '',
         brand: 'Standard',
         description: '',
+        miniDescription: '',
         imageUrl: '',
         category: 'home-decor',
-        variants: [{ size: '60cm', price: 0 }, { size: '120cm', price: 0 }, { size: '180cm', price: 0 }],
+        variants: [{ ...defaultVariant }],
         characteristics: { foliage: [], texture: [], pot: [] }
       });
     }
@@ -54,7 +66,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
       const fileName = `${Math.random()}.${fileExt}`;
       const filePath = `products/${fileName}`;
 
-      const { error: uploadError, data } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('products')
         .upload(filePath, file);
 
@@ -100,6 +112,18 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
   const handleVariantChange = (index: number, field: keyof Variant, value: string | number) => {
     const newVariants = [...(formData.variants || [])];
     newVariants[index] = { ...newVariants[index], [field]: value } as any;
+    setFormData({ ...formData, variants: newVariants });
+  };
+
+  const addVariant = () => {
+    setFormData({
+      ...formData,
+      variants: [...(formData.variants || []), { ...defaultVariant }]
+    });
+  };
+
+  const removeVariant = (index: number) => {
+    const newVariants = (formData.variants || []).filter((_, i) => i !== index);
     setFormData({ ...formData, variants: newVariants });
   };
 
@@ -173,7 +197,18 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Description</label>
+                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Mini Description (Short)</label>
+                  <input 
+                    type="text" 
+                    value={formData.miniDescription}
+                    onChange={(e) => setFormData({...formData, miniDescription: e.target.value})}
+                    placeholder="Short botanical summary..."
+                    className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white focus:border-botanical-green outline-none transition-all"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Full Narrative Description</label>
                   <textarea 
                     value={formData.description}
                     onChange={(e) => setFormData({...formData, description: e.target.value})}
@@ -214,28 +249,112 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
             </div>
 
             {/* Sizes & Pricing Section */}
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-foreground/30 flex items-center gap-2">
-                <span className="w-4 h-px bg-botanical-green/30" /> Sizes & Pricing
-              </h3>
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-foreground/30 flex items-center gap-2">
+                  <span className="w-4 h-px bg-botanical-green/30" /> Technical Variants
+                </h3>
+                <button 
+                  onClick={addVariant}
+                  className="p-2 rounded-xl bg-botanical-green/5 text-botanical-green hover:bg-botanical-green hover:text-white transition-all"
+                >
+                  <Plus size={16} />
+                </button>
+              </div>
               
-              <div className="grid grid-cols-1 gap-3">
+              <div className="space-y-6">
                 {formData.variants?.map((v, idx) => (
-                  <div key={idx} className="flex items-center gap-4 bg-foreground/5 p-4 rounded-2xl border border-foreground/5">
-                    <input 
-                      type="text" 
-                      value={v.size}
-                      onChange={(e) => handleVariantChange(idx, 'size', e.target.value)}
-                      className="w-24 bg-white px-3 py-2 rounded-lg border border-transparent focus:border-botanical-green outline-none text-[10px] font-black uppercase tracking-widest"
-                    />
-                    <div className="flex-grow relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/20 font-bold text-[10px]">MAD</span>
-                      <input 
-                        type="number" 
-                        value={v.price}
-                        onChange={(e) => handleVariantChange(idx, 'price', Number(e.target.value))}
-                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-white border border-transparent focus:border-botanical-green outline-none transition-all font-bold"
-                      />
+                  <div key={idx} className="bg-foreground/5 p-6 rounded-[2rem] border border-foreground/5 space-y-4 relative group">
+                    <button 
+                      onClick={() => removeVariant(idx)}
+                      className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-red-50 text-red-400 border border-red-100 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-[8px] font-black uppercase tracking-widest text-foreground/40 ml-1">Variant Name</label>
+                        <input 
+                          type="text" 
+                          value={v.size}
+                          onChange={(e) => handleVariantChange(idx, 'size', e.target.value)}
+                          placeholder="e.g. Grand Luxe"
+                          className="w-full bg-white px-4 py-3 rounded-xl border border-transparent focus:border-botanical-green outline-none text-[10px] font-black uppercase tracking-widest"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[8px] font-black uppercase tracking-widest text-foreground/40 ml-1">Price (MAD)</label>
+                        <input 
+                          type="number" 
+                          value={v.price}
+                          onChange={(e) => handleVariantChange(idx, 'price', Number(e.target.value))}
+                          className="w-full bg-white px-4 py-3 rounded-xl border border-transparent focus:border-botanical-green outline-none font-bold"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3 pt-2">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-1 text-luxury-gold mb-1">
+                          <Maximize2 size={10} />
+                          <label className="text-[7px] font-black uppercase tracking-widest">Total H</label>
+                        </div>
+                        <input 
+                          type="text" 
+                          value={v.totalHeight}
+                          onChange={(e) => handleVariantChange(idx, 'totalHeight', e.target.value)}
+                          className="w-full bg-white/50 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-1 text-botanical-green mb-1">
+                          <Leaf size={10} />
+                          <label className="text-[7px] font-black uppercase tracking-widest">Plant H</label>
+                        </div>
+                        <input 
+                          type="text" 
+                          value={v.plantHeight}
+                          onChange={(e) => handleVariantChange(idx, 'plantHeight', e.target.value)}
+                          className="w-full bg-white/50 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-1 text-foreground/40 mb-1">
+                          <Box size={10} />
+                          <label className="text-[7px] font-black uppercase tracking-widest">Pot H</label>
+                        </div>
+                        <input 
+                          type="text" 
+                          value={v.vaseHeight}
+                          onChange={(e) => handleVariantChange(idx, 'vaseHeight', e.target.value)}
+                          className="w-full bg-white/50 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-1 text-foreground/40 mb-1">
+                          <Move size={10} />
+                          <label className="text-[7px] font-black uppercase tracking-widest">Pot W</label>
+                        </div>
+                        <input 
+                          type="text" 
+                          value={v.vaseWidth}
+                          onChange={(e) => handleVariantChange(idx, 'vaseWidth', e.target.value)}
+                          className="w-full bg-white/50 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-1 text-foreground/40 mb-1">
+                          <Move size={10} className="rotate-90" />
+                          <label className="text-[7px] font-black uppercase tracking-widest">Pot D</label>
+                        </div>
+                        <input 
+                          type="text" 
+                          value={v.vaseDepth}
+                          onChange={(e) => handleVariantChange(idx, 'vaseDepth', e.target.value)}
+                          className="w-full bg-white/50 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white"
+                        />
+                      </div>
                     </div>
                   </div>
                 ))}
