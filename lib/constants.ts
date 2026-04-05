@@ -1,9 +1,9 @@
 export const PLANTES_CONFIG = {
   brandName: "Plantes Artificielles",
   tagline: "Permanent Botanical Luxury",
-  whatsappNumber: "21262599179", 
-  email: "monalizahouse598@gmail.com",
-  location: "Hay Narjis, Fes, Morocco",
+  whatsappNumber: "212699500624", 
+  email: "contact@plantesartificielles.ma",
+  location: "Casablanca, Morocco",
   instagram: "plantes.artificielles.ma",
   delivery: {
     standardFee: 0,

@@ -28,14 +28,6 @@ const faqs = [
     a: "Oui, nous offrons la livraison premium gratuite dans tout le Maroc. Chaque pièce est emballée avec un soin extrême pour garantir une arrivée parfaite à votre domicile."
   },
   {
-    q: "Quelles sont les options de paiement ?",
-    a: "Le paiement s'effectue directement à la livraison (Cash on Delivery) pour votre plus grande sérénité."
-  },
-  {
-    q: "Quelle est votre politique de retour ?",
-    a: "Nous acceptons les retours dans un délai de 48 heures après la réception, si le produit ne correspond pas à vos attentes."
-  },
-  {
     q: "Puis-je personnaliser les dimensions ?",
     a: "Nous proposons plusieurs variantes de tailles curatées pour chaque modèle. Pour des projets sur-mesure de grande envergure, veuillez contacter notre conciergerie via WhatsApp."
   }
@@ -51,11 +43,11 @@ export default function Home() {
     "image": "https://plantesartificielles.fr/logo.jpg",
     "@id": "https://plantesartificielles.fr",
     "url": "https://plantesartificielles.fr",
-    "telephone": "+21262599179",
+    "telephone": "+212699500624",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Hay Narjis",
-      "addressLocality": "Fes",
+      "streetAddress": "Casablanca",
+      "addressLocality": "Casablanca",
       "addressCountry": "MA"
     },
     "geo": {
