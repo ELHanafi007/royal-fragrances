@@ -28,25 +28,27 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
     setIsSubmitting(true);
 
     try {
+      // 1. Generate the WhatsApp Message
       const itemsList = cart.map(item => 
-        `- ${item.product.name} (${item.variant.size}) x${item.quantity}: ${item.variant.price * item.quantity} MAD`
+        `• ${item.product.name} (${item.variant.size}) x${item.quantity}`
       ).join("\n");
 
-      const message = `Bonjour! Je souhaite passer une commande:
+      const whatsappMessage = `🌿 *Nouvelle Commande - Plantes Artificielles*\n\n` +
+        `*Ma Sélection :*\n${itemsList}\n\n` +
+        `*Total :* ${totalPrice} MAD\n` +
+        `*Livraison :* GRATUITE\n\n` +
+        `*Informations de Livraison :*\n` +
+        `• *Nom :* ${formData.name}\n` +
+        `• *WhatsApp :* ${formData.phone}\n` +
+        `• *Adresse :* ${formData.address}\n\n` +
+        `Merci de confirmer la réception de ma commande !`;
 
-${itemsList}
-
-Total: ${totalPrice} MAD (Livraison Gratuite)
-
-Mes informations:
-Nom: ${formData.name}
-Adresse: ${formData.address}
-Téléphone: ${formData.phone}`;
-
-      const encodedMessage = encodeURIComponent(message);
+      const encodedMessage = encodeURIComponent(whatsappMessage);
       const whatsappUrl = `https://wa.me/${PLANTES_CONFIG.whatsappNumber}?text=${encodedMessage}`;
 
-      // Call API
+      // 2. Save to Supabase for Admin tracking
+      const summary = cart.map(item => `${item.product.name} (${item.variant.size}) x${item.quantity}`).join(", ");
+      
       await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,16 +68,18 @@ Téléphone: ${formData.phone}`;
 
       setIsSuccess(true);
       
+      // 3. Auto-redirect to WhatsApp
       setTimeout(() => {
         window.open(whatsappUrl, "_blank");
         clearCart();
         onClose();
         setIsSuccess(false);
         setFormData({ name: "", address: "", phone: "" });
-      }, 2000);
+      }, 1500);
 
     } catch (error) {
       console.error("Order failed:", error);
+      alert("Une erreur est survenue. Veuillez réessayer.");
     } finally {
       setIsSubmitting(false);
     }
