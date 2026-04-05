@@ -4,6 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { Leaf, Instagram, Phone, MapPin, Mail, ArrowRight } from "lucide-react";
 
+import { PLANTES_CONFIG } from "@/lib/constants";
+
 const Footer = () => {
   return (
     <footer className="bg-botanical-green text-muted-beige pt-24 pb-12 px-6">
@@ -17,10 +19,10 @@ const Footer = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-serif font-black tracking-tighter leading-none uppercase text-white">
-                  Plantes
+                  {PLANTES_CONFIG.brandName.split(' ')[0]}
                 </span>
                 <span className="text-[10px] tracking-[0.3em] font-bold uppercase mt-1 text-luxury-gold">
-                  Artificielles
+                  {PLANTES_CONFIG.brandName.split(' ')[1]}
                 </span>
               </div>
             </Link>
@@ -28,10 +30,20 @@ const Footer = () => {
               L'excellence du réalisme botanique pour vos espaces de prestige. Livraison gratuite dans tout le Maroc.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-botanical-green transition-all">
+              <a 
+                href={`https://wa.me/${PLANTES_CONFIG.whatsappNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-botanical-green transition-all"
+              >
                 <Instagram size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-botanical-green transition-all">
+              <a 
+                href={`https://wa.me/${PLANTES_CONFIG.whatsappNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-botanical-green transition-all"
+              >
                 <Phone size={18} />
               </a>
             </div>
@@ -57,15 +69,22 @@ const Footer = () => {
             <ul className="space-y-6">
               <li className="flex items-start gap-4">
                 <MapPin size={18} className="text-luxury-gold flex-shrink-0" />
-                <span className="text-white/60 text-sm">Paris, France & Casablanca, Maroc</span>
+                <span className="text-white/60 text-sm">{PLANTES_CONFIG.location}</span>
               </li>
               <li className="flex items-start gap-4">
                 <Phone size={18} className="text-luxury-gold flex-shrink-0" />
-                <span className="text-white/60 text-sm">+212 699 500 624</span>
+                <a 
+                  href={`https://wa.me/${PLANTES_CONFIG.whatsappNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/60 text-sm hover:text-white transition-colors"
+                >
+                  +{PLANTES_CONFIG.whatsappNumber}
+                </a>
               </li>
               <li className="flex items-start gap-4">
                 <Mail size={18} className="text-luxury-gold flex-shrink-0" />
-                <span className="text-white/60 text-sm">contact@plantesartificielles.ma</span>
+                <span className="text-white/60 text-sm">{PLANTES_CONFIG.email}</span>
               </li>
             </ul>
           </div>
