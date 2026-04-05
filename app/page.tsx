@@ -28,6 +28,14 @@ const faqs = [
     a: "Oui, nous offrons la livraison premium gratuite dans tout le Maroc. Chaque pièce est emballée avec un soin extrême pour garantir une arrivée parfaite à votre domicile."
   },
   {
+    q: "Quelles sont les options de paiement ?",
+    a: "Le paiement s'effectue directement à la livraison (Cash on Delivery) pour votre plus grande sérénité."
+  },
+  {
+    q: "Quelle est votre politique de retour ?",
+    a: "Nous acceptons les retours dans un délai de 48 heures après la réception, si le produit ne correspond pas à vos attentes."
+  },
+  {
     q: "Puis-je personnaliser les dimensions ?",
     a: "Nous proposons plusieurs variantes de tailles curatées pour chaque modèle. Pour des projets sur-mesure de grande envergure, veuillez contacter notre conciergerie via WhatsApp."
   }
@@ -43,11 +51,11 @@ export default function Home() {
     "image": "https://plantesartificielles.fr/logo.jpg",
     "@id": "https://plantesartificielles.fr",
     "url": "https://plantesartificielles.fr",
-    "telephone": "+212699500624",
+    "telephone": "+21262599179",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Casablanca",
-      "addressLocality": "Casablanca",
+      "streetAddress": "Hay Narjis",
+      "addressLocality": "Fes",
       "addressCountry": "MA"
     },
     "geo": {
@@ -81,33 +89,14 @@ export default function Home() {
       <MacroGallery />
       
       {/* Masterpiece Promo Section */}
-      <section className="relative h-[60vh] md:h-[80vh] overflow-hidden group">
+      <section className="relative h-[40vh] md:h-[60vh] overflow-hidden group">
         <Image 
           src="/promo.jpg" 
           alt="Luxury Botanical Atmosphere" 
           fill 
           className="object-cover transition-transform duration-[3000ms] group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-botanical-green/80" />
-        
-        <div className="absolute inset-0 flex items-center justify-center text-center p-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-4xl"
-          >
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/60 mb-6 block">Inspiration Permanente</span>
-            <h2 className="text-5xl md:text-8xl font-serif font-black text-white italic tracking-tighter leading-none mb-10">
-              Redéfinissez <br /> <span className="text-luxury-gold not-italic uppercase text-3xl md:text-6xl tracking-[0.2em] font-sans block mt-4">Votre Horizon.</span>
-            </h2>
-            <Link href="#collection" className="button-nature group">
-               <span className="flex items-center gap-3">
-                 Découvrir la Curatelle <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-               </span>
-            </Link>
-          </motion.div>
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background/20" />
       </section>
 
       {/* Excellence / Trust Section */}

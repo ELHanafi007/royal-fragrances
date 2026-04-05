@@ -19,30 +19,39 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Plantes Artificielles | Le Luxe Botanique Permanent",
+    default: "Plantes Artificielles | Le Standard Botanique au Maroc",
     template: "%s | Plantes Artificielles",
   },
-  description: "Sublimez votre espace avec nos plantes artificielles haut de gamme. Design botanique d'exception pour maisons, bureaux et espaces de luxe.",
-  keywords: ["plantes artificielles", "luxe botanique", "décoration d'intérieur", "verdure de bureau", "nature permanente"],
+  description: "Découvrez l'excellence du réalisme botanique à Fès et partout au Maroc. Des plantes artificielles haut de gamme pour transformer vos intérieurs.",
+  keywords: ["plantes artificielles maroc", "décoration luxe fès", "faux bonsai premium", "design intérieur végétal"],
   authors: [{ name: "Plantes Artificielles" }],
   creator: "Plantes Artificielles",
   publisher: "Plantes Artificielles",
-  metadataBase: new URL("https://plantesartificielles.fr"),
+  metadataBase: new URL("https://plantesartificielles.ma"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Plantes Artificielles | Luxe Botanique",
-    description: "Plantes artificielles hyper-réalistes pour espaces de prestige.",
-    url: "https://plantesartificielles.fr",
+    title: "Plantes Artificielles | Le Standard Botanique",
+    description: "Le réalisme absolu pour vos espaces de prestige. Livraison gratuite au Maroc.",
+    url: "https://plantesartificielles.ma",
     siteName: "Plantes Artificielles",
+    images: [
+      {
+        url: "/promo.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Plantes Artificielles Luxe",
+      },
+    ],
     locale: "fr_FR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Plantes Artificielles | Nature Permanente",
-    description: "La destination n°1 pour la botanique de luxe.",
+    title: "Plantes Artificielles | Luxe Botanique",
+    description: "Réalisme inégalé et vitalité permanente.",
+    images: ["/promo.jpg"],
   },
   robots: {
     index: true,

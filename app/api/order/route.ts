@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
     // 2. Send Email Notification
     const resendKey = process.env.RESEND_API_KEY;
-    const recipientEmail = "sunshinervshine@yahoo.com";
+    const recipientEmail = "monalizahouse598@gmail.com";
 
     if (resendKey) {
       try {
