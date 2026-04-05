@@ -1,18 +1,41 @@
 "use client";
 
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import LifestyleSlider from "@/components/LifestyleSlider";
 import ProductShowcase from "@/components/ProductShowcase";
 import { MacroGallery } from "@/components/MacroGallery";
+import Footer from "@/components/Footer";
 import WhatsAppFAB from "@/components/WhatsAppFAB";
-import { PLANTES_CONFIG } from "@/lib/constants";
 import Script from "next/script";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { ShieldCheck, Sprout, Sparkles, Wind } from "lucide-react";
+import { ShieldCheck, Sprout, Sparkles, Wind, ChevronDown, HelpCircle, ArrowRight } from "lucide-react";
+import Link from "next/link";
+
+const faqs = [
+  {
+    q: "Les plantes sont-elles résistantes aux UV ?",
+    a: "Absolument. Nos collections haut de gamme sont traitées avec un revêtement anti-UV de qualité industrielle, garantissant que les couleurs restent vibrantes même en exposition directe au soleil."
+  },
+  {
+    q: "Quel entretien est nécessaire ?",
+    a: "Pratiquement aucun. Un simple dépoussiérage léger avec un chiffon doux ou un plumeau tous les quelques mois suffit pour conserver leur éclat originel."
+  },
+  {
+    q: "La livraison est-elle vraiment gratuite ?",
+    a: "Oui, nous offrons la livraison premium gratuite dans tout le Maroc. Chaque pièce est emballée avec un soin extrême pour garantir une arrivée parfaite à votre domicile."
+  },
+  {
+    q: "Puis-je personnaliser les dimensions ?",
+    a: "Nous proposons plusieurs variantes de tailles curatées pour chaque modèle. Pour des projets sur-mesure de grande envergure, veuillez contacter notre conciergerie via WhatsApp."
+  }
+];
 
 export default function Home() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -29,8 +52,8 @@ export default function Home() {
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 48.8566,
-      "longitude": 2.3522
+      "latitude": 33.5731,
+      "longitude": -7.5898
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
@@ -57,23 +80,32 @@ export default function Home() {
       <ProductShowcase />
       <MacroGallery />
       
-      {/* Promo Section - "Taman Zwin wa Khedma N9iya" */}
-      <section className="py-20 md:py-32 bg-background overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-6">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+      {/* Masterpiece Promo Section */}
+      <section className="relative h-[60vh] md:h-[80vh] overflow-hidden group">
+        <Image 
+          src="/promo.jpg" 
+          alt="Luxury Botanical Atmosphere" 
+          fill 
+          className="object-cover transition-transform duration-[3000ms] group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-botanical-green/80" />
+        
+        <div className="absolute inset-0 flex items-center justify-center text-center p-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="relative aspect-[16/9] md:aspect-[21/9] rounded-[3rem] md:rounded-[4rem] overflow-hidden shadow-3xl border border-foreground/5 group"
+            className="max-w-4xl"
           >
-            <Image 
-              src="/promo.jpg" 
-              alt="Promotion Plantes Artificielles" 
-              fill 
-              className="object-cover transition-transform duration-[3000ms] group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-botanical-green/10" />
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/60 mb-6 block">Inspiration Permanente</span>
+            <h2 className="text-5xl md:text-8xl font-serif font-black text-white italic tracking-tighter leading-none mb-10">
+              Redéfinissez <br /> <span className="text-luxury-gold not-italic uppercase text-3xl md:text-6xl tracking-[0.2em] font-sans block mt-4">Votre Horizon.</span>
+            </h2>
+            <Link href="#collection" className="button-nature group">
+               <span className="flex items-center gap-3">
+                 Découvrir la Curatelle <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+               </span>
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -93,7 +125,7 @@ export default function Home() {
               </motion.h2>
             </div>
             <div className="max-w-xs pb-4">
-               <p className="text-foreground/40 font-medium text-lg leading-relaxed border-l border-botanical-green/20 pl-6">
+               <p className="text-foreground/40 font-medium text-lg leading-relaxed border-l-2 border-luxury-gold/30 pl-8">
                   Le luxe est une question de détail. Nos créations sont l'aboutissement d'une ingénierie biologique de précision.
                </p>
             </div>
@@ -147,6 +179,50 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section id="faq" className="py-32 md:py-48 bg-muted-beige/30">
+        <div className="max-w-[1000px] mx-auto px-6">
+          <div className="text-center mb-24">
+            <div className="flex items-center justify-center gap-3 mb-6 text-botanical-green">
+              <HelpCircle className="w-5 h-5" />
+              <span className="text-[10px] font-black uppercase tracking-[0.4em]">Questions Fréquentes</span>
+            </div>
+            <h2 className="text-5xl md:text-7xl font-serif font-black text-foreground italic tracking-tighter leading-none">
+              Savoir <br /> <span className="text-luxury-gold not-italic uppercase text-2xl md:text-5xl tracking-[0.2em] font-sans block mt-4">L'Essentiel.</span>
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, i) => (
+              <div key={i} className="border-b border-foreground/10">
+                <button 
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full py-8 flex items-center justify-between text-left group"
+                >
+                  <span className="text-lg md:text-xl font-bold text-foreground group-hover:text-botanical-green transition-colors">{faq.q}</span>
+                  <ChevronDown className={`w-5 h-5 text-luxury-gold transition-transform duration-500 ${openFaq === i ? "rotate-180" : ""}`} />
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="pb-8 text-foreground/60 leading-relaxed font-medium max-w-2xl">
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Footer />
       <WhatsAppFAB />
     </main>
   );
