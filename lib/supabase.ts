@@ -3,12 +3,10 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl) {
-  console.error("❌ SUPABASE CONFIG ERROR: NEXT_PUBLIC_SUPABASE_URL is missing.");
-}
-
-if (!supabaseAnonKey) {
-  console.error("❌ SUPABASE CONFIG ERROR: NEXT_PUBLIC_SUPABASE_ANON_KEY is missing.");
+if (!supabaseUrl || !supabaseAnonKey) {
+  if (typeof window === 'undefined') {
+    throw new Error("❌ DATABASE ERROR: NEXT_PUBLIC_SUPABASE_URL or ANON_KEY is missing in Vercel environment variables.");
+  }
 }
 
 export const supabase = createClient(
