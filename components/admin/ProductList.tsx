@@ -60,7 +60,7 @@ export default function ProductList({ products, onEdit, onDelete }: ProductListP
               className="bg-white dark:bg-foreground/5 p-4 rounded-3xl border border-foreground/10 shadow-sm flex gap-4 relative group hover:border-botanical-green/30 transition-colors"
             >
               <div className="w-20 h-20 rounded-2xl overflow-hidden bg-muted-beige flex-shrink-0 border border-foreground/5">
-                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
+                <img src={product.imageUrl || (product as any).image_url} alt={product.name} className="w-full h-full object-cover" />
               </div>
 
               <div className="flex-grow min-w-0 py-1">

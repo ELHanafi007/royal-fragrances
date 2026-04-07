@@ -9,31 +9,31 @@ const items = [
     title: "Texture Organique",
     subtitle: "Real-Touch Tech",
     image: "/newplants/bonsai.jpg",
-    className: "md:col-span-3 md:row-span-2",
+    className: "col-span-2 md:col-span-3 md:row-span-2 h-[300px] md:h-auto",
   },
   {
     title: "Détails Finis",
     subtitle: "Artisan Wood",
     image: "/newplants/fougere.jpg",
-    className: "md:col-span-2 md:row-span-1",
+    className: "col-span-2 md:col-span-2 md:row-span-1 h-[250px] md:h-auto",
   },
   {
     title: "Tropicale",
     subtitle: "Deep Gradient",
     image: "/newplants/palmier.jpg",
-    className: "md:col-span-2 md:row-span-2",
+    className: "col-span-2 md:col-span-2 md:row-span-2 h-[350px] md:h-auto",
   },
   {
     title: "Essence Zen",
     subtitle: "Precision Cut",
     image: "/newplants/dieffen.jpg",
-    className: "md:col-span-2 md:row-span-1",
+    className: "col-span-1 md:col-span-2 md:row-span-1 h-[200px] md:h-auto",
   },
   {
     title: "Pureté",
     subtitle: "Hand-Crafted",
     image: "/newplants/philo.jpg",
-    className: "md:col-span-1 md:row-span-1",
+    className: "col-span-1 md:col-span-1 md:row-span-1 h-[200px] md:h-auto",
   },
 ];
 
@@ -58,7 +58,7 @@ export function MacroGallery() {
            </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 auto-rows-[200px] md:auto-rows-[300px]">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 auto-rows-fr">
           {items.map((item, index) => (
             <motion.div
               key={index}
@@ -74,9 +74,9 @@ export function MacroGallery() {
                 fill
                 className="object-cover transition-transform duration-[3000ms] group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-botanical-green/90 via-botanical-green/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-1000" />
+              <div className="absolute inset-0 bg-gradient-to-t from-botanical-green/90 via-botanical-green/20 to-transparent opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-1000" />
               
-              <div className="absolute bottom-0 left-0 p-8 md:p-12 translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 delay-100">
+              <div className="absolute bottom-0 left-0 p-8 md:p-12 translate-y-0 md:translate-y-10 opacity-100 md:opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 delay-100">
                 <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-luxury-gold mb-3 block">
                    {item.subtitle}
                 </span>
