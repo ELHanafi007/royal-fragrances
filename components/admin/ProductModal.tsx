@@ -121,7 +121,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
   };
 
   const removeImage = (index: number) => {
-    const newImages = (formData.images || []).filter((_, i) => i !== index);
+    const newImages = (formData.images || []).filter((_: any, i: number) => i !== index);
     setFormData({
       ...formData,
       images: newImages,
@@ -147,7 +147,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
       ...formData,
       characteristics: {
         ...currentChars,
-        [type]: currentChars[type].filter((_, i) => i !== index)
+        [type]: currentChars[type].filter((_: any, i: number) => i !== index)
       }
     });
   };
@@ -166,7 +166,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
   };
 
   const removeVariant = (index: number) => {
-    const newVariants = (formData.variants || []).filter((_, i) => i !== index);
+    const newVariants = (formData.variants || []).filter((_: any, i: number) => i !== index);
     setFormData({ ...formData, variants: newVariants });
   };
 

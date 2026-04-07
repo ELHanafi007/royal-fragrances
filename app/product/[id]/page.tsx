@@ -144,7 +144,7 @@ export default function ProductPage() {
                   className="w-full h-full cursor-grab active:cursor-grabbing"
                   drag="x"
                   dragConstraints={{ left: 0, right: 0 }}
-                  onDragEnd={(_, info) => {
+                  onDragEnd={(_: any, info: any) => {
                     if (info.offset.x > 100) {
                       setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
                     } else if (info.offset.x < -100) {
@@ -172,7 +172,7 @@ export default function ProductPage() {
 
               {/* Slide Indicators */}
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                {images.map((_, i) => (
+                {images.map((_: string, i: number) => (
                   <div 
                     key={i} 
                     className={`h-1 rounded-full transition-all duration-500 ${

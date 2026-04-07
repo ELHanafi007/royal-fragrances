@@ -134,7 +134,7 @@ const LifestyleSlider = () => {
       {/* Custom Controls */}
       <div className="max-w-[1400px] mx-auto px-6 mt-12 flex justify-between items-center relative z-10">
         <div className="flex gap-2">
-          {slides.map((_, i) => (
+          {slides.map((_: any, i: number) => (
             <div 
               key={i} 
               className={`h-1 transition-all duration-500 rounded-full ${selectedIndex === i ? 'w-12 bg-botanical-green' : 'w-4 bg-botanical-green/20'}`} 
