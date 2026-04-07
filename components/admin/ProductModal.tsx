@@ -29,6 +29,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
     description: '',
     miniDescription: '',
     imageUrl: '',
+    images: [],
     category: 'home-decor',
     variants: [{ ...defaultVariant }],
     characteristics: { foliage: [], texture: [], pot: [] }
@@ -55,7 +56,10 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
     fetchCategories();
     
     if (product) {
-      setFormData(product);
+      setFormData({
+        ...product,
+        images: product.images || [product.imageUrl]
+      });
     } else {
       setFormData({
         name: '',
@@ -63,6 +67,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
         description: '',
         miniDescription: '',
         imageUrl: '',
+        images: [],
         category: 'home-decor',
         variants: [{ ...defaultVariant }],
         characteristics: { foliage: [], texture: [], pot: [] }
@@ -75,29 +80,53 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
       setUploading(true);
       if (!e.target.files || e.target.files.length === 0) return;
 
-      const file = e.target.files[0];
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `products/${fileName}`;
+      const files = Array.from(e.target.files);
+      const currentImages = [...(formData.images || [])];
+      
+      for (const file of files) {
+        if (currentImages.length >= 10) {
+          alert("Maximum 10 images autorisées");
+          break;
+        }
 
-      const { error: uploadError } = await supabase.storage
-        .from('products')
-        .upload(filePath, file);
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        const filePath = `products/${fileName}`;
 
-      if (uploadError) {
-        throw uploadError;
+        const { error: uploadError } = await supabase.storage
+          .from('products')
+          .upload(filePath, file);
+
+        if (uploadError) {
+          throw uploadError;
+        }
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('products')
+          .getPublicUrl(filePath);
+
+        currentImages.push(publicUrl);
       }
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('products')
-        .getPublicUrl(filePath);
-
-      setFormData({ ...formData, imageUrl: publicUrl });
+      setFormData({ 
+        ...formData, 
+        images: currentImages,
+        imageUrl: currentImages[0] || formData.imageUrl 
+      });
     } catch (error: any) {
       alert('Error uploading image: ' + error.message);
     } finally {
       setUploading(false);
     }
+  };
+
+  const removeImage = (index: number) => {
+    const newImages = (formData.images || []).filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      images: newImages,
+      imageUrl: newImages[0] || ''
+    });
   };
 
   const handleCharAdd = (type: keyof PlantCharacteristics, value: string) => {
@@ -237,32 +266,45 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Botanical Photo</label>
-                  <div 
-                    onClick={() => fileInputRef.current?.click()}
-                    className="relative w-full aspect-video rounded-2xl bg-foreground/5 border-2 border-dashed border-foreground/10 flex flex-col items-center justify-center cursor-pointer hover:bg-botanical-green/5 hover:border-botanical-green/40 transition-all overflow-hidden"
-                  >
-                    {formData.imageUrl ? (
-                      <>
-                        <Image src={formData.imageUrl} alt="Preview" fill className="object-cover" />
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                          <Upload className="text-white w-8 h-8" />
-                        </div>
-                      </>
-                    ) : (
-                      <>
+                  <label className="text-[10px] font-bold text-foreground/40 uppercase ml-1">Botanical Gallery ({formData.images?.length || 0}/10)</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {formData.images?.map((img, idx) => (
+                      <div key={idx} className="relative aspect-square rounded-2xl overflow-hidden group border border-foreground/5">
+                        <Image src={img} alt={`Product ${idx}`} fill className="object-cover" />
+                        <button 
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeImage(idx);
+                          }}
+                          className="absolute top-2 right-2 p-1.5 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                        {idx === 0 && (
+                          <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-botanical-green text-white text-[8px] font-black uppercase tracking-widest">
+                            Main
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                    {(formData.images?.length || 0) < 10 && (
+                      <div 
+                        onClick={() => fileInputRef.current?.click()}
+                        className="relative aspect-square rounded-2xl bg-foreground/5 border-2 border-dashed border-foreground/10 flex flex-col items-center justify-center cursor-pointer hover:bg-botanical-green/5 hover:border-botanical-green/40 transition-all overflow-hidden"
+                      >
                         {uploading ? (
-                          <Loader2 className="w-8 h-8 text-botanical-green animate-spin" />
+                          <Loader2 className="w-6 h-6 text-botanical-green animate-spin" />
                         ) : (
                           <>
-                            <Upload className="text-botanical-green/40 w-8 h-8 mb-2" />
-                            <p className="text-[10px] font-black uppercase tracking-widest text-botanical-green/60">Upload Image</p>
+                            <Upload className="text-botanical-green/40 w-6 h-6 mb-1" />
+                            <p className="text-[8px] font-black uppercase tracking-widest text-botanical-green/60 text-center px-2">Add Photo</p>
                           </>
                         )}
-                      </>
+                      </div>
                     )}
-                    <input type="file" ref={fileInputRef} onChange={handleFileUpload} className="hidden" accept="image/*" />
                   </div>
+                  <input type="file" ref={fileInputRef} onChange={handleFileUpload} className="hidden" accept="image/*" multiple />
                 </div>
               </div>
             </div>

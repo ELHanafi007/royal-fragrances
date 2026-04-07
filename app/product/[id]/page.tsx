@@ -91,7 +91,26 @@ export default function ProductPage() {
     setTimeout(() => setIsAdded(false), 2000);
   };
 
-  const images = (product as any).images || [ (product as any).image_url || product.imageUrl ];
+  const images = useMemo(() => {
+    if (!product) return [];
+    return (product as any).images || [ (product as any).image_url || product.imageUrl ];
+  }, [product]);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  useEffect(() => {
+    if (images[currentImageIndex]) {
+      setSelectedImage(images[currentImageIndex]);
+    }
+  }, [currentImageIndex, images]);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -121,13 +140,22 @@ export default function ProductPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="w-full h-full"
+                  className="w-full h-full cursor-grab active:cursor-grabbing"
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  onDragEnd={(_, info) => {
+                    if (info.offset.x > 100) {
+                      setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+                    } else if (info.offset.x < -100) {
+                      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+                    }
+                  }}
                 >
                   <Image
                     src={selectedImage}
                     alt={product.name}
                     fill
-                    className="object-cover transition-transform duration-[2000ms] group-hover:scale-110"
+                    className="object-cover transition-transform duration-[2000ms] group-hover:scale-110 pointer-events-none"
                     priority
                   />
                 </motion.div>
@@ -140,6 +168,18 @@ export default function ProductPage() {
                     </span>
                  </div>
               </div>
+
+              {/* Slide Indicators */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                {images.map((_, i) => (
+                  <div 
+                    key={i} 
+                    className={`h-1 rounded-full transition-all duration-500 ${
+                      i === currentImageIndex ? "w-8 bg-white" : "w-2 bg-white/30"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Gallery Thumbnails */}
@@ -147,9 +187,9 @@ export default function ProductPage() {
               {images.map((img: string, idx: number) => (
                 <button
                   key={idx}
-                  onClick={() => setSelectedImage(img)}
+                  onClick={() => setCurrentImageIndex(idx)}
                   className={`relative w-20 h-20 md:w-28 md:h-28 rounded-2xl md:rounded-3xl overflow-hidden flex-shrink-0 border-2 transition-all duration-500 ${
-                    selectedImage === img 
+                    currentImageIndex === idx 
                     ? "border-luxury-gold scale-95 shadow-xl" 
                     : "border-transparent opacity-40 hover:opacity-100"
                   }`}

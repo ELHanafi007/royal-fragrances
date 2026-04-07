@@ -43,7 +43,7 @@ export default function Home() {
     "image": "https://plantesartificielles.fr/logo.jpg",
     "@id": "https://plantesartificielles.fr",
     "url": "https://plantesartificielles.fr",
-    "telephone": "+212699500624",
+    "telephone": "+212719963076",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Casablanca",
@@ -79,17 +79,6 @@ export default function Home() {
       <LifestyleSlider />
       <ProductShowcase />
       <MacroGallery />
-      
-      {/* Masterpiece Promo Section */}
-      <section className="relative h-[40vh] md:h-[60vh] overflow-hidden group">
-        <Image 
-          src="/promo.jpg" 
-          alt="Luxury Botanical Atmosphere" 
-          fill 
-          className="object-cover transition-transform duration-[3000ms] group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background/20" />
-      </section>
 
       {/* Excellence / Trust Section */}
       <section id="excellence" className="py-32 md:py-48 bg-background relative overflow-hidden">
@@ -199,6 +188,34 @@ export default function Home() {
                 </AnimatePresence>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Map Section */}
+      <section className="py-24 md:py-32 bg-background relative overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12 mb-16">
+            <div>
+              <h2 className="text-4xl md:text-7xl font-serif font-black tracking-tighter italic text-botanical-green mb-4">Notre <span className="text-luxury-gold not-italic uppercase text-xl md:text-4xl tracking-widest font-sans ml-4">Atelier.</span></h2>
+              <p className="text-foreground/40 text-sm md:text-base font-medium max-w-md tracking-wide">Venez découvrir nos créations botaniques dans notre showroom exclusif à Casablanca. L'excellence du réalisme vous attend.</p>
+            </div>
+            <div className="flex flex-col items-end gap-2">
+               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-luxury-gold">Localisation</span>
+               <span className="text-lg md:text-2xl font-serif font-black italic">{PLANTES_CONFIG.location}</span>
+            </div>
+          </div>
+
+          <div className="relative w-full aspect-video md:aspect-[21/9] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-3xl grayscale hover:grayscale-0 transition-all duration-1000 border border-foreground/5">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106371.74100000001!2d-7.589843!3d33.57311!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cd4778aa113b%3A0xb06c1d84f310fd3!2sCasablanca!5e0!3m2!1sen!2sma!4v1712490000000!5m2!1sen!2sma" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen={true} 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
       </section>

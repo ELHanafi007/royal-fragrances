@@ -1,7 +1,7 @@
 export const PLANTES_CONFIG = {
   brandName: "Plantes Artificielles",
   tagline: "Permanent Botanical Luxury",
-  whatsappNumber: "212699500624", 
+  whatsappNumber: "212719963076", 
   email: "contact@plantesartificielles.ma",
   location: "Casablanca, Morocco",
   instagram: "plantes.artificielles.ma",
