@@ -96,7 +96,7 @@ export default function CategoryManager({ onCategoriesChange }: CategoryManagerP
   };
 
   return (
-    <div className="bg-white p-8 rounded-[3rem] border border-black/5 space-y-8">
+    <div className="bg-white dark:bg-foreground/5 p-8 rounded-[3rem] border border-foreground/10 space-y-8">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-botanical-green/5 text-botanical-green flex items-center justify-center border border-botanical-green/10">
           <LayoutGrid size={20} />
@@ -113,7 +113,7 @@ export default function CategoryManager({ onCategoriesChange }: CategoryManagerP
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
           placeholder="New Category Name..."
-          className="flex-grow bg-foreground/5 border border-transparent focus:border-botanical-green/20 focus:bg-white rounded-2xl px-6 py-4 outline-none transition-all text-sm font-medium"
+          className="flex-grow bg-foreground/5 border border-transparent focus:border-botanical-green/20 focus:bg-white dark:focus:bg-white/10 rounded-2xl px-6 py-4 outline-none transition-all text-sm font-medium"
         />
         <button
           type="submit"

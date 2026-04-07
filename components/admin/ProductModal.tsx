@@ -210,7 +210,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                     type="text" 
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white focus:border-botanical-green outline-none transition-all font-serif text-lg"
+                    className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white dark:focus:bg-white/10 focus:border-botanical-green outline-none transition-all font-serif text-lg"
                   />
                 </div>
 
@@ -221,7 +221,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                       type="text" 
                       value={formData.brand}
                       onChange={(e) => setFormData({...formData, brand: e.target.value})}
-                      className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white focus:border-botanical-green outline-none transition-all"
+                      className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white dark:focus:bg-white/10 focus:border-botanical-green outline-none transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -229,7 +229,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                     <select 
                       value={formData.category}
                       onChange={(e) => setFormData({...formData, category: e.target.value as any})}
-                      className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white focus:border-botanical-green outline-none transition-all appearance-none"
+                      className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white dark:focus:bg-white/10 focus:border-botanical-green outline-none transition-all appearance-none"
                     >
                       {[
                         { name: 'Home Decor', slug: 'home-decor' },
@@ -251,7 +251,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                     value={formData.miniDescription}
                     onChange={(e) => setFormData({...formData, miniDescription: e.target.value})}
                     placeholder="Short botanical summary..."
-                    className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white focus:border-botanical-green outline-none transition-all"
+                    className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white dark:focus:bg-white/10 focus:border-botanical-green outline-none transition-all"
                   />
                 </div>
 
@@ -261,7 +261,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                     value={formData.description}
                     onChange={(e) => setFormData({...formData, description: e.target.value})}
                     rows={3}
-                    className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white focus:border-botanical-green outline-none transition-all resize-none"
+                    className="w-full px-5 py-4 rounded-2xl bg-foreground/5 border border-transparent focus:bg-white dark:focus:bg-white/10 focus:border-botanical-green outline-none transition-all resize-none"
                   />
                 </div>
 
@@ -325,10 +325,10 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
               
               <div className="space-y-6">
                 {formData.variants?.map((v, idx) => (
-                  <div key={idx} className="bg-foreground/5 p-6 rounded-[2rem] border border-foreground/5 space-y-4 relative group">
+                  <div key={idx} className="bg-foreground/5 p-6 rounded-[2rem] border border-foreground/10 space-y-4 relative group">
                     <button 
                       onClick={() => removeVariant(idx)}
-                      className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-red-50 text-red-400 border border-red-100 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                      className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-red-500/10 text-red-500 border border-red-500/20 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
                     >
                       <Trash2 size={14} />
                     </button>
@@ -341,7 +341,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                           value={v.size}
                           onChange={(e) => handleVariantChange(idx, 'size', e.target.value)}
                           placeholder="e.g. Grand Luxe"
-                          className="w-full bg-white px-4 py-3 rounded-xl border border-transparent focus:border-botanical-green outline-none text-[10px] font-black uppercase tracking-widest"
+                          className="w-full bg-white dark:bg-white/10 px-4 py-3 rounded-xl border border-transparent focus:border-botanical-green outline-none text-[10px] font-black uppercase tracking-widest"
                         />
                       </div>
                       <div className="space-y-1">
@@ -350,7 +350,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                           type="number" 
                           value={v.price}
                           onChange={(e) => handleVariantChange(idx, 'price', Number(e.target.value))}
-                          className="w-full bg-white px-4 py-3 rounded-xl border border-transparent focus:border-botanical-green outline-none font-bold"
+                          className="w-full bg-white dark:bg-white/10 px-4 py-3 rounded-xl border border-transparent focus:border-botanical-green outline-none font-bold"
                         />
                       </div>
                     </div>
@@ -365,7 +365,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                           type="text" 
                           value={v.totalHeight}
                           onChange={(e) => handleVariantChange(idx, 'totalHeight', e.target.value)}
-                          className="w-full bg-white/50 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white"
+                          className="w-full bg-white/50 dark:bg-white/5 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white dark:focus:bg-white/10"
                         />
                       </div>
                       <div className="space-y-1">
@@ -377,7 +377,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                           type="text" 
                           value={v.plantHeight}
                           onChange={(e) => handleVariantChange(idx, 'plantHeight', e.target.value)}
-                          className="w-full bg-white/50 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white"
+                          className="w-full bg-white/50 dark:bg-white/5 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white dark:focus:bg-white/10"
                         />
                       </div>
                       <div className="space-y-1">
@@ -389,7 +389,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                           type="text" 
                           value={v.vaseHeight}
                           onChange={(e) => handleVariantChange(idx, 'vaseHeight', e.target.value)}
-                          className="w-full bg-white/50 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white"
+                          className="w-full bg-white/50 dark:bg-white/5 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white dark:focus:bg-white/10"
                         />
                       </div>
                       <div className="space-y-1">
@@ -401,7 +401,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                           type="text" 
                           value={v.vaseWidth}
                           onChange={(e) => handleVariantChange(idx, 'vaseWidth', e.target.value)}
-                          className="w-full bg-white/50 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white"
+                          className="w-full bg-white/50 dark:bg-white/5 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white dark:focus:bg-white/10"
                         />
                       </div>
                       <div className="space-y-1">
@@ -413,7 +413,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                           type="text" 
                           value={v.vaseDepth}
                           onChange={(e) => handleVariantChange(idx, 'vaseDepth', e.target.value)}
-                          className="w-full bg-white/50 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white"
+                          className="w-full bg-white/50 dark:bg-white/5 px-2 py-2 rounded-lg text-[10px] font-bold outline-none focus:bg-white dark:focus:bg-white/10"
                         />
                       </div>
                     </div>
@@ -434,7 +434,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
                   <div className="flex flex-wrap gap-2 p-3 rounded-2xl bg-foreground/5 border border-foreground/5 min-h-[50px]">
                     <AnimatePresence>
                       {formData.characteristics?.[type].map((val, i) => (
-                        <motion.span key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="bg-white px-3 py-1.5 rounded-full border border-foreground/5 text-[10px] font-bold flex items-center gap-2 shadow-sm">
+                        <motion.span key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="bg-white dark:bg-white/10 px-3 py-1.5 rounded-full border border-foreground/10 text-[10px] font-bold flex items-center gap-2 shadow-sm">
                           {val}
                           <button onClick={() => handleCharRemove(type, i)} className="hover:text-red-500 transition-colors"><X size={12} /></button>
                         </motion.span>

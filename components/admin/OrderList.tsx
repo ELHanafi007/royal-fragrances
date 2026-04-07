@@ -30,7 +30,7 @@ const statusColors = {
 export default function OrderList({ orders, onUpdateStatus, onDelete }: OrderListProps) {
   if (orders.length === 0) {
     return (
-      <div className="text-center py-20 bg-white rounded-[3rem] border border-black/5">
+      <div className="text-center py-20 bg-white dark:bg-foreground/5 rounded-[3rem] border border-foreground/10">
         <Package size={48} className="mx-auto text-foreground/10 mb-4" />
         <p className="text-foreground/40 font-bold uppercase tracking-widest text-xs">No acquisitions yet</p>
       </div>
@@ -45,7 +45,7 @@ export default function OrderList({ orders, onUpdateStatus, onDelete }: OrderLis
           layout
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white p-6 md:p-8 rounded-[2.5rem] border border-black/5 shadow-sm hover:shadow-xl transition-all group"
+          className="bg-white dark:bg-foreground/5 p-6 md:p-8 rounded-[2.5rem] border border-foreground/10 shadow-sm hover:shadow-xl transition-all group"
         >
           <div className="flex flex-col lg:flex-row justify-between gap-6">
             <div className="space-y-4 flex-grow">
@@ -96,13 +96,13 @@ export default function OrderList({ orders, onUpdateStatus, onDelete }: OrderLis
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() => onUpdateStatus(order.id, 'processing')}
-                  className="p-3 bg-white border border-foreground/5 rounded-xl text-foreground/60 hover:text-blue-500 hover:border-blue-500/20 hover:bg-blue-500/5 transition-all text-[9px] font-bold uppercase tracking-tight"
+                  className="p-3 bg-white dark:bg-foreground/5 border border-foreground/10 rounded-xl text-foreground/60 hover:text-blue-500 hover:border-blue-500/20 hover:bg-blue-500/5 transition-all text-[9px] font-bold uppercase tracking-tight"
                 >
                   Process
                 </button>
                 <button
                   onClick={() => onUpdateStatus(order.id, 'completed')}
-                  className="p-3 bg-white border border-foreground/5 rounded-xl text-foreground/60 hover:text-green-500 hover:border-green-500/20 hover:bg-green-500/5 transition-all text-[9px] font-bold uppercase tracking-tight"
+                  className="p-3 bg-white dark:bg-foreground/5 border border-foreground/10 rounded-xl text-foreground/60 hover:text-green-500 hover:border-green-500/20 hover:bg-green-500/5 transition-all text-[9px] font-bold uppercase tracking-tight"
                 >
                   Complete
                 </button>
@@ -110,7 +110,7 @@ export default function OrderList({ orders, onUpdateStatus, onDelete }: OrderLis
 
               <button
                 onClick={() => onDelete(order.id)}
-                className="flex items-center justify-center gap-2 p-3 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all text-[9px] font-bold uppercase tracking-widest"
+                className="flex items-center justify-center gap-2 p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all text-[9px] font-bold uppercase tracking-widest"
               >
                 <Trash2 size={12} />
                 Archiver

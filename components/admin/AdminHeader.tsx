@@ -15,12 +15,12 @@ export default function AdminHeader({ totalProducts, onAddProduct }: AdminHeader
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-serif font-black italic tracking-tight uppercase">Dashboard</h1>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-leaf-green font-black mt-1">Inventory Management</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-leaf-green dark:text-green-400 font-black mt-1">Inventory Management</p>
         </div>
         <div className="flex gap-2">
           <Link 
             href="/"
-            className="p-3 bg-white border border-foreground/5 rounded-2xl text-foreground/40 hover:text-foreground transition-all"
+            className="p-3 bg-white dark:bg-foreground/5 border border-foreground/10 rounded-2xl text-foreground/40 hover:text-foreground transition-all"
           >
             <LogOut size={18} />
           </Link>
@@ -47,7 +47,7 @@ export default function AdminHeader({ totalProducts, onAddProduct }: AdminHeader
       <div className="flex gap-2">
         <button 
           onClick={onAddProduct}
-          className="flex-grow flex items-center justify-center gap-3 bg-foreground text-white py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.25em] shadow-xl hover:bg-botanical-green transition-all active:scale-[0.98]"
+          className="flex-grow flex items-center justify-center gap-3 bg-foreground text-background py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.25em] shadow-xl hover:bg-botanical-green hover:text-white transition-all active:scale-[0.98]"
         >
           <Plus size={16} />
           <span>Add New Botanical Piece</span>

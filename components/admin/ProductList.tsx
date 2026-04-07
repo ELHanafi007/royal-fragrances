@@ -32,13 +32,13 @@ export default function ProductList({ products, onEdit, onDelete }: ProductListP
             placeholder="Search sanctuary..." 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white border border-foreground/5 focus:border-botanical-green outline-none transition-all shadow-sm"
+            className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white dark:bg-foreground/5 border border-foreground/10 focus:border-botanical-green outline-none transition-all shadow-sm"
           />
         </div>
         <select 
           value={filter}
           onChange={(e) => setFilter(e.target.value as any)}
-          className="px-4 py-3 rounded-2xl bg-white border border-foreground/5 text-xs font-black uppercase tracking-widest outline-none focus:border-botanical-green transition-all shadow-sm appearance-none"
+          className="px-4 py-3 rounded-2xl bg-white dark:bg-foreground/5 border border-foreground/10 text-xs font-black uppercase tracking-widest outline-none focus:border-botanical-green transition-all shadow-sm appearance-none"
         >
           <option value="all">All</option>
           <option value="home-decor">Home Decor</option>
@@ -57,7 +57,7 @@ export default function ProductList({ products, onEdit, onDelete }: ProductListP
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white p-4 rounded-3xl border border-foreground/5 shadow-sm flex gap-4 relative group hover:border-botanical-green/30 transition-colors"
+              className="bg-white dark:bg-foreground/5 p-4 rounded-3xl border border-foreground/10 shadow-sm flex gap-4 relative group hover:border-botanical-green/30 transition-colors"
             >
               <div className="w-20 h-20 rounded-2xl overflow-hidden bg-muted-beige flex-shrink-0 border border-foreground/5">
                 <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
@@ -85,7 +85,7 @@ export default function ProductList({ products, onEdit, onDelete }: ProductListP
                 </button>
                 <button 
                   onClick={() => onDelete(product.id)}
-                  className="p-2 rounded-xl bg-red-50 text-red-400 hover:text-red-600 transition-colors active:scale-90"
+                  className="p-2 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors active:scale-90"
                 >
                   <Trash2 size={16} />
                 </button>

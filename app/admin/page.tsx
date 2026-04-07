@@ -164,7 +164,7 @@ export default function AdminPage() {
             exit={{ opacity: 0, scale: 0.95 }}
             className="flex min-h-screen items-center justify-center p-6"
           >
-            <div className="w-full max-w-md bg-white border border-foreground/5 rounded-3xl p-10 shadow-2xl space-y-8 relative overflow-hidden group">
+            <div className="w-full max-w-md bg-white dark:bg-foreground/5 border border-foreground/10 rounded-3xl p-10 shadow-2xl space-y-8 relative overflow-hidden group">
               <div className="absolute top-0 left-0 w-full h-1 bg-botanical-green" />
               
               <div className="text-center space-y-4">
@@ -172,7 +172,7 @@ export default function AdminPage() {
                   <Lock size={32} />
                 </div>
                 <h1 className="text-3xl font-serif font-bold italic text-foreground tracking-tight">Access Control</h1>
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-leaf-green">Administrator Only</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-leaf-green dark:text-green-400">Administrator Only</p>
               </div>
 
               <form onSubmit={handleLogin} className="space-y-6">
@@ -246,8 +246,8 @@ export default function AdminPage() {
 
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20 gap-4">
-                <Loader2 className="animate-spin text-botanical-green" size={32} />
-                <p className="text-[10px] font-black uppercase tracking-widest text-foreground/20 animate-pulse">Syncing Sanctuary...</p>
+                <Loader2 className="animate-spin text-botanical-green dark:text-green-400" size={32} />
+                <p className="text-[10px] font-black uppercase tracking-widest text-foreground/20 animate-pulse dark:text-green-400/20">Syncing Sanctuary...</p>
               </div>
             ) : (
               <div className="space-y-12">
@@ -280,7 +280,7 @@ export default function AdminPage() {
         product={editingProduct}
       />
 
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 bg-foreground/90 text-white rounded-full backdrop-blur-md shadow-2xl flex items-center gap-3 border border-white/10 z-50">
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 bg-foreground/90 text-background rounded-full backdrop-blur-md shadow-2xl flex items-center gap-3 border border-white/10 z-50">
         <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
         <span className="text-[8px] font-black uppercase tracking-widest opacity-80">Sanctuary Admin Mode</span>
       </div>
