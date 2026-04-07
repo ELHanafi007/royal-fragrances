@@ -36,6 +36,27 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [flyingItems, setFlyingItems] = useState<FlyItem[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // 1. Load from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem("plantes_cart");
+    if (saved) {
+      try {
+        setCart(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to load cart", e);
+      }
+    }
+    setIsInitialized(true);
+  }, []);
+
+  // 2. Save to localStorage
+  useEffect(() => {
+    if (isInitialized) {
+      localStorage.setItem("plantes_cart", JSON.stringify(cart));
+    }
+  }, [cart, isInitialized]);
 
   const addToCart = (product: Product, variant: Variant, quantity: number, startPos?: { x: number, y: number }) => {
     // 1. Trigger Animation if position provided
@@ -96,8 +117,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = () => setCart([]);
 
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = cart.reduce((sum, item) => sum + item.variant.price * item.quantity, 0);
+  const totalItems = cart.reduce((sum, item) => sum + (item?.quantity || 0), 0);
+  const totalPrice = cart.reduce((sum, item) => sum + (item?.variant?.price || 0) * (item?.quantity || 0), 0);
 
   return (
     <CartContext.Provider

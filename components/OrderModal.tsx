@@ -136,65 +136,68 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                 <div className="space-y-3">
                   <p className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-foreground/40 px-1">Votre Sélection</p>
                   <div className="space-y-2">
-                    {cart.map((item) => (
-                      <div key={item.id} className="flex items-center gap-3 md:gap-4 p-3 rounded-2xl bg-foreground/5 border border-foreground/5">
-                        <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-lg overflow-hidden flex-shrink-0">
-                          <Image src={item.product.imageUrl} alt={item.product.name} fill className="object-cover" />
-                        </div>
-                        <div className="flex-grow">
-                          <h4 className="text-[9px] md:text-[10px] font-bold text-foreground leading-tight">{item.product.name}</h4>
-                          
-                          {/* Height/Variant Switcher */}
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {item.product.variants.map((v) => (
-                              <button
-                                key={v.size}
-                                type="button"
-                                onClick={() => changeVariant(`${item.id}`, v)}
-                                className={`px-1.5 md:px-2 py-0.5 rounded-full text-[6px] md:text-[7px] font-black uppercase transition-all border ${
-                                  item.variant.size === v.size
-                                    ? "bg-botanical-green text-white border-botanical-green"
-                                    : "bg-foreground/5 text-foreground/40 border-foreground/5"
-                                }`}
-                              >
-                                {v.size}
-                              </button>
-                            ))}
+                    {cart.map((item) => {
+                      if (!item?.product || !item?.variant) return null;
+                      return (
+                        <div key={item.id} className="flex items-center gap-3 md:gap-4 p-3 rounded-2xl bg-foreground/5 border border-foreground/5">
+                          <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-lg overflow-hidden flex-shrink-0">
+                            <Image src={item.product.imageUrl || "/newplants/placeholder.jpg"} alt={item.product.name || "Product"} fill className="object-cover" />
                           </div>
+                          <div className="flex-grow">
+                            <h4 className="text-[9px] md:text-[10px] font-bold text-foreground leading-tight">{item.product.name}</h4>
+                            
+                            {/* Height/Variant Switcher */}
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {(item.product.variants || []).map((v) => (
+                                <button
+                                  key={v.size}
+                                  type="button"
+                                  onClick={() => changeVariant(`${item.id}`, v)}
+                                  className={`px-1.5 md:px-2 py-0.5 rounded-full text-[6px] md:text-[7px] font-black uppercase transition-all border ${
+                                    item.variant.size === v.size
+                                      ? "bg-botanical-green text-white border-botanical-green"
+                                      : "bg-foreground/5 text-foreground/40 border-foreground/5"
+                                  }`}
+                                >
+                                  {v.size}
+                                </button>
+                              ))}
+                            </div>
 
-                          <div className="flex items-center gap-2 mt-1.5">
-                            {/* Quantity Controls */}
-                            <div className="flex items-center gap-2 bg-foreground/10 rounded-full px-1.5 py-0.5 border border-foreground/5">
-                              <button 
-                                type="button"
-                                onClick={() => updateQuantity(`${item.id}`, item.quantity - 1)}
-                                className="text-foreground/40"
-                              >
-                                <Minus size={8} />
-                              </button>
-                              <span className="text-[8px] md:text-[10px] font-black min-w-[8px] text-center">{item.quantity}</span>
-                              <button 
-                                type="button"
-                                onClick={() => updateQuantity(`${item.id}`, item.quantity + 1)}
-                                className="text-foreground/40"
-                              >
-                                <Plus size={8} />
-                              </button>
+                            <div className="flex items-center gap-2 mt-1.5">
+                              {/* Quantity Controls */}
+                              <div className="flex items-center gap-2 bg-foreground/10 rounded-full px-1.5 py-0.5 border border-foreground/5">
+                                <button 
+                                  type="button"
+                                  onClick={() => updateQuantity(`${item.id}`, item.quantity - 1)}
+                                  className="text-foreground/40"
+                                >
+                                  <Minus size={8} />
+                                </button>
+                                <span className="text-[8px] md:text-[10px] font-black min-w-[8px] text-center">{item.quantity}</span>
+                                <button 
+                                  type="button"
+                                  onClick={() => updateQuantity(`${item.id}`, item.quantity + 1)}
+                                  className="text-foreground/40"
+                                >
+                                  <Plus size={8} />
+                                </button>
+                              </div>
                             </div>
                           </div>
+                          <div className="flex flex-col items-end gap-1">
+                            <p className="text-[10px] md:text-xs font-black text-leaf-green whitespace-nowrap">{(item.variant.price || 0) * item.quantity} MAD</p>
+                            <button 
+                              type="button"
+                              onClick={() => removeFromCart(`${item.id}`)}
+                              className="text-red-500/30"
+                            >
+                              <Trash2 size={10} />
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex flex-col items-end gap-1">
-                          <p className="text-[10px] md:text-xs font-black text-leaf-green whitespace-nowrap">{item.variant.price * item.quantity} MAD</p>
-                          <button 
-                            type="button"
-                            onClick={() => removeFromCart(`${item.id}`)}
-                            className="text-red-500/30"
-                          >
-                            <Trash2 size={10} />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 

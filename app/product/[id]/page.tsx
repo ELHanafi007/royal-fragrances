@@ -367,10 +367,10 @@ export default function ProductPage() {
               L'Art de <br /> <span className="text-luxury-gold not-italic uppercase text-2xl md:text-6xl tracking-[0.3em] font-sans block mt-4 md:mt-6">la Précision.</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
-              {product.characteristics.foliage.map((feat, i) => (
-                <div key={i} className="flex flex-col gap-3 md:gap-4 p-6 md:p-8 bg-white rounded-2xl md:rounded-3xl border border-black/5 shadow-sm">
+              {(product.characteristics?.foliage || []).map((feat, i) => (
+                <div key={i} className="flex flex-col gap-3 md:gap-4 p-6 md:p-8 bg-white dark:bg-foreground/5 rounded-2xl md:rounded-3xl border border-foreground/10 shadow-sm">
                    <Sparkles className="text-luxury-gold w-4 h-4 md:w-5 md:h-5" />
-                   <p className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-botanical-green">{feat}</p>
+                   <p className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-botanical-green dark:text-green-400">{feat}</p>
                 </div>
               ))}
             </div>

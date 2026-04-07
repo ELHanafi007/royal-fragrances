@@ -18,7 +18,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   // Cleaned botanical data mapping
   const mappedData = useMemo(() => {
-    const variants: Variant[] = product.variants || [{ size: "120cm", price: 450 }];
+    const variants: Variant[] = product.variants && product.variants.length > 0 
+      ? product.variants 
+      : [{ size: "Standard", price: 0, totalHeight: "0cm", plantHeight: "0cm", vaseHeight: "0cm", vaseWidth: "0cm", vaseDepth: "0cm" }];
+    
     const characteristics = product.characteristics || {
       foliage: ["Premium Detail"],
       texture: ["Natural Touch"],
@@ -27,13 +30,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     // Handle both snake_case (Supabase) and camelCase (Local JSON)
     const imageUrl = (product as any).image_url || product.imageUrl || "/newplants/placeholder.jpg";
-    const description = (product as any).mini_description || product.miniDescription || product.description;
+    const description = (product as any).mini_description || product.miniDescription || product.description || "Botanical masterpiece";
     const displayCategory = product.category || "luxury";
 
     return { variants, characteristics, imageUrl, displayCategory, description };
   }, [product]);
 
-  const [selectedVariant, setSelectedVariant] = useState<Variant>(mappedData.variants[0]);
+  const [selectedVariant, setSelectedVariant] = useState<Variant>(mappedData.variants[0] || { size: "Standard", price: 0, totalHeight: "0cm", plantHeight: "0cm", vaseHeight: "0cm", vaseWidth: "0cm", vaseDepth: "0cm" });
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
 
