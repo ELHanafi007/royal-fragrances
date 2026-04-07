@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { Product, Variant } from "@/data/products";
 import { motion, AnimatePresence } from "framer-motion";
 
