@@ -59,6 +59,27 @@ export default function ProductPage() {
     fetchProduct();
   }, [params.id]);
 
+  const images = useMemo(() => {
+    if (!product) return [];
+    return (product as any).images || [ (product as any).image_url || product.imageUrl ];
+  }, [product]);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  useEffect(() => {
+    if (images[currentImageIndex]) {
+      setSelectedImage(images[currentImageIndex]);
+    }
+  }, [currentImageIndex, images]);
+
   if (loading) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4 bg-background">
@@ -91,27 +112,6 @@ export default function ProductPage() {
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };
-
-  const images = useMemo(() => {
-    if (!product) return [];
-    return (product as any).images || [ (product as any).image_url || product.imageUrl ];
-  }, [product]);
-
-  useEffect(() => {
-    if (images.length <= 1) return;
-    
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 2500);
-
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  useEffect(() => {
-    if (images[currentImageIndex]) {
-      setSelectedImage(images[currentImageIndex]);
-    }
-  }, [currentImageIndex, images]);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
