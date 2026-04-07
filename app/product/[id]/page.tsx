@@ -34,6 +34,7 @@ export default function ProductPage() {
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchProduct = async () => {
