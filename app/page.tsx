@@ -46,14 +46,14 @@ export default function Home() {
     "telephone": "+212719963076",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Casablanca",
-      "addressLocality": "Casablanca",
+      "streetAddress": "Mohammedia",
+      "addressLocality": "Mohammedia",
       "addressCountry": "MA"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 33.5731,
-      "longitude": -7.5898
+      "latitude": 33.6811944,
+      "longitude": -7.3851944
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
@@ -208,14 +208,14 @@ export default function Home() {
                  rel="noopener noreferrer"
                  className="text-lg md:text-2xl font-serif font-black italic hover:text-luxury-gold transition-colors text-right"
                >
-                 Aïn Sebaâ,<br />Casablanca
+                 Mohammedia,<br />Casablanca
                </a>
             </div>
           </div>
 
           <div className="relative w-full aspect-video md:aspect-[21/9] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-3xl grayscale hover:grayscale-0 transition-all duration-1000 border border-foreground/5">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3322.8427515124115!2d-7.5342468!3d33.601648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cc6778f24b01%3A0x6338421b22e11d04!2sA%C3%AFn%20Seba%C3%A2%2C%20Casablanca!5e0!3m2!1sen!2sma!4v1712492000000!5m2!1sen!2sma" 
+              src="https://www.google.com/maps?q=33.6811944,-7.3851944&z=15&output=embed" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
