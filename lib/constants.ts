@@ -4,7 +4,7 @@ export const PLANTES_CONFIG = {
   whatsappNumber: "212719963076", 
   email: "contact@plantesartificielles.ma",
   location: "Casablanca, Morocco",
-  instagram: "plantes.artificielles.ma",
+  instagram: "plantes_artificielles",
   delivery: {
     standardFee: 0,
     freeThreshold: 0,

@@ -31,7 +31,7 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a 
-                href={`https://wa.me/${PLANTES_CONFIG.whatsappNumber}`}
+                href={`https://instagram.com/${PLANTES_CONFIG.instagram}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-botanical-green transition-all"
