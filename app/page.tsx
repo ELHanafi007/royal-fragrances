@@ -62,7 +62,7 @@ export default function Home() {
       "closes": "23:59"
     },
     "sameAs": [
-      "https://instagram.com/plantes.artificielles"
+      "https://www.instagram.com/plantes_artificielles"
     ],
     "priceRange": "$$$"
   };

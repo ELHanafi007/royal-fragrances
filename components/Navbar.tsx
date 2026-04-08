@@ -189,11 +189,24 @@ const Navbar = () => {
                     </div>
                     <div className="space-y-3">
                       <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Social</p>
-                      <a href="#" className="text-white font-bold flex items-center gap-2 text-sm">
+                      <a 
+                        href={`https://www.instagram.com/${PLANTES_CONFIG.instagram}`} 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white font-bold flex items-center gap-2 text-sm"
+                      >
                         <Instagram size={14} className="text-luxury-gold" />
                         Instagram
                       </a>
                     </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Email</p>
+                    <a href={`mailto:${PLANTES_CONFIG.email}`} className="text-white font-bold flex items-center gap-2 text-sm">
+                      <span className="text-luxury-gold text-xs">@</span>
+                      {PLANTES_CONFIG.email}
+                    </a>
                   </div>
                   
                   <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
