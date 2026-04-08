@@ -67,22 +67,35 @@ const Footer = () => {
           <div className="space-y-8">
             <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-luxury-gold">Conciergerie</h4>
             <ul className="space-y-6">
-              <li className="flex items-start gap-4">
-                <MapPin size={18} className="text-luxury-gold flex-shrink-0" />
-                <span className="text-white/60 text-sm">{PLANTES_CONFIG.location}</span>
+              <li className="flex flex-col gap-2">
+                <span className="text-[9px] font-black uppercase tracking-widest text-white/30">Support & Commandes</span>
+                <div className="flex items-center gap-4">
+                  <Phone size={18} className="text-luxury-gold flex-shrink-0" />
+                  <a 
+                    href={`https://wa.me/${PLANTES_CONFIG.whatsappNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/60 text-sm hover:text-white transition-colors"
+                  >
+                    +{PLANTES_CONFIG.whatsappNumber}
+                  </a>
+                </div>
               </li>
-              <li className="flex items-start gap-4">
-                <Phone size={18} className="text-luxury-gold flex-shrink-0" />
-                <a 
-                  href={`https://wa.me/${PLANTES_CONFIG.whatsappNumber}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/60 text-sm hover:text-white transition-colors"
-                >
-                  +{PLANTES_CONFIG.whatsappNumber}
-                </a>
+              <li className="flex flex-col gap-2">
+                <span className="text-[9px] font-black uppercase tracking-widest text-white/30">Réclamation & Direction</span>
+                <div className="flex items-center gap-4">
+                  <Phone size={18} className="text-luxury-gold flex-shrink-0" />
+                  <a 
+                    href={`https://wa.me/${PLANTES_CONFIG.reclamationNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/60 text-sm hover:text-white transition-colors font-bold"
+                  >
+                    +{PLANTES_CONFIG.reclamationNumber}
+                  </a>
+                </div>
               </li>
-              <li className="flex items-start gap-4">
+              <li className="flex items-center gap-4">
                 <Mail size={18} className="text-luxury-gold flex-shrink-0" />
                 <span className="text-white/60 text-sm">{PLANTES_CONFIG.email}</span>
               </li>
