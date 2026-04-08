@@ -8,31 +8,31 @@ const items = [
   {
     title: "Texture Organique",
     subtitle: "Real-Touch Tech",
-    image: "/newplants/bonsai.jpg",
+    image: "/realism/1.jpeg",
     className: "md:col-span-3 md:row-span-2",
   },
   {
     title: "Détails Finis",
     subtitle: "Artisan Wood",
-    image: "/newplants/fougere.jpg",
+    image: "/realism/2.jpeg",
     className: "md:col-span-2 md:row-span-1",
   },
   {
     title: "Tropicale",
     subtitle: "Deep Gradient",
-    image: "/newplants/palmier.jpg",
+    image: "/realism/3.jpeg",
     className: "md:col-span-2 md:row-span-2",
   },
   {
     title: "Essence Zen",
     subtitle: "Precision Cut",
-    image: "/newplants/dieffen.jpg",
+    image: "/realism/4.jpeg",
     className: "md:col-span-2 md:row-span-1",
   },
   {
     title: "Pureté",
     subtitle: "Hand-Crafted",
-    image: "/newplants/philo.jpg",
+    image: "/realism/5.jpeg",
     className: "md:col-span-1 md:row-span-1",
   },
 ];
