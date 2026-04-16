@@ -23,14 +23,14 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     
-    // Clean data for Supabase
+    // Clean data for Supabase, handling potential input variations
     const productData = {
       name: body.name,
       brand: body.brand,
       description: body.description,
-      mini_description: body.miniDescription,
-      image_url: body.imageUrl,
-      images: body.images || [body.imageUrl],
+      mini_description: body.miniDescription || body.mini_description,
+      image_url: body.imageUrl || body.image_url,
+      images: body.images || (body.imageUrl ? [body.imageUrl] : []),
       category: body.category,
       variants: body.variants,
       characteristics: body.characteristics,
@@ -63,14 +63,14 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { id, ...rest } = body;
 
-    // Clean data for Supabase
+    // Clean data for Supabase, handling potential input variations
     const updatedProductData = {
       name: rest.name,
       brand: rest.brand,
       description: rest.description,
-      mini_description: rest.miniDescription,
-      image_url: rest.imageUrl,
-      images: rest.images || [rest.imageUrl],
+      mini_description: rest.miniDescription || rest.mini_description,
+      image_url: rest.imageUrl || rest.image_url,
+      images: rest.images || (rest.imageUrl ? [rest.imageUrl] : []),
       category: rest.category,
       variants: rest.variants,
       characteristics: rest.characteristics,

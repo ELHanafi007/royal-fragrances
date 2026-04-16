@@ -58,7 +58,9 @@ export default function ProductModal({ isOpen, onClose, onSave, product }: Produ
     if (product) {
       setFormData({
         ...product,
-        images: product.images || [product.imageUrl]
+        imageUrl: (product as any).image_url || product.imageUrl,
+        miniDescription: (product as any).mini_description || product.miniDescription,
+        images: (product as any).images || [ (product as any).image_url || product.imageUrl ]
       });
     } else {
       setFormData({
