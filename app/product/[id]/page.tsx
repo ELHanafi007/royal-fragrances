@@ -163,8 +163,8 @@ export default function ProductPage() {
               </AnimatePresence>
               
               <div className="absolute top-6 left-6 md:top-10 md:left-10 flex flex-col gap-3">
-                 <div className="bg-white/10 backdrop-blur-2xl border border-white/20 px-4 py-2 md:px-5 md:py-2.5 rounded-xl md:rounded-2xl shadow-xl">
-                    <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] text-white">
+                 <div className="bg-background/80 dark:bg-botanical-green/80 backdrop-blur-2xl border border-foreground/10 px-4 py-2 md:px-5 md:py-2.5 rounded-xl md:rounded-2xl shadow-xl transition-colors duration-700">
+                    <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] text-foreground transition-colors duration-700">
                       {product.category.replace("-", " ")}
                     </span>
                  </div>

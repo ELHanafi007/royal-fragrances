@@ -42,7 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const categoryColors: Record<string, string> = {
     "home-decor": "bg-leaf-green/10 text-leaf-green border-leaf-green/20 dark:bg-leaf-green/20 dark:text-leaf-green dark:border-leaf-green/30",
-    "office": "bg-earthy-brown/10 text-earthy-brown border-earthy-brown/20 dark:bg-earthy-brown/20 dark:text-orange-200 dark:border-earthy-brown/30",
+    "office": "bg-blue-500/10 text-blue-600 border-blue-500/20 dark:bg-blue-500/20 dark:text-blue-300 dark:border-blue-500/30",
     "luxury": "bg-luxury-gold/10 text-luxury-gold border-luxury-gold/20 dark:bg-luxury-gold/20 dark:text-luxury-gold dark:border-luxury-gold/30",
     "new-arrivals": "bg-botanical-green/10 text-botanical-green border-botanical-green/20 dark:bg-botanical-green/20 dark:text-white dark:border-botanical-green/30",
   };
