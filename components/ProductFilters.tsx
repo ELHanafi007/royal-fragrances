@@ -25,21 +25,21 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
         {/* Search Bar */}
         <div className="relative w-full lg:max-w-md group">
           <div className="absolute left-5 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
-            <Search className="w-4 h-4 text-botanical-green/40 group-focus-within:text-botanical-green transition-colors duration-300" />
+            <Search className="w-4 h-4 text-foreground/40 group-focus-within:text-botanical-green dark:group-focus-within:text-leaf-green transition-colors duration-300" />
           </div>
           <input
             type="text"
             placeholder="Search botanical collections..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-14 pr-12 py-4 bg-background border border-foreground/10 rounded-2xl text-sm font-medium focus:outline-none focus:border-botanical-green/30 transition-all duration-300 placeholder:text-foreground/20 shadow-sm"
+            className="w-full pl-14 pr-12 py-4 bg-background border border-foreground/10 rounded-2xl text-sm font-medium focus:outline-none focus:border-botanical-green dark:focus:border-leaf-green transition-all duration-300 placeholder:text-foreground/20 shadow-sm"
           />
           {searchQuery && (
             <button 
               onClick={() => setSearchQuery("")}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-botanical-green/5 rounded-full transition-colors duration-300"
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-foreground/5 rounded-full transition-colors duration-300"
             >
-              <X className="w-3.5 h-3.5 text-botanical-green" />
+              <X className="w-3.5 h-3.5 text-foreground/40 hover:text-botanical-green dark:hover:text-leaf-green" />
             </button>
           )}
         </div>
@@ -47,8 +47,8 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
         {/* Category Selection */}
         <div className="flex items-center gap-3 overflow-x-auto pb-4 lg:pb-0 no-scrollbar -mx-6 px-6 lg:mx-0 lg:px-0 scroll-smooth">
           <div className="flex items-center gap-3">
-            <div className="p-3.5 bg-botanical-green/5 rounded-xl hidden lg:block border border-botanical-green/10">
-              <SlidersHorizontal className="w-4 h-4 text-botanical-green" />
+            <div className="p-3.5 bg-foreground/5 rounded-xl hidden lg:block border border-foreground/10">
+              <SlidersHorizontal className="w-4 h-4 text-foreground/60" />
             </div>
             <div className="flex gap-2.5">
               {["all", ...categories].map((cat) => (
@@ -57,8 +57,8 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                   onClick={() => setActiveCategory(cat)}
                   className={`px-6 md:px-7 py-3.5 md:py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 whitespace-nowrap border-2 ${
                     activeCategory === cat
-                      ? "bg-botanical-green text-muted-beige border-botanical-green shadow-xl -translate-y-0.5"
-                      : "bg-background text-botanical-green/60 border-foreground/5 hover:border-botanical-green/30"
+                      ? "bg-botanical-green text-muted-beige border-botanical-green dark:bg-leaf-green dark:text-botanical-green dark:border-leaf-green shadow-xl -translate-y-0.5"
+                      : "bg-background text-foreground/40 border-foreground/5 hover:border-botanical-green/30 dark:hover:border-leaf-green/30 hover:text-botanical-green dark:hover:text-leaf-green"
                   }`}
                 >
                   {cat.replace("-", " ")}

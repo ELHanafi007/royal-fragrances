@@ -46,7 +46,9 @@ const Navbar = () => {
               width: isScrolled ? "auto" : "100%",
               paddingLeft: isScrolled ? "2rem" : "1.25rem",
               paddingRight: isScrolled ? "2rem" : "1.25rem",
-              backgroundColor: isScrolled ? "rgba(26, 46, 26, 0.95)" : "transparent",
+              backgroundColor: isScrolled 
+                ? "var(--botanical-green)" 
+                : "transparent",
             }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className={cn(
@@ -75,7 +77,7 @@ const Navbar = () => {
                   Plantes
                 </span>
                 <span className={cn(
-                  "text-[6px] md:text-[8px] tracking-[0.3em] font-bold uppercase mt-0.5",
+                  "text-[6px] md:text-[8px] tracking-[0.3em] font-bold uppercase mt-0.5 transition-colors duration-500",
                   isScrolled ? "text-muted-beige/60" : "text-leaf-green"
                 )}>
                   Artificielles
@@ -90,7 +92,7 @@ const Navbar = () => {
                   key={link.name}
                   href={link.href}
                   className={cn(
-                    "text-[10px] font-black uppercase tracking-[0.2em] transition-all relative group",
+                    "text-[10px] font-black uppercase tracking-[0.2em] transition-all relative group duration-500",
                     isScrolled ? "text-white/70 hover:text-white" : "text-foreground/60 hover:text-botanical-green"
                   )}
                 >
@@ -113,7 +115,7 @@ const Navbar = () => {
                 id="cart-icon"
                 onClick={() => setIsCartOpen(true)}
                 className={cn(
-                  "relative group p-2 transition-colors",
+                  "relative group p-2 transition-colors duration-500",
                   isScrolled ? "text-white/80 hover:text-white" : "text-foreground/80 hover:text-botanical-green"
                 )}
               >
@@ -133,7 +135,7 @@ const Navbar = () => {
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className={cn(
-                  "p-2 md:hidden transition-colors",
+                  "p-2 md:hidden transition-colors duration-500",
                   isScrolled ? "text-white" : "text-foreground"
                 )}
               >
