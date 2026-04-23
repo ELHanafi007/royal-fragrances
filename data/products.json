@@ -5,8 +5,8 @@
     "brand": "Heritage",
     "description": "Un chef-d'œuvre de réalisme botanique, ce bonsai pin apporte une sérénité zen et une élégance intemporelle à votre intérieur. Chaque branche est méticuleusement sculptée pour imiter les motifs de croissance naturels des pins centenaires, offrant une présence majestueuse sans les contraintes d'entretien complexes d'un vrai bonsai.",
     "miniDescription": "Élégance zen et réalisme millénaire pour votre sanctuaire intérieur.",
-    "imageUrl": "/newplants/bonsai.jpg",
-    "images": ["/newplants/bonsai.jpg", "/newplants/bonsai-pin-artificiel-en-pot---plante-synthetique-interieur-exterieur---h95cm-arbre-artificiel-artificielflower-artificielflower-33340453.jpg", "/newplants/bonsai-pin-artificiel-en-pot---plante-synthetique-interieur-exterieur---h95cm-arbre-artificiel-artificielflower-artificielflower-33340454.jpg"],
+    "imageUrl": "/gallery/gallery-2.jpeg",
+    "images": ["/gallery/gallery-2.jpeg"],
     "category": "luxury",
     "variants": [
       {
@@ -40,8 +40,8 @@
     "brand": "Nature",
     "description": "Une cascade de verdure luxuriante, idéale pour les étagères et les jardins verticaux intérieurs. Ses frondes délicates retombent avec une grâce naturelle, créant un effet de jungle urbaine instantané. La qualité des matériaux assure une tenue parfaite dans le temps, même dans les zones les moins éclairées de votre maison.",
     "miniDescription": "Une cascade de fraîcheur botanique pour vos espaces verticaux.",
-    "imageUrl": "/newplants/fougere.jpg",
-    "images": ["/newplants/fougere.jpg", "/newplants/chute-artificielle-fougere-en-piquet---plante-dinterieur---h70cm-vert-feuillage-artificiel-artificielflower-artificielflower-33340755.jpg", "/newplants/chute-artificielle-fougere-en-piquet---plante-dinterieur---h70cm-vert-feuillage-artificiel-artificielflower-artificielflower-33340756.jpg"],
+    "imageUrl": "/gallery/gallery-3.jpeg",
+    "images": ["/gallery/gallery-3.jpeg"],
     "category": "home-decor",
     "variants": [
       {
@@ -75,8 +75,8 @@
     "brand": "Tropical",
     "description": "Apportez l'élégance des tropiques dans votre espace avec ce palmier Areca majestueux et hyper-réaliste. Ses palmes larges et aérées filtrent visuellement l'espace, créant une atmosphère relaxante et exotique. Conçu pour durer, il conserve son éclat vert sans jamais nécessiter d'arrosage ou d'exposition spécifique.",
     "miniDescription": "L'exotisme majestueux pour une atmosphère tropicale permanente.",
-    "imageUrl": "/newplants/palmier.jpg",
-    "images": ["/newplants/palmier.jpg", "/newplants/palmier-artificiel-areca-plast---plante-interieur-exterieur---h100cm-vert-plante-artificielle-artificielflower-artificielflower-33342659.jpg", "/newplants/palmier-artificiel-areca-plast---plante-interieur-exterieur---h120cm-vert-plante-artificielle-artificielflower-artificielflower-33342662.jpg"],
+    "imageUrl": "/gallery/gallery-4.jpeg",
+    "images": ["/gallery/gallery-4.jpeg"],
     "category": "office",
     "variants": [
       {
@@ -119,8 +119,8 @@
     "brand": "Design",
     "description": "Des feuilles larges et graphiques aux motifs uniques pour une touche décorative audacieuse. Le contraste saisissant entre le blanc crème et le vert profond de son feuillage panaché en fait une pièce maîtresse idéale pour les intérieurs contemporains. Chaque feuille est une œuvre d'art botanique capturant l'essence du vivant.",
     "miniDescription": "Graphisme végétal et contrastes audacieux pour votre design intérieur.",
-    "imageUrl": "/newplants/dieffen.jpg",
-    "images": ["/newplants/dieffen.jpg", "/newplants/feuillage-artificiel-dieffen-en-piquet---plante-dinterieur---h70cm-panache-plante-artificielle-artificielflower-artificielflower-33341132.jpg", "/newplants/feuillage-artificiel-dieffen-en-piquet---plante-dinterieur---h70cm-panache-plante-artificielle-artificielflower-artificielflower-33341133.jpg"],
+    "imageUrl": "/gallery/gallery-5.jpeg",
+    "images": ["/gallery/gallery-5.jpeg"],
     "category": "home-decor",
     "variants": [
       {
@@ -154,8 +154,8 @@
     "brand": "Minimalist",
     "description": "La célèbre 'chaîne des cœurs' revisitée en version éternelle, parfaite pour un décor bohème chic. Ses petites feuilles charnues en forme de cœur tombent délicatement le long de tiges fines, offrant une texture visuelle unique et une légèreté incomparable. Idéale pour les petits espaces cherchant une touche de poésie végétale.",
     "miniDescription": "Poésie végétale et délicatesse pour un style bohème éternel.",
-    "imageUrl": "/newplants/ceropegia.jpg",
-    "images": ["/newplants/ceropegia.jpg", "/newplants/feuillage-artificiel-chute-de-ceropegia---chaine-des-coeurs-pour-interieur---h60cm-feuillage-artificiel-artificielflower-artificielflower-33340961.jpg", "/newplants/feuillage-artificiel-chute-de-ceropegia---chaine-des-coeurs-pour-interieur---h60cm-feuillage-artificiel-artificielflower-artificielflower-33340962.jpg"],
+    "imageUrl": "/gallery/gallery-6.jpeg",
+    "images": ["/gallery/gallery-6.jpeg"],
     "category": "home-decor",
     "variants": [
       {
@@ -188,9 +188,9 @@
     "name": "Chute de Philodendron",
     "brand": "Signature",
     "description": "Un classique indémodable, cette chute de philo offre un réalisme saisissant et une densité parfaite. Ses feuilles en forme de cœur d'un vert vibrant apportent une énergie naturelle immédiate à n'importe quelle pièce. Sa structure robuste permet une disposition personnalisée des tiges pour un effet de volume sur mesure.",
-    "miniDescription": "L'énergie du vert pur dans une chute luxuriante de haute qualité.",
-    "imageUrl": "/newplants/philo.jpg",
-    "images": ["/newplants/philo.jpg", "/newplants/feuillage-artificiel-chute-de-philo---plante-pour-interieur---h80cm-vert-plante-artificielle-artificielflower-artificielflower-33341042.jpg", "/newplants/feuillage-artificiel-chute-de-philo---plante-pour-interieur---h80cm-vert-plante-artificielle-artificielflower-artificielflower-33341043.jpg"],
+    "miniDescription": "L'energy du vert pur dans une chute luxuriante de haute qualité.",
+    "imageUrl": "/gallery/gallery-1.jpeg",
+    "images": ["/gallery/gallery-1.jpeg"],
     "category": "office",
     "variants": [
       {

@@ -25,7 +25,7 @@ const Hero = () => {
         className="absolute inset-0 z-0"
       >
         <Image 
-          src="https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&q=80&w=2000" 
+          src="/gallery/gallery-1.jpeg" 
           alt="Lush Botanical Environment" 
           fill 
           className="object-cover opacity-60 dark:opacity-40"

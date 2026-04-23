@@ -18,21 +18,21 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    imageUrl: "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&q=80&w=1200",
+    imageUrl: "/gallery/gallery-2.jpeg",
     caption: "The Nordic Minimalist",
     location: "Stockholm, SE",
     narrative: "Clean lines and permanent greenery. Our Fiddle Leaf Fig brings structural elegance to minimalist interiors."
   },
   {
     id: 2,
-    imageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
+    imageUrl: "/gallery/gallery-4.jpeg",
     caption: "The Executive Office",
     location: "London, UK",
     narrative: "Command attention with hyper-realistic Monstera. Zero maintenance, maximum professional impact."
   },
   {
     id: 3,
-    imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=1200",
+    imageUrl: "/gallery/gallery-6.jpeg",
     caption: "The Sun-Drenched Lounge",
     location: "Madrid, ES",
     narrative: "Our UV-resistant palms thrive in direct light where living plants would struggle. Eternal summer."
