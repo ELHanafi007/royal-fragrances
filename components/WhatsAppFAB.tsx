@@ -17,7 +17,7 @@ const WhatsAppFAB = () => {
         Réclamation
       </motion.div>
       <motion.a
-        href={`https://wa.me/${PLANTES_CONFIG.whatsappNumber}`}
+        href={`https://wa.me/${PLANTES_CONFIG.reclamationNumber}`}
         target="_blank"
         rel="noopener noreferrer"
         initial={{ scale: 0, opacity: 0 }}
