@@ -39,7 +39,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
         `*Livraison :* GRATUITE\n\n` +
         `*Informations de Livraison :*\n` +
         `• *Nom :* ${formData.name}\n` +
-        `• *WhatsApp :* ${formData.phone}\n` +
+        `• *WhatsApp :* +212 ${formData.phone}\n` +
         `• *Adresse :* ${formData.address}\n\n` +
         `Merci de confirmer la réception de ma commande !`;
 
@@ -54,7 +54,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customerName: formData.name,
-          whatsappNumber: formData.phone,
+          whatsappNumber: `212${formData.phone}`,
           address: formData.address,
           cart: cart.map(item => ({
             name: item.product.name,
@@ -216,13 +216,19 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                   </div>
                   <div className="relative group">
                     <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/30 group-focus-within:text-botanical-green dark:group-focus-within:text-leaf-green transition-colors" />
+                    <span className="absolute left-10 top-1/2 -translate-y-1/2 text-xs md:text-sm font-bold text-foreground/40 transition-colors duration-700 border-r border-foreground/10 pr-2">+212</span>
                     <input
                       required
                       type="tel"
-                      placeholder="WhatsApp (ex: 06...)"
+                      placeholder="6 12 34 56 78"
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full pl-11 pr-4 py-3 md:py-4 bg-foreground/5 border border-foreground/10 rounded-xl md:rounded-2xl text-xs md:text-sm focus:outline-none focus:border-botanical-green dark:focus:border-leaf-green transition-all"
+                      onChange={(e) => {
+                        let val = e.target.value.replace(/\D/g, "");
+                        if (val.startsWith("0")) val = val.substring(1);
+                        if (val.length > 9) val = val.substring(0, 9);
+                        setFormData({ ...formData, phone: val });
+                      }}
+                      className="w-full pl-[4.8rem] pr-4 py-3 md:py-4 bg-foreground/5 border border-foreground/10 rounded-xl md:rounded-2xl text-xs md:text-sm focus:outline-none focus:border-botanical-green dark:focus:border-leaf-green transition-all"
                     />
                   </div>
                   <div className="relative group">

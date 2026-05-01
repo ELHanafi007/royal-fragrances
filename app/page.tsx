@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ShieldCheck, Sprout, Sparkles, Wind, ChevronDown, HelpCircle, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { PLANTES_CONFIG } from "@/lib/constants";
 
 const faqs = [
   {
@@ -43,7 +44,7 @@ export default function Home() {
     "image": "https://plantesartificielles.fr/logo.jpg",
     "@id": "https://plantesartificielles.fr",
     "url": "https://plantesartificielles.fr",
-    "telephone": "+212719963076",
+    "telephone": `+${PLANTES_CONFIG.whatsappNumber}`,
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Mohammedia",
